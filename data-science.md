@@ -69,3 +69,26 @@ Why study data science, machine learning, and artificial intelligence?
 * Thru coursera.
 * Tuition under $20k.
 * 2-3 year commitment.
+
+
+
+## Coursera
+
+### Big Data Specialization
+
+University of California San Diego
+
+* Basics of Hadoop, MapReduce, Spark, Pig, Hive.
+* Basic predictive modeling, graph analytics.
+* Basic exploration of large data.
+* Understand the big data landscape, what questions to ask, how to approach data science.
+
+#### Likes
+
+* Practical. Introduction to the tooling and day-to-day
+* Focus on tooling. Hadoop / spark.
+* Focus on the lifecycle / workflow of data : cleaning, gathering, processing (spark).
+* Introduction to data integration w/ Splunk.
+* Analytics with Spark against a MongoDB store.
+* Introduction to Machine Learning models, evaluating models.
+* Graph analytics (Neo4j)
