@@ -5,13 +5,11 @@
 * Documents can have varying schema. This is similar to "NULL" in T-SQL. Simplifies adding elements to a schema.
 * Geo filter queries (within center, within box).
 * Ability to scale out? How to handle consistency?
-  * Could express run within Mongo
 
 ## Questions
 
 * How does schema versioning in Mongo differ from T-SQL? In good or bad ways?
 * How is concurrency handled?
-
 * `mongoimport` (and mongo in general) looks to be based on `go`. What is mongo's relationship to `go`?
 
 ### Mongo Proper
