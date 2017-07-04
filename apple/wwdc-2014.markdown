@@ -1,0 +1,94 @@
+# WWDC 2014 #
+
+## Questions ##
+
+* Packages / Namespacing
+* Concurrency (GCD still - what about weak / strongSelf)
+
+## 402 - Introduction to Swift ##
+
+Main themes of swift : safety, power, modern
+
+
+Safe - type inference, braces required in if, no case fallthrough, all cases
+required, optionals, default values.
+
+Power -
+* range
+* property observers (willSet / didSet)
+* structs can have methods
+* structs have mutating func
+* enumerations have .toRaw / .fromRaw
+* enums can have associated values
+* nested types (enums in a class)
+* extensions (to all types - Int, String, etc)
+* generic classes/structs.
+
+
+Modern - tuples (multiple return values), named values in tuple (lightweight data structure)
+Functions are simply named closures.
+
+let printer = { println("hello") }
+printer()
+
+
+Trailing closure - if last param is a closure, it can sit outside the parens.
+repeat(2) {
+}
+
+
+Class visibility modifiers? Internal? Package?
+Overriding properties? Yes - override var...
+
+Structs vs. classes - structs cannot inherit, are value types.
+
+
+## 403 - Intermediate Swift ##
+
+* Optionals :
+	* Work on all types, not only classes as objc.
+	* Must be unwrapped to get value. Optional chaining to shortcut on nil.
+
+Memory management - weak refs are optionals.
+
+Packaging? Libraries? Concurrency?
+
+## iOS 8 ##
+
+* Extensions
+* Embedded frameworks (use for sharing code between containing app / extension)
+
+
+#### App Extensions ####
+
+##### App Extension Programming Guide #####
+https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/ExtensibilityPG/index.html#//apple_ref/doc/uid/TP40014214
+
+* Host app - app launching the extension.
+* App extension - bundle in the containing app.
+* Containing app - Main app containing the extensions.
+
+This is totally Apple. They enable extensions for certain use cases, which they
+control. Each extension point has it's own API and must adhere to it's own
+security policy.
+
+##### Extension Points #####
+
+* Share
+* Action : maniuplate or view content within the context of another app.
+* Today : Notification Center widget
+* Photo Editing : Photos.app will call these extensions.
+* Storage Provider
+* Custom Keyboard
+
+
+
+* Extensions can have views.
+* Extensions can process actions in the background (via a background session).
+* Extensions can return results to the host app after the view is destroyed
+  (background).
+* An extension and containing app can communicate (extension can open containing
+  app - does that violate the "host app being in control" mantra?
+* An extension can use a NSURLSession background task, but other background
+  tasks (VOIP, etc) are not available to background extensions.
+* An extension can open it's containing app via openURL:.

@@ -1,0 +1,181 @@
+# WWDC 2012 #
+
+## Session 101 : Platforms Kickoff ##
+
+The # of "New APIs" metric : 3000.
+
+### 10 Focus Areas with iOS6 ###
+
+#### 1. Design ####
+Don't skip on design.
+
+* Visual design (follow HIG).
+* Design the proper information architecture (smart implementation).
+
+### 2. iCloud ###
+
+Apple is including iCloud everywhere. 125 million iCloud users. Their
+sale is cross device implementation. It forces you to be all in the
+iOS ecosystem.
+
+Key/value storage limits increased:
+
+	Old: 26 keys / 64K total / 64K max per key
+	New: 1024 keys / 1MB total / 1MB max per key
+
+Shorter key/value storage sync interval:
+
+	Old: 15 requests / 15 min
+	New: 15 requests / 90 seconds
+
+New Foundation API : state notification for document, data, accounts.
+
+New "Open" panel to be iCloud aware.
+
+developer.apple.com web tools for determining what is "in the cloud".
+
+
+
+# Session 200 (201 / 207) : What's New In Cocoa Touch : Chris Parker UIKit Engineer #
+
+## Appearance ##
+
+* UIPopoverBackgroundView
+	+ (BOOL)wantsDefaultContentAppearance; // complete control of the popover background.
+
+* UIStepper : custom tint color, images
+* UISwitch : custom color / custom on/off image flexability
+* UINavigationBar | UITabBar : *shadowImage : allow you to customize the background image
+
+
+# Developer ID #
+
+
+* Power Assertions
+	* A *hint* to OSX (no guarantees).
+	* Take power assertions if you expect to be awake.
+	* Allow work to complete, prevent idle sleep
+
+	* Don't use if work is resumable (user is not waiting)
+
+	* Prevents idle sleep : mouse/keyboard, AFP,ssh,SMB, some frameworks (NSURLConnection).
+
+	* There is a difference between awake states (awake with display (movie
+	  playback), awake w/o display (background task).
+
+APIs :
+	IOPMAssertionID
+	IOPMAssertionCreateWithName()
+
+* powerd listens for app crashes and will clean up assertions related to the process.
+*
+
+New w/ Mountain Lion :
+	* Disk I/O does not prevent idle sleep.
+	*
+
+
+$ pmset -g assertions
+$ caffienate
+
+
+* Dark Wake - Power Map (Apple Only - not open to developers)
+	Disk / Network / CPU (graphics / audio down)
+
+User configurable
+
+* In 10.8 - dark wake is open to time machine, spotlight, app store, and mail.
+* Wake up every hour or so. iCal, App Store, Mail, Time Machine, Spotlight Indexes.
+
+
+# Session 706 : Networking Best Practices #
+
+
+
+#### 400 : Developer Tools Kickoff ####
+
+##### Objective-C Improvements ######
+
+* @(expresssion)
+* @[@"Thing1", @"Thing2"] // no need to null terminate.
+* @{ @"Key" : @"Value"}
+
+
+* Do not start EC until SP Time is complete.
+* Pause / Resume.
+
+* Rory : Creating folder create event for existing plans on restart.
+
+
+# Session 200 (201 / 207) : What's New In Cocoa Touch : Chris Parker UIKit Engineer #
+
+## Appearance ##
+
+* UIPopoverBackgroundView
+	+ (BOOL)wantsDefaultContentAppearance; // complete control of the popover background.
+
+* UIStepper : custom tint color, images
+* UISwitch : custom color / custom on/off image flexability
+* UINavigationBar | UITabBar : *shadowImage : allow you to customize the background image
+
+
+# Developer ID #
+
+
+* Power Assertions
+	* A *hint* to OSX (no guarantees).
+	* Take power assertions if you expect to be awake.
+	* Allow work to complete, prevent idle sleep
+
+	* Don't use if work is resumable (user is not waiting)
+
+	* Prevents idle sleep : mouse/keyboard, AFP,ssh,SMB, some frameworks (NSURLConnection).
+
+	* There is a difference between awake states (awake with display (movie
+	  playback), awake w/o display (background task).
+
+APIs :
+	IOPMAssertionID
+	IOPMAssertionCreateWithName()
+
+* powerd listens for app crashes and will clean up assertions related to the process.
+*
+
+New w/ Mountain Lion :
+	* Disk I/O does not prevent idle sleep.
+	*
+
+
+$ pmset -g assertions
+$ caffienate
+
+
+* Dark Wake - Power Map (Apple Only - not open to developers)
+	Disk / Network / CPU (graphics / audio down)
+
+User configurable
+
+* In 10.8 - dark wake is open to time machine, spotlight, app store, and mail.
+* Wake up every hour or so. iCal, App Store, Mail, Time Machine, Spotlight Indexes.
+
+
+# Session 241 : Cocoa Interprocess Communication with XPC #
+
+Tony Parker - Cocoa Frameworks
+
+Sandboxing to increase security / crash protection.
+
+* "Dinosaurs" : mach messages | sockets | DO
+
+xpc.h : custom objects, containers, data types.
+10.7 you had to pack / unpack all objects.
+10.8 allows you to use your own objects.
+Not tied to CFRunLoop / GCD / ARC friendly.
+
+
+NSXPCInterface - described by @protocol
+
+NSXPCListener : mach variants do not take control of the application in the [resume] method.
+Messages delivered on a private serial queue (per connection) *not main thread*
+
+

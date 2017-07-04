@@ -1,0 +1,19 @@
+# keychain # 
+-- create private key
+$ openssl genrsa -out mykey.pem 2048
+-- export public key
+$ openssl rsa -in mykey.pem -pubout > mykey.pub
+
+-- import into keychain
+$ security import developer_rsa_key -k login.keychain -t priv -f openssh2
+$ security import developer_rsa_key.pub -k login.keychain -t pub -f openssh2
+
+-- extracting the public key from a .p12 format
+$ oepnssl pkcs12 -in myfile.p12 -0out publickey.pem -nocerts
+
+
+*********************************
+$ security list keychains
+-- create keypair (adds to login keychain automatically by default)
+$ security create-keypair -s 2048 "Code 42 Software, Inc. InstallerID Key"
+

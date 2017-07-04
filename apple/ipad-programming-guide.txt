@@ -1,0 +1,127 @@
+iPad Programming Guide
+
+Chapter 0 : Essentials
+
+    Screen Size : 1024 x 768
+
+    Application Icon Sizes:
+        72x72 : main application icon
+        50x50 : displayed in spotlight search results
+        29x29 : for the application settings bundle (if present).
+
+    Splash Screens:
+        Portrait : 768x1024 png
+        Landscape: 1024x768 png
+
+        Put the files in the root of the resources directory. Use the following naming pattern:
+
+        <basename><orientation_modifier><scale_modifier><device_modifier>.png
+
+        Example :
+
+        Default-Portrait.png
+        Default-Landscape.png
+
+
+        <basename> is "Default" by default. The default can be overridden by
+        specifying UILaunchImageFile in Info.plist.
+
+        <orientation_modifier> can be :
+            -PortraitUpsideDown     (takes presedence over -Portrait)
+            -LandscapeLeft          (takes presedence over -Landscape)
+            -LandscapeRight         (takes presedence over -Landscape)
+            -Portrait               will be used for both portrait upside down
+                                    unless overridden
+            -Landscape              will be used for both right/left unless
+                                    overridden.
+        <device_modifier> can be :
+            ~ipad
+            ~iphone
+
+
+Chapter 1 : About iPad Development
+
+    An application *should* support all portrait / landscape orientations.
+    Split View Controller (new VC type with iPad).
+    Supports OpenGL ES 2.0 (iPad is a PowerVR SGX device)
+
+    iPhone OS 3.2 : the interface for playing video has changed significantly.
+        * Ability to play video at non-fullscreen (ABC app)
+        * More direct control over playback.
+        * Ability to seek forward / back.
+        * Ability to set start / stop points on track.
+        * Ability to generate thumbnail images from video frames.
+
+    iPhone OS 3.2 : Gesture recognizers : ability to detect gestures in a
+    uniform manner. You can create your own gesture recognizer.
+
+    New For iPad :
+        * Split Views.
+        * Popovers
+        * Responder objects support custom input views - views that slide from
+          the bottom like the keyboard. (Meant for input, now viewing)
+
+        * Support for external displays / projectors. (Up to 1280x720 (720p)) (See [UIScreen screens])
+
+Chapter 2 : Starting your project
+
+    * You must develop with iPhone OS 3.2
+
+    * Ensure you have a UISupportedInterfaceOrientations property in info.plist.
+
+    Info.plist settings follow the format:
+
+    key_root-<platform>~<device>
+
+    For example, to indicate that you want your application to launch in a
+    portrait orientation on iPhone and iPod touch devices but in landscape-right
+    on iPad, you would configure your Info.plist with the following keys:
+
+    <key>UIInterfaceOrientation</key>
+    <string>UIInterfaceOrientationPortrait
+    <key>UIInterfaceOrientation~ipad</key>
+    <string>UIInterfaceOrientationLandscapeRight
+
+    Load different nib files depending on device (or screen size?)
+
+    Adding runtime checks for newer symbols (ensure a class exists before using
+    it:
+
+    // Determining if a class exists.
+    Class splitVCClass = NSClassFromString(@"UISplitViewController");
+    if (splitVCClass) {
+        // device has the split view class.
+    }
+
+    // Determining if a function exists (func == null)
+    if(UIGraphicsBeginPDFPage != NULL)
+        // function available.
+
+    // Determine if you are an iPhone / iPad
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        //iPad running 3.2 or later.
+    }
+    else {
+        // iPhone / iPod touch
+    }
+
+Chapter 3 : The Core Application Design
+
+
+    Build settings : Specify the device target(s) by setting this build setting.
+
+        TARGETED_DEVICE_FAMILY : iPhone, iPod, iPhone/iPod
+
+
+    Info.plist new keys:
+
+        UIDeviceFamily : (required) : identifies which devices the application supports.
+            Set this by modifying the value in "Targeted Device Family" build setting in the Xcode project≥.
+
+        UILaunchImageFile
+        UISupportedInterfaceOrientations :
+        CFBundleDocumentTypes : Array of dictionaries specifying the the document types the application can open.
+
+    You have the ability to register which file types your application supports.
+    You have the ability to invoke another application / be invoked by another
+    application.
