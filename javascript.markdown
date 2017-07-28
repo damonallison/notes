@@ -4,7 +4,7 @@ JS was submitted to ECMA and because of trademark issues was named EcmaScript (E
 
 Syntax from java, functions from scheme, prototype from self.
 
-JS is case sensitive. HTML is not. JS uses lowercase names (onclick) HTML van use anything (onClick)
+JS is case sensitive. HTML is not. JS uses lowercase names (onclick) HTML can use anything (onClick)
 
 JS has regex literals.
 
