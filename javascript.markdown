@@ -18,13 +18,12 @@ All numbers are 64 bit floats.
 
 JavaScript does not do string normalization. Unicode defines a standard normalization procedure. What is it?
 
-
 * What subset of JS works cross-browser? If you are developing for Chrome, Safari, or Firefox, do you care?
+
 * The inability to play video natively in HTML was a huge obstacle to obsoleting flash.
 
 What is HTML5?
   * An umbrella for everything, and thus it actually means nothing.
-
   * HTML5 : It's not a technology, it's a religion.
 
 What's new in HTML5?
@@ -32,6 +31,7 @@ What's new in HTML5?
     * <nav>, <article>, <section>
     * <audio>, <video>
     * <canvas>
+
 What's "new" in JS for HTML5?
   * geolocation
   * storage capabilities : "localStorage" "sessionStorage" "indexedDB" "webSQL"
@@ -48,9 +48,5 @@ What's next for JS?
   * Mobile HW APIs.
 
 
-
-
 "But let’s be honest: now HTML5 is basically an umbrella for everything, and thus it actually means nothing."
   - Kyle Simpson - JavaScript and HTML5 Now
-
-Javascript: The Good Parts

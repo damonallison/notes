@@ -1,5 +1,3 @@
-** START PAGE 141 **
-
 # Netty #
 
 * Channels are thread safe. Methods can be called from outside the channel's EventLoop.
