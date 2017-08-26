@@ -1,0 +1,210 @@
+Sunday 06/07/09:
+
+    * Met Kalin and Jason from DoGood. U of Mich students - took a class doing
+      iPhone software development. 40 students, 12 applications were written (6
+      on the app store). Amazed how the platform could draw the numbers of
+      developers it has. Wonders how, out of 40k apps, his will be recognized.
+    
+    * Drinks @ some bar with about 20 developers found via twitter. Met w/
+      Neil Mix from Pandora. Wonders if / when the app store will be "fixed" to
+      allow for better searching and application promotion in the store. The
+      iTunes store "top 10" lists were built around music, which are a faster
+      changing genre of product than applications. Applications will typically
+      have a longer shelf life than music, therefore their ranking algorithms do
+      not fit the product for applications. Also says they should combine the
+      free/paid apps into one category to give a true list.
+      
+    
+Monday 06/08/2009:
+
+    * iPorn chicks out front.
+    * Long line, barely made it into keynote main room.
+    * Lunch w/ Mark Hughes.    
+    
+    * New mac line, Bertrand Serlet re-introduced Snow Leopard. Forstall re-introduced
+      iPhone OS 3.0. Shiller announced new features (and API's in iPhone OS -
+      video, compass).  iPhone 3GS (S == Speed? == Dumb name?)    
+    
+Monday 2:30 : Core OS X State of the Union
+
+    * Unix core. 85% of the code in Mac OS X shared between OS X and iPhone OS.
+    
+    * > 400 OSS projects. Different levels of involvement: 
+        * Some compile (rails?)
+        * Some contributions
+        * Some initial development and hosted on OS X forge.
+    
+    * Time Capsule : 55% faster backup time (checksum optimizations)
+    
+    * AFP : speed improvement
+    
+    * In general, pitching faster core OS performance improvements all around.
+
+    * Hotspot support : Keeps a list of "gated" networks and usernames /
+      passwords - don't need to leave app.
+      
+    * Bonjour : Solves "sleep problem". (Syncing, printing, streaming (iTunes))
+    
+    * Grand Central Dispatch (GCD == "Greatest Common Denominator" :)
+    
+    * NSOperation was rewritten in terms of "Dispatch".
+    
+    * Lambda syntax to send something to the GCD queue.
+      void (func) ^ { << block >> }
+      
+    * Instruments : Blocks View ("Dispatch"). GCD is simple to test / add to
+      code and troubleshoot when compared to pthreads. (Add GCD here, save a few
+      percent.)
+
+
+Tools State of the Union: 
+
+    * Current iPhone : ARM v6 : iPhone 3GS ARM v7
+    
+    * GCC 4.2 is the new default compiler.
+
+    * LLVM
+    
+        * Chris Lattner : Prinicpal Architect LLVM (Compilers / Low Level Tools)
+        
+        * "GCC isn't able to accomplish what we are able to do". "We need to start pushing forward."
+        
+        * llvm.org
+        
+        * Why LLVM ? Performance. No baggage (clean slate). Library based.
+        * Libraries allowing multiple language / architectures.
+        
+        * LLVM : runtime generates code to a format the GPU can recognize.
+        * LLVM / Clang
+        
+        * Project Build Setting : C/C++ : Clang / LLVM 1.0. (Or Clang / GCC 4.2
+          if it will not build.
+        
+
+
+Graphics & Media State of the Union
+
+    * Open GL ES 2.0
+    
+    * CA created on the iPhone, ported back to mac?  Really?
+    
+    * H264 (Video) AAC (Audio) : HE-AAC (Below 64k) - High frequencies are
+      reconstructed during playback (audio streaming).
+    
+    * Audio Toolbox. AVFoundation sits on top of Audio Toolbox.
+    
+
+Tuesday 06/09/2009 : 
+
+9:00 - 10:15 : Getting started with Graphics for iPhone
+********************************************************************************
+
+    * Core Animation Programming Guide
+    * Animation Types and Timing Programming Guide
+    
+    Open GL : 
+        * Software interface to graphics hardware.
+        * 3D graphics API
+
+    EAGL : Interface between OS and OpenGL ES.
+    
+    CA uses OpenGL ES for compositing.
+    
+    Open GL Books
+    ***************
+        * Open GL ES 2.0 Programming Guide : The "Gold Book" (it's purple)
+        * OpenGL Shading Language : The "Orange Book"
+        * OpenGL ES programming Guide for iPhone.
+        * ** OpenGL Programming Guide : The "Red Book". (Desktop) **
+        * opengl.org
+    
+    Using the Right Tools
+        * UIKit - gets you some part into 
+        * Quartz 2D (Custom Drawing)
+        * Core Animation
+        * OpenGL ES : 3D modeling / 2D sprite animation.
+        
+    Tip : Use the easiest route possible.
+    
+    * What is rasterization?
+    
+    "Core Animation's purpose in life is 2.5D graphics."
+    
+
+     * Lab : 12:00. CA Lab - Wednesday at Noon:
+        * What direction 
+
+iPhone Game Dev : 
+
+    * Allan Shaffer
+    * Graeme Devine
+    
+    Open GL : 
+    
+    * GL shading language : allow you to write shaders that can be loaded into
+      the pipeline.
+      
+    Open AL:
+    
+    * Use Open AL for any spacial audio playback needs.
+    
+    * OpenAL : API for 3D audio mixing. (Sound effects in games)
+    * Models audio in a 3D space.
+    * Mimics OpenGL ES conventions (same programming style (context based))
+    
+    * iPhone implementation
+    
+    * openal.org (open standard)
+      
+********************************************************************************
+********************************************************************************
+    
+Wednesday 06/10/2009 : 9:00 : Core Animation:
+
+    * You can (now?) animate custom properties.
+
+    * CAShapeLayer : (Bezier Paths) : you can animate paths, but beginning / end
+      paths must have the same structure.
+    
+    * CAReplicator layer : Relfections.
+    
+    * Particles : for creating the "Core Animation" landscape, smoking demo.
+    
+    * Performance rules : minimize alpha blending (layer.opaque = YES;).
+      Minimize translucent layers.
+    
+      * CGImageRefs should not have an alpha channel (kCGImageAlphaNone if png).
+
+10:15 : Open GL
+
+    * OpenGL Driver Monitor
+        * Monitor CPU stalls
+        * Find leaks and paging
+        
+        Interesting driver statistics
+            * CPU wait for GPU
+            * Current free video memory (ensure you do not over-extend)
+            * Surface page off data
+            
+        Shark : Code Profiler
+            * Look for these symbols:
+                * Software Renderer: GLRendererFloat : 
+
+5:00 : Open GL ES Tuning and Techniques
+
+    iPhone 3GS : PowerVR SGX
+    
+
+********************************************************************************
+* Thursday 10:!5 : Harnessing the power of OpenGL
+********************************************************************************
+
+    pthreads+ GCC
+        CPU Only
+        Predictable arithmetic results
+        Flexible - use any algorithm
+
+    OpenGL + shader compiler
+        CPU + GPU
+        Arithmetic is hardware dependent
+        Less flexible - Must present computation as a graphics operation
