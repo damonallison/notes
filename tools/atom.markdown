@@ -8,20 +8,23 @@
 ##### Likes #####
 
 * Live markdown preview (fantastic).
-* BUG : Markdown focus needs to follow the editing position.
+  * BUG : Markdown focus needs to follow the editing position.
+
 
 * Package / theme integration (text editor table stakes).
 * Simple to navigate the project tree view.
-* Fun, useless stats! [Editor Stats](https://github.com/atom/editor-stats)
+
+* Packages
+  * [Editor Stats](https://github.com/atom/editor-stats)
+    * Fun, useless stats!
+
+
 * apm package management tool.
 
 ##### Dislikes #####
 
-* 2MB limit
-
 * Switching between panels (cmd-k, cmd-right/left) - too difficult to find the correct arrow key by feel. Going from left / right and back with my index finger on `k` and pinky on the `arrow` keys, it's difficult for me to move between left/right. I need to rebind those keys.
-* Slow
-* Crashes a *lot*.
+
 * We need a better line wrapping package. The current line wrap does not auto-truncate at 80.
 
 ## Overview ##
@@ -88,5 +91,3 @@ $ apm stars (starred)
 * m                 : rename
 * ctrl-]            : expand directory
 * ctrl-[            : collapse directory
-
-This is a test.

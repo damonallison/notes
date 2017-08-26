@@ -1,4 +1,4 @@
-# Launchd # 
+# Launchd
 
 * Config files must not be group or world writable (from man launchctl)
 * Allowing non-root write access to /System/Library/LaunchDaemons will make your system unbootable (from man launchctl)
@@ -9,7 +9,7 @@ Session Types : what are these?
 Domains : system, local, network, all
 
 LaunchDaemons : system-wide (must be owned by root)
-LaunchAgents : user-specific 
+LaunchAgents : user-specific
 
 
      ~/Library/LaunchAgents         Per-user agents provided by the user.
@@ -33,7 +33,7 @@ LaunchAgents : user-specific
 ## Login Items ##
 
 * Login Items are basically app shortcuts that are launched by windowserver on
-  user login. We could launch SPS and SPD as a Login Item. 
+  user login. We could launch SPS and SPD as a Login Item.
 
 * Installing using Service Management Framework : not visible in system
   preferences - must be uninstalled by application.
@@ -52,7 +52,7 @@ LaunchAgents : user-specific
 
 Use this for the *root mode* service. The trick will be to understand how to
 write out data that is readable by all users (put all users in a "shareplan" bsd
-group?). All SPD instances can connect to the launch daemon 
+group?). All SPD instances can connect to the launch daemon
 
 * Root owned.
 * Does not have access to user logins.
@@ -67,6 +67,5 @@ group?). All SPD instances can connect to the launch daemon
 * NOTE : launch agents | daemons can support non-launch-on-demand scenarios, but
   that scenario is not recommended. Use the OnDemand plist field to specify the
   OnDemand process characteristics.
-  
-* man launchd.plist (parameters for a launchd plist file)
 
+* man launchd.plist (parameters for a launchd plist file)
