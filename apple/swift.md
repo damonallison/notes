@@ -11,7 +11,6 @@
 * Do we have control over function scoping (private / package / public?)
 * How to create and use a framework (module).
 * Basic data structure definition - hash, equality, copy.
-* Weak / unowned references when dealing with ARC. What are the rules?
 
 ## Dislikes ##
 
@@ -82,3 +81,4 @@ documentation in them?
 
 * Write a framework, use it from another app. Proves we can create reusable modules and enforce access levels.
 * Write Array.sort(isOrderedBefore:(String, String) -> Bool). Use bubble sort or merge sort.
+
