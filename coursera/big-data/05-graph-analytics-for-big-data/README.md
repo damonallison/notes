@@ -6,14 +6,13 @@
     * Understand how data can be modeled as graphs.
     * Tools / techniques for working with graph data.
 
-
 * Graphs are all about relationships.
-    * The web, facebook, linked in, twitter, are all examples of graphs.
+    * The web, facebook, LinkedIn, twitter, are all examples of graphs.
+    * Even relationships in a family can be modeled as a graph.
+    * The internet is a graph.
+
 
 ## Week 2 : Introduction to Graphs
-
-
-### Lesson 1 : What is a graph?
 
 #### What is a graph?
 
@@ -53,7 +52,8 @@
 #### Why Graphs? Example 1 : Social Networking (Twitter)
 
 * Tweets are graphs.
-* Nodes
+
+* Nodes (entities)
     * Users
     * Tweets
     * URLs
@@ -71,7 +71,9 @@
 * What data can we derive from this?
     * Behavioral psychology : study behavior.
         * Are users violent? A cause for concern?
+        * Are users addicted to the game?
         * Sentiment analysis. Are users happy? Would they recommend your product to others?
+        * Who are influencers? (target marketing)
 
 * Why graphs?
     * Graphs can be used to graph conversations across nodes.
@@ -92,11 +94,12 @@
     * Terms in research are related.
 
 * Data Integration
-    * Data sets are assembled from different research projects.
+    * Data sets are assembled from many different research projects.
+    * Researchers assemble multiple data sources to find patterns, relationships.
 
 * Why Graphs?
     * Discover unknown relationships.
-        * Indirect association between diseases. Path finding can find previously unknown gene connections.
+        * Indirect association between diseases. Path finding can find previously unknown gene connections, disease correlation.
         * Exploration for further research.
 
 ### Why Graphs? Example 3 : Human Information Network Analysis (Personal Network)
@@ -128,21 +131,28 @@
 ### The purpose of analytics
 
 * Discover patterns / insights / make predictions.
-* Determine "why" relationships exist.
+* Discover relationships between multiple data sources.
+* Build mathematical models for predicting behavior.
+* Explain why emergent phenomena exist and what their contributing factors are.
 
 
 ### Graphs and the V's of Big Data
 
-* Volume, Velocity, Variety, Valence. How do these impact graph analytics?
+* Volume, Velocity, Variety,
+* Lesser known "V" : Valence.
+* How do these impact graph analytics?
 
 * Volume
     * Graph size exceeds ram.
 
 * Velocity
-    * As time goes on, the graph increases. Each FB interaction creates edges. Edges stream into facebook at massive velocity.
+    * As time goes on, the graph increases.
+    * Each FB interaction creates edges.
+    * Edges stream into facebook at massive velocity.
 
 * Variety
     * Higher variety, the more non-uniform and complex.
+    * Different data sources do not have the same nodes / edges. You must define the relationships between data sources.
     * The number of operations and infrences between nodes becomes more complex.
 
 * Valence
@@ -154,7 +164,8 @@
         * Why?
             * The number of edges between certain nodes increases (your close friends).
             * Events draw people together. (Projects, conferences)
-    * As density increases in places, it becomes hard to traverse thru the dense parts. (More about this will be explained later)
+    * As density increases in places, it becomes hard to traverse thru the dense parts.
+        * (More about this will be explained later)
 
 * Graph size impacts analytics.
     * Increases algorithmic complexity.
@@ -204,4 +215,32 @@
 
 * Which of the Vs is most relevant to the kinds of graph analysis you are interested in? Tell us why in a sentence or 2. (Any response will be counted correct.)
     * I'm the most interested in variety. I think combining multiple data sources can yield interesting new insights about objects.
+
+### Graded Assignment : Graphs in Everyday Life
+
+* Graph : XBox network
+
+* Nodes : Player / Game / Chat
+* Player -> Connected To -> Player
+* Player -> Plays -> Game
+* Player -> Comment -> Chat (Game specific chat)
+* Comment -> Links to -> Player
+
+
+1. What is player sentiment on the platform as a while and within each game?
+
+Happy players are critical for a successful platform. In order to analyze player sentiment, we could monitor game session history and chat participation. We can generally conclude that the more a player plays a game, the more they enjoy the game. We can also determine based on chat participation what their general attitude is toward the game. We can compare sentiment analysis across games to understand how genre impacts sentiment. We can also monitor sentiment to determine impact platform changes have on sentiment. For example, we can determine the impact price increases, decreases, new players, new levels have on player sentiment.
+
+2. What behavioral patterns exist on the platform as a whole and within each game?
+
+Behavioral patterns dictate the type of users who play each game. Are players playing daily for 10 minutes? Are they playing one day a week for 8 hours a day? Why is this important? If we can determine the behavioral patterns, we can better target promotions, know when we can do system maintenance or expect peak usage, and determine what type of game we should make next (casual or hardcore).
+
+3. How successful are promotions?
+
+Determining how successful our promotions are would be critical to understand. What promotions are effective? When are promotions effective? What is our promotion interaction rate? What is the sentiment analysis regarding our promotions? Are users upset? Do users like to see promotions? What if our promotions included something free for the users?
+
+Promotions could be an attractive way to increase user engagement, expose them to new games, or increase their enjoyment of their favorite games.
+
+
+## Week 3 : Graph Analytics
 
