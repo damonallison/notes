@@ -11,10 +11,7 @@
 * How does schema versioning in Mongo differ from T-SQL? In good or bad ways?
 * How is concurrency handled?
 * `mongoimport` (and mongo in general) looks to be based on `go`. What is mongo's relationship to `go`?
-
-### Mongo Proper
-
-* Security?
+* What is the indexing strategy for mongo? Similar to SQL - index frequently used filter fields?
 
 ## Commands
 
@@ -28,7 +25,6 @@
 * Mongo runs on port `27017`.
 
 ```
-
 # Bulk importing of mongo data
 # --drop == drop collection before inserting documents.
 
@@ -39,3 +35,174 @@ $ mongoimport --db test --collection restaurants --drop --file ~/projects/mongo/
 
 * Collections - similar to tables in a relational DB.
 * Documents in a collection must have an `_id` field (primary key).
+
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+## Connecting to MongoDB
+
+Mongo will create it's database structure. All it needs is a path to use when launching the daemon, specified with the `--dbpath <path>` option.
+
+```
+
+# Start mongo
+$ cd big-data-3/mongodb
+
+# Note: Mongo will create the database structure it needs.
+$ ./mongodb/bin/mongod --dbpath db
+
+# Open a query terminal
+$ ./mongodb/bin/mongo
+
+> show dbs
+> use <dbname>
+> show collections
+> db.users.findOne() // your query here.
+
+```
+
+## Creating a collection
+
+> db.runCommand( {
+>   create: "users",         -- The new collection name. Required.
+>   capped: false,           -- Create a capped collection. When the collection reaches the cap,
+                             -- the oldest documents are removed to make room for new. Optional.
+>   size: 64000000           -- The maximum size of a capped collection. Used when capped : true. Optional.
+}
+
+## Importing / Exporting Data
+
+> mongoexport --db test --collection users --out out.json
+> mongoimport --db test --collection users --file in.json
+
+###### Generalized query pattern
+> db.collection.find(<query filter>, <projection>).<cursor modifier>
+
+###### Return all documents
+> db.users.find()
+
+###### Add a filter (string) (WHERE)
+> db.users.find( { user_name : "damonallison" } )
+
+###### Find all users who have 20 or more friends.
+> db.users.find( { 'user.FriendsCount': { $gte: 20 } })
+
+###### Filter using regex (case insensitive == /i)
+> `db.users.find( { "user_name" : {$regex:/^a.*game$/i} })`
+
+### Projection
+
+###### Return only the user_name field.
+
+> Note that `_id` will always be returned unless specifically set to 0.
+> `db.users.find( {}, { "user_name" : 1, "_id" : 0} )`
+
+# Distinct (with projection. Returns `user_name` and `_id`
+> db.users.distinct( {}, { "user_name": 1 } )
+
+---
+
+### Array operations
+
+###### Find items which are tagged as `popular` **or** `organic`
+> db.inventory.find({tags: {$in: ["popular", "organic"]}})
+
+# Find items which are **not** tagged as `popular` **nor** `organic`
+db.inventory.find({tags: {$nin: ["popular", "organic"]}})
+
+###### Extract a portion of an array. Find the 2nd and 3rd elements of tags.
+
+> $slice[1, 2] == start at element 1, take length of 2
+> db.inventory.find( {}, {tags: {$slice: [1, 2]}})
+
+###### Find a document whose 2nd element in tags is "summer" (`tags.1`) or more generally (`key.position`)
+> db.inventory.find( {}, {tags.1: "summer"})
+
+### Compound statements
+
+> SELECT * FROM inventory WHERE
+>   ((price > 100) OR (price < 1)) AND
+>   ((rating = 'good') OR (qty < 20)) AND
+>   (item NOT LIKE '%coors%')
+
+> db.inventory.find({
+>  $and: [
+>    {$or: [{price: {$gt: 100}}, {price: {$lt: 1}}]},
+>    {$or: [{rating: "good"}, {qty: {$lt: 20}}]},
+>    {item: {$regex: /coors/i"}}
+>  ]
+> })
+
+###  Nested Elements.
+
+Assume a collection with the following documents.
+
+```
+_id: 1,
+points: [
+  { points: 96, bonus: 20 },
+  { points: 96, bonus: 10 }
+]
+
+_id: 2,
+points: [
+  { points: 53, bonus: 20 },
+  { points: 64, bonus: 12 }
+]
+
+_id: 3,
+points: [
+  { points: 81, bonus: 8 },
+  { points: 95, bonus: 20 }
+]
+```
+
+###### Find users whose first point total is < 80. Returns `_id: 2`
+> db.users.find({'points.0.points': {$lte: 80}})
+
+###### Find users who have one or more point total below 80. Returns `_id: [1, 2]`
+> db.users.find({'points.points': {$lte: 80}})
+
+###### Find users who have a points tuple with points <= 81 AND bonus == 20. Returns `_id: 2`
+> Note the `,` is treated as an implicit `$and` when querying each node.
+> db.users.find({'points.points': { $lte: 81}, 'points.bonus': 20})`
+
+
+### Aggregation Functions
+
+###### Count
+> db.users.count()
+> db.users.find( { "user_name" : { $regex: /.*cole.*/i } }, { "user_name" : 1 }).count()
+
+###### Distinct
+> db.users.distinct(user_name).length
+
+###### Groups by username. Sorts by count descending.
+```
+db.users.aggregate([
+  { "$group" : { _id : "$user_name", count: {$sum:1} } },
+  { "$sort" : { count: -1 } }
+])
+```
+
+###### Groups by user_name, sums the "user.FriendsCount" field.
+
+```
+db.users.aggregate( [
+  { $match: { "user.FriendsCount" : { $gte : 500 } } },
+  { $group: { _id: "$user_name", total_friends: {$sum : "$user.FriendsCount" } } }
+  ])
+```
+
+###### Text search with aggregation (using $text)
+
+$meta is a computed element which is the result of the text search.
+
+###### Having either "beat" or "win" anywhere in the tweet_text field will match.
+```
+db.users.aggregate([
+  { $match: { $tweet_text: { $search: "beat win" } } },
+  { $sort : { tweet_mention_count: -1}}
+])
+```

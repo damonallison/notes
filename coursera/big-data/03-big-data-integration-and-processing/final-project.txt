@@ -1,0 +1,533 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "# Import and create a new SQLContext \n",
+    "from pyspark.sql import SQLContext\n",
+    "sqlContext = SQLContext(sc)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "# Read the country CSV file into an RDD.\n",
+    "country_lines = sc.textFile('file:///home/cloudera/big-data/big-data-3/final-project/country-list.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 179,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[['Afghanistan', 'AFG'], ['Albania', 'ALB']]"
+      ]
+     },
+     "execution_count": 179,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Convert each line into a pair of words\n",
+    "country_pairs = country_lines.map(lambda line: line.split(\", \"))\n",
+    "\n",
+    "# Print the first 2 lists of State, Country pairs\n",
+    "country_pairs.take(2)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 180,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[('Afghanistan', 'AFG'), ('Albania', 'ALB')]"
+      ]
+     },
+     "execution_count": 180,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Convert each pair of words into a tuple\n",
+    "country_tuples = country_pairs.map(lambda pair: tuple(pair))\n",
+    "\n",
+    "# Print the first 2 tuples\n",
+    "country_tuples.take(2)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 181,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "root\n",
+      " |-- country: string (nullable = true)\n",
+      " |-- code: string (nullable = true)\n",
+      "\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[Row(country='Afghanistan', code='AFG'),\n",
+       " Row(country='Albania', code='ALB'),\n",
+       " Row(country='Algeria', code='ALG')]"
+      ]
+     },
+     "execution_count": 181,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Create the DataFrame, look at schema and contents\n",
+    "\n",
+    "countryDF = sqlContext.createDataFrame(country_tuples, [\"country\", \"code\"])\n",
+    "countryDF.printSchema()\n",
+    "countryDF.take(3)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 189,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['{\"_id\":{\"$oid\":\"578ffa8e7eb9513f4f55a935\"},\"tweet_text\":\"RT @ochocinco: I beat them all for 10 straight hours #FIFA16KING  https://t.co/BFnV6jfkBL\"}',\n",
+       " '{\"_id\":{\"$oid\":\"578ffa8f7eb9513f4f55a937\"},\"tweet_text\":\"RT @NiallOfficial: @Louis_Tomlinson @socceraid when I retired from playing because of my knee . I went and did my uefa A badges in Dublin\"}']"
+      ]
+     },
+     "execution_count": 189,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Read tweets CSV file into RDD of lines\n",
+    "tweets = sc.textFile(\"file:///home/cloudera/big-data/big-data-3/final-project/mongo-export/tweets.txt\")\n",
+    "tweets.take(2)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 190,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "import json\n",
+    "\n",
+    "def sanitize(json_obj):\n",
+    "    ret = {}\n",
+    "    for k, v in json_obj.items():\n",
+    "        ret[k.lower().strip()] = v\n",
+    "    return ret\n",
+    "\n",
+    "# Retreve just the tweet_text from each tweet json payload, or None\n",
+    "# if the object is invalid or contains an empty tweet_text value.\n",
+    "def gettweet(tweet):\n",
+    "    if tweet is None or len(tweet.strip()) == 0:\n",
+    "        return None\n",
+    "    json_obj = sanitize(json.loads(tweet))\n",
+    "    if \"tweet_text\" not in json_obj:\n",
+    "        return None\n",
+    "    if len(json_obj[\"tweet_text\"].strip()) == 0:\n",
+    "        return None\n",
+    "    return json_obj[\"tweet_text\"]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 191,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "11188\n",
+      "11188\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Clean the data: some tweets are empty. Remove the empty tweets using filter() \n",
+    "\n",
+    "valid_tweets = tweets.filter(lambda s: not gettweet(s) is None)\n",
+    "\n",
+    "print(tweets.count())\n",
+    "print(valid_tweets.count())\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 192,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[('', 2772),\n",
+       " ('https://t.co/fQftAwGAad', 1),\n",
+       " ('https://t.co/kjl4XvCHEM', 1),\n",
+       " ('mobile', 1),\n",
+       " ('#FridayNightTouchdown', 1)]"
+      ]
+     },
+     "execution_count": 192,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Perform WordCount on the cleaned tweet texts. (note: this is several lines.)\n",
+    "\n",
+    "tweet_lines = valid_tweets.map(lambda tweet: gettweet(tweet))\n",
+    "tweet_words = tweet_lines.flatMap(lambda line: line.split(\" \"))\n",
+    "\n",
+    "# Create a tuple for each word with the starting value of 1\n",
+    "word_tuples = tweet_words.map(lambda word: (word, 1))\n",
+    "word_counts = word_tuples.reduceByKey(lambda a, b: (a + b))\n",
+    "word_counts.take(5)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 193,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "root\n",
+      " |-- word: string (nullable = true)\n",
+      " |-- count: long (nullable = true)\n",
+      "\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[Row(word='', count=2772),\n",
+       " Row(word='https://t.co/fQftAwGAad', count=1),\n",
+       " Row(word='https://t.co/kjl4XvCHEM', count=1),\n",
+       " Row(word='mobile', count=1),\n",
+       " Row(word='#FridayNightTouchdown', count=1),\n",
+       " Row(word='circle', count=7),\n",
+       " Row(word='#thfc', count=2),\n",
+       " Row(word='reinstated', count=4),\n",
+       " Row(word='Bellow', count=1),\n",
+       " Row(word='Thankyou', count=1)]"
+      ]
+     },
+     "execution_count": 193,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Create the DataFrame of tweet word counts\n",
+    "\n",
+    "tweetWordsDF = sqlContext.createDataFrame(word_counts, [\"word\", \"count\"])\n",
+    "tweetWordsDF.printSchema()\n",
+    "tweetWordsDF.take(10)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 194,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "root\n",
+      " |-- country: string (nullable = true)\n",
+      " |-- code: string (nullable = true)\n",
+      "\n",
+      "root\n",
+      " |-- word: string (nullable = true)\n",
+      " |-- count: long (nullable = true)\n",
+      "\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[Row(word='Thailand', count=1, country='Thailand', code='THA'),\n",
+       " Row(word='Iceland', count=2, country='Iceland', code='ISL')]"
+      ]
+     },
+     "execution_count": 194,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Join the country and tweet data frames (on the appropriate column)\n",
+    "\n",
+    "countryDF.printSchema()\n",
+    "tweetWordsDF.printSchema()\n",
+    "\n",
+    "joinedDF = tweetWordsDF.join(countryDF, tweetWordsDF[\"word\"] == countryDF[\"country\"])\n",
+    "joinedDF.take(2)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 195,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "44\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[Row(word='Thailand', count=1, country='Thailand', code='THA'),\n",
+       " Row(word='Iceland', count=2, country='Iceland', code='ISL')]"
+      ]
+     },
+     "execution_count": 195,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Question 1: As a Sports Analyst, you are interested in how many \n",
+    "# different countries are mentioned in the tweets. Use the Spark \n",
+    "# to calculate this number. Note that regardless of how many times \n",
+    "# a single country is mentioned, this country only contributes 1 to the total.\n",
+    "\n",
+    "print(joinedDF.count())\n",
+    "joinedDF.take(2)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 197,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[Row(sum(count)=393)]"
+      ]
+     },
+     "execution_count": 197,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Question 2: Next, compute the total number of times any country is mentioned. \n",
+    "# This is different from the previous question since in this calculation, \n",
+    "# if a country is mentioned three times, then it contributes 3 to the total.\n",
+    "from pyspark.sql.functions import sum\n",
+    "\n",
+    "joinedDF.agg(sum(\"count\")).collect()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 163,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[Row(word='Norway', count=52, country='Norway', code='NOR'),\n",
+       " Row(word='Nigeria', count=50, country='Nigeria', code='NGA'),\n",
+       " Row(word='France', count=45, country='France', code='FRA')]"
+      ]
+     },
+     "execution_count": 163,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Question 3: Your next task is to determine the most popular countries. \n",
+    "# You can do this by finding the three countries mentioned the most.\n",
+    "from pyspark.sql.functions import desc\n",
+    "\n",
+    "joinedDF.sort(desc(\"count\")).take(3)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 198,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "+------+-----+-------+----+\n",
+      "|  word|count|country|code|\n",
+      "+------+-----+-------+----+\n",
+      "|France|   45| France| FRA|\n",
+      "+------+-----+-------+----+\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Question 4: After exploring the dataset, \n",
+    "# you are now interested in how many times specific countries are mentioned. \n",
+    "# For example, how many times was France mentioned?\n",
+    "\n",
+    "joinedDF.filter(joinedDF[\"country\"] == \"France\").show()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 166,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "+-----------+-----+-----------+----+\n",
+      "|       word|count|    country|code|\n",
+      "+-----------+-----+-----------+----+\n",
+      "|      Wales|   18|      Wales| WAL|\n",
+      "|Netherlands|   13|Netherlands| NED|\n",
+      "|      Kenya|    3|      Kenya| KEN|\n",
+      "+-----------+-----+-----------+----+\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Question 5: Which country has the most mentions: Kenya, Wales, or Netherlands?\n",
+    "\n",
+    "joinedDF.filter(\"country in ('Kenya', 'Wales', 'Netherlands')\").sort(desc(\"country\")).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 172,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "+-----------------+\n",
+      "|       avg(count)|\n",
+      "+-----------------+\n",
+      "|8.931818181818182|\n",
+      "+-----------------+\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Question 6: Finally, what is the average number of times a country is mentioned?\n",
+    "from pyspark.sql.functions import avg\n",
+    "\n",
+    "joinedDF.select(avg(\"count\")).show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.5.1"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 0
+}

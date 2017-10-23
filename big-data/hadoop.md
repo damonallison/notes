@@ -66,3 +66,14 @@ Hadoop can work with other file systems - including S3. There is no need for rac
 ## Job Tracker / TrackTracker (The MapReduce engine) ##
 
 JobTracker - job scheduler - pushes work to available TaskTracker nodes. The JobTracker knows where the data is stored and intelligently distributes jobs.
+
+
+## Getting a file into hadoop
+
+```
+// import a file into hadoop
+$ hadoop fs -copyFromLocal words.txt
+$ hadoop fs -ls
+$ hadoop fs -cp words.txt words2.txt
+$ hadoop fs -copyToLocal words2.txt
+```
