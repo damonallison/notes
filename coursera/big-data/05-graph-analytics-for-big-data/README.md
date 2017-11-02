@@ -557,7 +557,7 @@ Promotions could be an attractive way to increase user engagement, expose them t
 
 This modules uses Neo4j to analyze graphs. Neo4j's query language is called `Cypher`.
 
-### Neo4j
+### Basic Querying, Path Analysis, and Centrality Analysis
 
 ```
 $ neo4j start
@@ -565,8 +565,29 @@ $ neo4j start
 http://localhost:7474
 user : neo4j
 pass : asdfasdf
+```
+
+#### Loading CSV
+
+```
+// Import simple road network
+LOAD CSV WITH HEADERS FROM "file:///big-data/test.csv" AS line
+MERGE (n:MyNode {Name:line.Source})
+MERGE (m:MyNode {Name:line.Target})
+MERGE (n) -[:TO {dist:line.distance}]-> (m)
+
+//Script to import global terrorist data
+
+LOAD CSV WITH HEADERS FROM "file:///big-data/terrorist_data_subset.csv" AS row
+MERGE (c:Country {Name:row.Country})
+MERGE (a:Actor {Name: row.ActorName, Aliases: row.Aliases, Type: row.ActorType})
+MERGE (o:Organization {Name: row.AffiliationTo})
+MERGE (a)-[:AFFILIATED_TO {Start: row.AffiliationStartDate, End: row.AffiliationEndDate}]->(o)
+MERGE(c)<-[:IS_FROM]-(a);
+```
 
 
+```
 //
 // Delete **everything**
 //
@@ -596,7 +617,13 @@ create (N1:ToyNode {name: 'Tom'}) - [:ToyRelation {relationship: 'knows'}] -> (N
 //
 // View the entire graph
 //
-match (n)-[r]-(m) return n, r, m
+match (n)-[r]->(m) return n, r, m
+
+//
+// Select a single toy node (by property)
+//
+match (n:ToyNode {name:'Julian'}) return n
+
 
 //
 // Counting the number of nodes
@@ -606,10 +633,7 @@ match(n:MyNode) return count(n);
 //
 // Counting the number of edges.
 //
-// Note: In order to return edges, you must declare
-// nodes that are associated with the edges (n:MyNode)
-//
-match(n:MyNode)-[r]->() return count(r);
+match(n)-[r]->() return count(r);
 
 //
 // Finding leaf nodes (no outgoing edges)
@@ -678,29 +702,14 @@ return n, r, m;
 
 --
 
-// Delete all nodes / edges
-match (n)-[r]-() delete n, r
-
-// Delete nodes which have no edges
-match (n) delete n
-
-// Delete all ToyNode nodes with no edges.
-match (n:ToyNode) delete n
-
-// Delete all edges
-match (n)-[r]-() delete r
-
-// Delete all ToyRelation edges
-match (n)-[r:ToyRelation]-() delete r
-
-// Select a single toy node
-match (n:ToyNode {name:'Julian'}) return n
 
 
-// Adding a node correctly
+//
+// Adding a relationship
+//
 // 1. Find the source node in the relationship as a variable `n`
-match(n:ToyNode { name: 'Julian' })
 // 2. Add a relation to a new ToyNode, "Joyce"
+match(n:ToyNode { name: 'Julian' })
 merge(n)-[:ToyRelation { relationship: 'finacee' }] -> (m:ToyNode {name: 'Joyce', job: 'store clerk'})
 
 // Modify a node
@@ -711,10 +720,8 @@ match (n:ToyNode) where n.name = 'Harry' set n.job = n.job + ['lead guitarist']
 
 
 #### Path Analytics
-```
 
-//Viewing the graph
-match (n:MyNode)-[r]->(m) return n, r, m;
+```
 
 //
 //Finding all paths between specific nodes.
@@ -751,7 +758,9 @@ RETURN EXTRACT(n IN NODES(p)| n.Name) AS Paths
 // Specifies constraints : only return paths with > 5 length.
 //
 MATCH p = allShortestPaths((source)-[r:TO*]->(destination))
-WHERE source.Name='A' AND destination.Name = 'P' AND LENGTH(NODES(p)) > 5
+WHERE source.Name='A' AND
+      destination.Name = 'P' AND
+      LENGTH(NODES(p)) > 5
 RETURN EXTRACT(n IN NODES(p)| n.Name) AS Paths,length(p)
 
 //
@@ -851,26 +860,318 @@ where not(n.Name in MyList) and not (m.Name in MyList)
 return distinct n, r, m```
 ```
 
-#### Loading CSV
+#### Connectivity Analysis
 
 ```
-// Import simple road network
-LOAD CSV WITH HEADERS FROM "file:///big-data/test.csv" AS line
-MERGE (n:MyNode {Name:line.Source})
-MERGE (m:MyNode {Name:line.Target})
-MERGE (n) -[:TO {dist:line.distance}]-> (m)
 
-//Script to import global terrorist data
+//
+// Find the outdegree of all nodes
+//
+match (n:MyNode)-[r]->()
+return n.Name as Node, count(r) as Outdegree
+order by Outdegree
+union
+match (a:MyNode)-[r]->(leaf)
+where not((leaf)-->())
+return leaf.Name as Node, 0 as Outdegree
 
-LOAD CSV WITH HEADERS FROM "file:///big-data/terrorist_data_subset.csv" AS row
-MERGE (c:Country {Name:row.Country})
-MERGE (a:Actor {Name: row.ActorName, Aliases: row.Aliases, Type: row.ActorType})
-MERGE (o:Organization {Name: row.AffiliationTo})
-MERGE (a)-[:AFFILIATED_TO {Start: row.AffiliationStartDate, End: row.AffiliationEndDate}]->(o)
-MERGE(c)<-[:IS_FROM]-(a);
+//
+// Find the indegree of all nodes
+//
+match (n:MyNode)<-[r]-()
+return n.Name as Node, count(r) as Indegree
+order by Indegree
+union
+match (a:MyNode)<-[r]-(root)
+where not((root)<--())
+return root.Name as Node, 0 as Indegree
+
+//
+// Find the degree of all nodes
+//
+match (n:MyNode)-[r]-()
+return n.Name, count(distinct r) as degree
+order by degree
+
+
+//
+// Find degree histogram of the graph
+//
+match (n:MyNode)-[r]-()
+with n as nodes, count(distinct r) as degree
+return degree, count(nodes) order by degree asc
+
+//
+// Save the degree of the node as a new node property
+//
+match (n:MyNode)-[r]-()
+with n, count(distinct r) as degree
+set n.deg = degree
+return n.Name, n.deg
+
+//
+// Construct the Adjacency Matrix of the graph
+//
+match (n:MyNode), (m:MyNode)
+return n.Name, m.Name,
+case
+when (n)-->(m) then 1
+else 0
+end as value
+
+//
+// Construct the Normalized Laplacian Matrix of the graph
+//
+match (n:MyNode), (m:MyNode)
+return n.Name, m.Name,
+case
+when n.Name = m.Name then 1
+when (n)-->(m) then -1/(sqrt(toInt(n.deg))*sqrt(toInt(m.deg)))
+else 0
+end as value
+
 ```
 
 
-### Basic Querying, Path Analysis, and Centrality Analysis
+## Quiz
+
+* Which of the following is a Cypher command used to combine two or more query results?
+    * `union`. `merge` is used to build the graph.
+
+* For a graph network whose nodes are all of type "MyNode", which has both incoming and outgoing edges, and which has both root and leaf nodes, what will the following Cypher code return in a Neo4j report? `match (n:MyNode)<-[r]-() return n`
+    * All nodes except root nodes.
+
+* The Cypher query language shares some commands in common with SQL.
+    * True
+
+* The following query will return a graph containing whatever loops might exist. `match (n)-[r]-(n) return n, r`
+    * True
+
+* Which Cypher pattern is used to represent a node?
+    * `()`
+
+* Neo4j is a ...
+    * Graph database
+
+* Which Cypher command launches a Neo4j database search?
+    * `MATCH`
+
+* Cypher does not include a specific command to find the shortest path in a graph network.
+    * False
+
+* Cypher includes a 'diameter' command to find the longest path in a graph network.
+    * False
+
+
+### Cypher Assessment
+
+LOAD CSV WITH HEADERS FROM "file:///big-data/gene_gene_associations_50k.csv" AS line
+MERGE (n:TrialGene {Name:line.OFFICIAL_SYMBOL_A})
+MERGE (m:TrialGene {Name:line.OFFICIAL_SYMBOL_B})
+MERGE (n) -[:AssociationType {AssociatedWith:line.EXPERIMENTAL_SYSTEM}]-> (m)
+
+
+* Calculate the number of nodes in the graph.
+    * `match(n) return count(n);`
+
+* Calculate the number of edges in the graph
+    * `match(n)-[r]->() return count(r);`
+
+* Calculate the number of loops in the graph
+    * `match (n)-[r]->(n) return count(r)`
+
+* Submit the following query and report the results.
+     * `match (n)-[r]->(m) where m <> n return distinct n, m, count(r)`
+
+* Interpret the results of the query in Step 4 above.
+    * The results show the number of relationships between two different genes.
+
+* Submit the following query and report the results:
+    * `match (n)-[r]->(m) where m <> n return distinct n, m, count(r) as myCount order by myCount desc limit 1`
+    * Finds the pair of genes with the most relationships.
+
+* Run the following query and interpret the results:
+    * `match p=(n {Name:'BRCA1'})-[:AssociationType*..2]->(m) return p`
+    * Finds the second neighbors of `BRCA1`.
+
+* Count how many shortest paths there are between the node named ‘BRCA1’ and the node named ‘NBR1’.
+
+```
+MATCH p = allShortestPaths((source)-[r:AssociationType*]->(destination))
+WHERE source.Name='BRCA1' AND
+      destination.Name = 'NBR1'
+RETURN count(p), length(p)
+
+// To view the nodes in each of the shortest path, use extract()
+MATCH p = allShortestPaths((source)-[r:AssociationType*]->(destination))
+WHERE source.Name='BRCA1' AND
+      destination.Name = 'NBR1'
+RETURN extract(n in nodes(p)|n.Name) as Nodes;
+```
+
+* Find the top 2 notes with the highest outdegree.
+    * `SNCA` & `BRCA1`
+
+```
+match (n)-[r]->()
+return n.Name as Node, count(r) as Outdegree
+order by Outdegree desc
+union
+match (n)-[r]->(leaf)
+where not((leaf)-->())
+return leaf.Name as Node, 0 as Outdegree
+Order by Outdegree desc limit 2
+```
+
+* Modify one of the Cypher queries we provided and create the degree histogram for the network, then calculate how many nodes are in the graph having a degree of 3.
+    * `821`
+
+```
+//
+// Find degree histogram of the graph
+//
+match (n)-[r]-()
+with n as nodes, count(distinct r) as degree
+return degree, count(nodes) order by degree asc
+```
+
+## Quiz : Practicing Graph Analytics in Neo4j with Cypher
+
+* What is the number of nodes returned?
+    * 9656
+* What is the number of edges?
+    * 46621
+
+* The number of loops in the graph is:
+    * 1221
+
+* The query `match (n)-[r]->(m) where m <> n return distinct n, m, count(r)` gives us
+    * the count of all non loop edges between every adjacent node pair.
+
+* The query `match (n)-[r]->(m) where m <> n return distinct n, m, count(r) as myCount order by myCount desc limit 1` produces what?
+    * the pair of nodes with the maximum number of multi-edges between them
+
+* The query `match p=(n {Name:'BRCA1'})-[:AssociationType*..2]->(m) return p` produces what?
+    * The neighbors’ neighbors of the node whose name is ‘BRCA1’
+
+* How many non-directed shortest paths are there between the node named ‘BRCA1’ and the node named ‘NBR1’?
+    * 9
+
+* The top 2 nodes with the highest outdegree are:
+    * SNCA and BRCA1
+
+* Applying the example queries provided to you, create the degree histogram for the network. How many nodes in the graph have a degree of 3?
+    * 821
+
+
+
+
+--------------------------------------------------------------------------------
+
+## Week 5 : Computing Platforms and Graph Analysis
+
+### Programming Model For Graphs
+
+* GraphX (spark)
+* Giraph (hadoop)
+
+#### Parallel Programming Model for Graphs
+
+* A parallel programming model involves multiple processes executing simultaneously.
+* In a parallel system, the following two questions need to be determined:
+    * How will processes communicate?
+        * Share memory
+        * Pass messages
+    * How is parallelism achieved?
+        * Task parallel : decomposing large tasks into small tasks.
+        * Data parallel : the data is partitioned and executed on in parallel
+
+* Bulk Synchronous Parallelism (BSP)
+    * Multiple processes
+    * A router is responsible for message passing between processes.
+    * Barrier synchronization : puts all processes into a consistent state before next step of processing can continue.
+
+* In BSP for graphs, processes are broken up around each vertex.
+    * "Think like a vertex"
+    * Each vertex is computed individually, in parallel.
+
+* What can a vertex do?
+    * Can find its own `id`.
+    * Get / set its value.
+    * Get/count its edges.
+    * Get/set a specific edge values. By edge id
+    * Add / remove an edge.
+    * Start / stop computing
+
+* What can an edge do?
+    * Get its id.
+    * Get/set it's value.
+    * Get the ID of the target vertex.
+
+
+#### Pregel : The system that changed graph processing
+
+* 2010 : Google paper : Pregel : A System for Large-Scale Graph Processing
+    * Powers Page Rank.
+
+* GraphLab
+    * Different than Pregel in that each vertex can access state of it's incoming edge, update it's value asynchronously (without having to wait for all nodes to complete).
+
+* Vertex split
+    * In a deep cluster, certain vertices are split to enable more efficient phase.
+        * Vertex "copies" are created which work on individual machines.
+        * Each copy is merged together to compute the value of the original vertex.
+
+#### Giraph and GraphX - Programming Model Details
+
+* Giraph / GraphX
+    * BSP on Hadoop / Spark
+    * Provides infrastructure on top of BSP.
+        * Provides I/O for data input / export from / to SQL, Neo4J, HBase, Hive, text file.
+        * Provides an API for accessing the graph (retrieving nodes / edges, etc).
+        * Infrastructure to handle process coordination (aggregation)
+
+* Aggregates are important.
+    * Who keeps the aggregates in Giraph?
+        * The "Aggregator" (Default Master Compute)
+
+* Why not implement Giraph using MapReduce?
+    * Too much disk requirement - each step needs to write to a file.
+
+* What happens if Giraph runs out of memory?
+    * Not all partitions are kept in memory, others swapped to disk.
+    * If there are too many messages, messages are also stored on disk (associated with their vertex).
+
+
+#### Examples of Analytics (Using GraphX)
+
+* Developed by AmpLab (U.C. Berkeley)
+* Vertex / Edge tables stored in `Vertex` and `Edge` tables within spark.
+* `VertexRDD[A]` are all vertices with a property `A`.
+* `EdgeRDD[ED, VD]` contain a source vertex, destination vertex, and edge attribute.
+
+* Triplets
+    * Node - Edge - Node
+
+## Hands on
+* Facebook is a graph of strong clusters (communities) with dense interactions with a few nodes spanning different communities. This makes the graph look like broccoli.
+
+
+## Quiz
+
+* In this code snippet below from the Hands On exercise on importing data, '100L + row...' adds 100 to the value of every country ID. Which of the following statements are true regarding this decision? (Note: you may select more than one)
+    * Another option would have been to add 100 to the metropolis keys as they were imported, and leave the country keys as they were originally numbered.
+    * This step was needed to create unique keys between the country and the metropolis datasets.
+    * Another option would be to add 500 to the country keys.
+
+* In the metro example, what is an in-degree in relation to a country? Hint: this was covered in the Building a Degree Histogram Hands On exercise.
+    * A continent
+
+* In the Hands On exercise on network connectedness and clustering, Antarctica was easy to identify. Why?
+    * It is the green dot that that has no connections, or it is the least connected cluster.
+
+* In the Facebook graph example, the visualization looked like broccoli. Why?
+    * Social networks have communities or pockets of people who interact densely.
+
 
 
