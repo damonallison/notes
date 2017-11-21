@@ -4,7 +4,7 @@
 
 * Documents can have varying schema. This is similar to "NULL" in T-SQL. Simplifies adding elements to a schema.
 * Geo filter queries (within center, within box).
-* Ability to scale out? How to handle consistency?
+* Ability to scale out? How to handle consistency, ACID compliance?
 
 ## Questions
 

@@ -2,11 +2,6 @@
 
 > Splunk Enterprise is the data collection, indexing, and visualization engine for operational intelligence.
 
-```
-rpm -q -f FILE  // query package
-rpm -qlp package.rpm
-```
-
 ## Querying Data
 
 * `AND` query for multiple fields.

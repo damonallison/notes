@@ -1,11 +1,13 @@
 ## Hadoop ##
 
-Much of hadoop is geared around redundancy and fault tolerance at the machine
-and rack (switch) level. HW concerns have to be solved by cloud providers,
-allowing us to focus on the algorithms and data on top of the virtualized HW.
+### TODO
 
 * Look into Google papers.
 * Look into AWS, Google Compute Engine - who implement Hadoop.
+
+---
+
+Much of hadoop is geared around redundancy and fault tolerance at the machine and rack (switch) level. HW concerns have to be solved by cloud providers, allowing us to focus on the algorithms and data on top of the virtualized HW.
 
 "Google is a few years ahead of us who use Hadoop."
 
@@ -18,7 +20,7 @@ Google                     Open source project
 
 Hadoop is a batch based map reduce engine.
 	* Commodity hardware (is anything non-commodity today).
-	* Open source software (is anything not open source).
+	* Open source software (is anything not open source?).
 	* Fault tolerant. Survives single machine failures with any component.
 	* Schema-on-read. You can save data in the raw form, project it on the fly to the desired format (schema).
 	* More data with a simplier algorithm is better than lots of data with a high complex algorithm
