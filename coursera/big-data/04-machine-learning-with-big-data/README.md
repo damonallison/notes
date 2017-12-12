@@ -431,8 +431,7 @@ There are many terms used in the "data science" landscape to describe the same t
   * Outliers
 
 * Wrangle data
-  * Feature selection
-    * Combine / removing unneeded columns.
+  * Feature selection == combine / removing unneeded columns.
 
   * Feature transformation
     * Scaling (all values for a column between 0 and 1)

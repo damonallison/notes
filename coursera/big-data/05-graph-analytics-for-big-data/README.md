@@ -199,11 +199,9 @@
     * The integration of multiple data sources from different researchers and of different sources of information.
 
 * Which of the Vs BEST describes the result in constant increasing in the number of edges in a graph, sometimes causing challenges in knowing when one has found "an answer" to one's analysis question?
-    * NO. Volume
     * Velocity.
 
 * Which of the Vs results in increased algorithmic complexity (which can cause analyses to not be able to finish running in reasonable amounts of time)?
-    * NO. Velocity
     * Volume
 
 * Which of the Vs results in challenges due to graphs created from varying kinds, formats, sources, and meanings of data?
@@ -216,9 +214,7 @@
     * Velocity
 
 * Studying Amarnath's gmail interactions over time (as gmail started to be used by more and more people) is BEST defined as an impact of which of the Vs?
-    * No. Volume
-    * No. Variety
-    * Valence?
+    * Valence
 
 * Which of the Vs is most relevant to the kinds of graph analysis you are interested in? Tell us why in a sentence or 2. (Any response will be counted correct.)
     * I'm the most interested in variety. I think combining multiple data sources can yield interesting new insights about objects.
@@ -241,6 +237,11 @@ Happy players are critical for a successful platform. In order to analyze player
 2. What behavioral patterns exist on the platform as a whole and within each game?
 
 Behavioral patterns dictate the type of users who play each game. Are players playing daily for 10 minutes? Are they playing one day a week for 8 hours a day? Why is this important? If we can determine the behavioral patterns, we can better target promotions, know when we can do system maintenance or expect peak usage, and determine what type of game we should make next (casual or hardcore).
+
+* Frequency of game sessions.
+    * Multiple times per day?
+    * Date driven: weekend only?
+* Length of game sessions, length between sessions.
 
 3. How successful are promotions?
 

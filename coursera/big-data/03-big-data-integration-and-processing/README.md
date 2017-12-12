@@ -1417,6 +1417,3 @@ model.save(sc, "decisionTreeModel")
 
 * Query: Get all the tweets from the location "Ireland" which also contain the string "UEFA". In this result the user with the highest friends count is...
   * `ProfitwatchInfo`
-
-
-#### Quiz (Spark)

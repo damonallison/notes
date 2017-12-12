@@ -2,7 +2,7 @@
 
 Bottom line : Data is proliferating exponentially. Advantage favors companies who embrace and leverage data.
 
-This class is a high level introduction to big data for learners with no previous big data (or software) experience.  
+This class is a high level introduction to big data for learners with no previous big data (or software) experience.
 
 ## Overview
 
@@ -44,25 +44,15 @@ The goals of this course are:
 * Identify big data problems, be able to understand the data science questions behind the data.
 * Introduction to Hadoop's properties and how they relate to big data (HDFS, MapReduce).
 
-
-San Diego Supercomputer Center
-
-* Early Cray computers ($14m in 1985) were less powerful than today's iPhone.
-* High speed network, allowing direct memory access across machines.
-
-
 ## Why Big Data?
 
-* Systems are producing more data, faster, than ever before.
-* The storage mechanisms are growing. Cheap to store massive amounts of data.
-* Massive growth rate in data and IT spending on data science.
-* Cloud (on-demand) computing provides massive access to analyze data anytime.
-* The big data era was caused by a combination of a massive amount of generated
-  data and cheap, abundant cloud computing.
+* Massive amounts of data, cheap storage, abundant cloud computing, business moving to real time.
+
 * **Combining data sources is the key to unlocking interesting answers to
   problems.**
 
-* The healthcare industry is producing data rapidly. Doubling in recent years.
+* Example : Healthcare
+  * Pproducing data rapidly. Doubling in recent years.
 	* One hospital has 120TB of data (and that's small).
 	* EMR, scans, everything is going digital.
 * Customer sentiment analysis can react faster using real time data, preventing a PR nightmare.
@@ -189,8 +179,6 @@ San Diego Supercomputer Center
   * Increase data availability.
   * Unify your data system.
 
-
-
   * What does it mean for a device to be "smart"?
     * Connect with other devices and have knowledge of the environment.
     * Collect data and services autonomously.
@@ -298,7 +286,6 @@ San Diego Supercomputer Center
 * Valence == connectedness.
 * The more connected == the higher the valence.
 * High valence is good. It can be connected to other data streams.
-* Data is connected. Employees are connected to his workplace.
 * Data can be indirectly related. Two professors are connected because they are both professors.
 * Valence == the number of connected items / the total number of possible connections.
 * Challenges
@@ -582,7 +569,8 @@ San Diego Supercomputer Center
   * Replicate data partitions.
   * Recover files when needed.
 
-* Easily adding more capacity (scaling out)
+* Scable
+  * Easily adding more capacity (scaling out)
 
 * Optimized for specific types of data
   * Documents, graph, key-value, multimedia.

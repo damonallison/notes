@@ -408,7 +408,7 @@ Length Q = sqrt ( 0.584^2 + 0.292^2) == 0.652
 
 ```
 Similarity Function
-                new (d * Q)    + york (d * Q)   / (length(d) * length(Q)  
+                new (d * Q)    + york (d * Q)   / (length(d) * length(Q)
 cosSim(d1, q) = 0.584 * 0.584  + 0.584 * 0.292  / (1.011 * 0.652)
 cosSim(d1, q) = (0.341056 + 0.170528) / 0.659
 cosSim(d1, q) = 0.511584 / 0.659172
@@ -547,7 +547,7 @@ What is the difference between a data format and a data model?
 #### Why is Streaming Data Different?
 
 * Data at rest
-  * Static data stored in data source. Analysis happens after data is collection.
+  * Static data stored in data source. Analysis happens after data is collected.
   * Batch processing.
 * Data in motion
   * Data is analyzed and processed in real time.
@@ -1150,7 +1150,7 @@ We would examine the Join and Leave edges to determine what chat sessions a user
       "weight" : 100,
     }
   ],
-  "game" {    
+  "game" {
     "game-levels": [
       {
         // Level 2 : catch 10 angry green overweight flamingos and 1 sleeping flamnigo
