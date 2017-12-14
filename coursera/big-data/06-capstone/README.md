@@ -9,7 +9,6 @@
 * Teach the splunk query syntax prior to writing queries.
     * Same as `Cypher` when learning `Neo4j`. We didn't learn cypher first.
 
-
 ##  Final Project
 
 * 10 minute slide presentation w/ written script.
@@ -23,13 +22,12 @@ Analyze game data. Game play / social behavior/ ad targeting.
 
 ### Catch the Pink Flamingo : Game Play Introduction
 
-* Must have at least 1 point in every map grid cell to advance levels.
+* Players (or teams?) must have at least 1 point in every map grid cell to advance levels.
 * Missions change in real time.
 * Example : "Catch the flamingos on land with stars on their belly"
 * User gets `+1` for a score tap, `-2` for an invalid tap.
-* Level 1 : Training level. (no team)
+* Level 1 : Training level. (team by yourself)
 * After level 1, user joins (or creates) a team. Teams of 1 are allowed.
-
 
 #### Data Elements
 
@@ -101,7 +99,7 @@ Analyze game data. Game play / social behavior/ ad targeting.
 * How many users made a purchase?
     * `source="/home/cloudera/big-data/big-data-capstone/flamingo-data/buy-clicks.csv" | stats count values(userId)`
 * Who made the most purchases?
-    * `source="/home/cloudera/big-data/big-data-capstone/flamingo-data/buy-clicks.csv" | stats count by userId | sort by -count`
+    * `source="/home/cloudera/big-data/big-data-capstone/flamingo-data/buy-clicks.csv" | stats count by userId | sort 1 by -count`
 
 ### Aggregate Calculations
 
@@ -158,4 +156,30 @@ Analyze game data. Game play / social behavior/ ad targeting.
 * Filtering and aggregation example grouping by a field. Note the `by userId`.
     * What is the isHit ratio for users 417 and 12?
     * `source="game-clicks.csv" userId = 417 OR userId = 12 | stats avg(isHit) by userId`
+
+
+
+## Week 2
+
+### Classification in KNIME (Review)
+
+* Goal: predict low humidity days.
+    * High air pressure + high temp (warm) + wind from the East (dry) == low humidity
+
+### Assignment
+
+* Read in the data from the file combined_data.csv. Identify the number of samples.
+    * 4619
+
+* Filter samples (i.e., rows) to only contain those with purchases and identify that number. NOTE: You will need to add a new node to your KNIME workflow for this. The new node should be placed between the File Reader and Color Manager nodes.
+    * 1411
+
+### Decision Tree Analysis
+
+* What makes a user a HighRoller? Draw some insights from your analysis. Hint: Look at the resulting decision tree.
+    * The OS the player uses.
+
+* Give 2 recommendations to increase revenue you would propose based on these insights.
+    * Offer promotions to iOS / Android users.
+    * Reposition development effort around iOS / Android products.
 
