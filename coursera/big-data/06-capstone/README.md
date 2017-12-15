@@ -183,3 +183,13 @@ Analyze game data. Game play / social behavior/ ad targeting.
     * Offer promotions to iOS / Android users.
     * Reposition development effort around iOS / Android products.
 
+
+## Week 3 : Clustering Analysis
+
+* How would you cluster users?
+    * Game playing behavior.
+    * Purchasing history.
+    * Ad effectiveness.
+
+* How many clusters?
+    * 
