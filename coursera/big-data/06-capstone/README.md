@@ -186,10 +186,20 @@ Analyze game data. Game play / social behavior/ ad targeting.
 
 ## Week 3 : Clustering Analysis
 
+```
+// to start pyspark
+
+// must be in the capstone project. ./lib/ contains
+// spark-csv
+
+cd /home/cloudera/big-data/courseraDataSimulation/capstone
+$ pyspark --packages com.databricks:spark-csv_2.10:1.5.0
+```
+
 * How would you cluster users?
     * Game playing behavior.
     * Purchasing history.
     * Ad effectiveness.
 
 * How many clusters?
-    * 
+    * What is the variation / number of features you are looking at?
