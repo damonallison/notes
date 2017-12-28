@@ -203,3 +203,12 @@ $ pyspark --packages com.databricks:spark-csv_2.10:1.5.0
 
 * How many clusters?
     * What is the variation / number of features you are looking at?
+
+### Final Data Format
+
+* Team level
+* Ad Clicks
+* Buy Clicks (or total revenue)
+
+* Need to combine from different data sources.
+
