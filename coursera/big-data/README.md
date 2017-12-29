@@ -1,9 +1,8 @@
 # Big Data
 
-Big Data is a 6 course Coursera specialization in Big Data targeted at
-introductory students.
+Big Data is a 6 course Coursera specialization in Big Data targeted at introductory students. The curriculum was built and presented by University of California, San Diego.
 
-The curriculum was built and presented by University of California, San Diego.
+Here is an overview of all 6 courses. Each course is expected to take about about 6 weeks, but you can get each course done in 1-2 weeks if you really want to.
 
 ## 01 - Introduction to Big Data
 

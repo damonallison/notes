@@ -13,10 +13,10 @@ Most of my notes center around data science and artificial intelligence. Artific
 
 Why study data science, machine learning, and artificial intelligence?
 
-* AI is the obvious revolution within corporate engineering.
+* AI is the obvious next frontier within engineering.
 * Trends over last 20 years : web, mobile, cloud, intelligence.
 * The problems are challenging and difficult. They are academic and foundational computer science problems.
-* Work with smart people.
+* Hard problems attract smart people, smart tooling.
 
 ## Goals
 
@@ -78,8 +78,6 @@ Why study data science, machine learning, and artificial intelligence?
 * Thru coursera.
 * Tuition under $20k.
 * 2-3 year commitment.
-
-
 
 ## Coursera
 
