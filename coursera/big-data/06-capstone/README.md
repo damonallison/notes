@@ -224,3 +224,157 @@ $ pyspark --packages com.databricks:spark-csv_2.10:1.5.0
 
 
 
+### Week 4: Graph Analytics w/ Neo4j
+
+* `chat_create_team_chat.csv`: A line is added whenever a player creates a new chat with their team.
+
+```
+userid, teamid, TeamChatSessionID, timestamp
+```
+
+* `chat_item_team_chat.csv`: Creates ChatItem nodes
+
+```
+userid, teamchatsessionid, chatitemid, timestamp
+```
+
+* Creates nodes labeled ChatItems. Column 0 is User id, column 1 is the TeamChatSession id, column 2 is the ChatItem id (i.e., the id property of the ChatItem node), column 3 is the timestamp for an edge labeled "CreateChat". Also create an edge labeled "PartOf" from the ChatItem node to the TeamChatSession node. This edge should also have a timeStamp property using the value from Column 3.
+
+```
+
+CREATE CONSTRAINT ON (u:User) ASSERT u.id IS UNIQUE;
+CREATE CONSTRAINT ON (t:Team) ASSERT t.id IS UNIQUE;
+CREATE CONSTRAINT ON (c:TeamChatSession) ASSERT c.id IS UNIQUE;
+CREATE CONSTRAINT ON (i:ChatItem) ASSERT i.id IS UNIQUE;
+
+// NOTE : Files must be copied to the neo4j sandbox located at /usr/local/Cellar/neo4j/3.3.0/libexec/import
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// chat_create_team_chat
+//
+///////////////////////////////////////////////////////////////////////////////
+
+// 0 == userId
+// 1 == teamId
+// 2 == teamChatSessionId
+// 3 == timestamp
+
+// Creates the User, Team, and TeamChatSession nodes (if they do not already exist))
+// Creates a "CreatesSession" relationship between the user and chat session.
+// Creates a OwnedBy relation between the user and the chat session.
+
+LOAD CSV FROM "file:///big-data/datasets/big-data-capstone/chat/chat_create_team_chat.csv" AS row
+MERGE (u:User {id: toInteger(row[0])})
+MERGE (t:Team {id: toInteger(row[1])})
+MERGE (c:TeamChatSession {id: toInteger(row[2])})
+MERGE (u)-[:CreatesSession{timeStamp: row[3]}]->(c)
+MERGE (c)-[:OwnedBy{timeStamp: row[3]}]->(t);
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// chat_join_team_chat
+//
+///////////////////////////////////////////////////////////////////////////////
+
+LOAD CSV FROM "file:///big-data/datasets/big-data-capstone/chat/chat_join_team_chat.csv" AS row
+MERGE (u:User {id: toInteger(row[0])})
+MERGE (c:TeamChatSession {id: toInteger(row[1])})
+MERGE (u)-[:Joins{timeStamp: row[2]}]->(c);
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// chat_leave_team_chat
+//
+///////////////////////////////////////////////////////////////////////////////
+
+LOAD CSV FROM "file:///big-data/datasets/big-data-capstone/chat/chat_leave_team_chat.csv" AS row
+MERGE (u:User {id: toInteger(row[0])})
+MERGE (c:TeamChatSession {id: toInteger(row[1])})
+MERGE (u)-[:Leaves{timeStamp: row[2]}]->(c);
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// chat_item_team_chat
+//
+///////////////////////////////////////////////////////////////////////////////
+
+LOAD CSV FROM "file:///big-data/datasets/big-data-capstone/chat/chat_item_team_chat.csv" AS row
+MERGE (u:User {id: toInteger(row[0])})
+MERGE (c:TeamChatSession {id: toInteger(row[1])})
+MERGE (ci:ChatItem {id: toInteger(row[2])})
+MERGE (u)-[:CreateChat{timeStamp: row[3]}]->(ci)
+MERGE (ci)-[:PartOf{timeStamp: row[3]}]->(c);
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// chat_mention_team_chat
+//
+///////////////////////////////////////////////////////////////////////////////
+
+LOAD CSV FROM "file:///big-data/datasets/big-data-capstone/chat/chat_mention_team_chat.csv" AS row
+MERGE (ci:ChatItem {id: toInteger(row[0])})
+MERGE (u:User {id: toInteger(row[1])})
+MERGE (ci)-[:Mentioned{timeStamp: row[2]}]->(u);
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// chat_respond_team_chat
+//
+///////////////////////////////////////////////////////////////////////////////
+
+LOAD CSV FROM "file:///big-data/datasets/big-data-capstone/chat/chat_mention_team_chat.csv" AS row
+MERGE (ci1:ChatItem {id: toInteger(row[0])})
+MERGE (ci2:ChatItem {id: toInteger(row[1])})
+MERGE (ci2)-[:ResponseTo{timeStamp: row[2]}]->(ci1);
+
+```
+
+
+
+* Find the longest conversation chain in the chat data using the "ResponseTo" edge label. This question has two parts,
+    * 1) How many chats are involved in it?
+
+```
+MATCH p=(a)-[:ResponseTo*]->(a)
+return length(p)
+order by length(p) desc limit 1
+```
+
+    * 2) How many users participated in this chain?
+
+```
+MATCH p=(i1:ChatItem)-[r:ResponseTo*]->(i2:ChatItem)
+where length(p)=9
+WITH p
+match (u:User)-[:CreateChat*]->(i1:ChatItem)
+WHERE i1 IN Nodes(p)
+return count(DISTINCT u)
+```
+
+
+* Do the top 10 the chattiest users belong to the top 10 chattiest teams? For this question you will need to perform two separate queries.
+    * 1) identify the top 10 chattiest users.
+
+```
+MATCH (u:User)-[r:CreateChat*]->(ci:ChatItem)
+return u.id, count(r) as ChatCount
+ORDER BY ChatCount DESC LIMIT 10
+```
+
+    * 2) identify the top 10 chattiest teams.
+
+```
+MATCH (ci:ChatItem)-[po:PartOf*]->(c:TeamChatSession)-[:OwnedBy]->(t)
+return t.id, count(po) as ChatItemTotal
+ORDER BY ChatItemTotal DESC LIMIT 10
+```
+
+* Determine if any of the chattiest users belong to the chattiest teams.
+
+```
+match p=(u1:User)-[r:InteractsWith]-(u2:User) where u1.id in [394,2067,209,1087,554,516,1627,999,668,461] with p, collect(distinct(u2.id)) as neighbors with neighbors match (u1:User), (u2:User) return u1.id, u2.id, case, when, (u1:User)-->(u2:User), then 1 else 0, end as value
+```

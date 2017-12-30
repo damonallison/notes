@@ -1,12 +1,5 @@
 # Graph Analytics for Big Data
 
-## Feedback
-
-* Explain the general syntax of Cypher's node-relationship-node pattern
-  before jumping into examples.
-    * Example : What is the difference between a `-` and `->`?
-
-
 ## Week 1 : Introduction and Welcome
 
 * Goals
@@ -17,7 +10,6 @@
     * The web, facebook, LinkedIn, twitter, are all examples of graphs.
     * Even relationships in a family can be modeled as a graph.
     * The internet is a graph.
-
 
 ## Week 2 : Introduction to Graphs
 
@@ -252,8 +244,6 @@ Promotions could be an attractive way to increase user engagement, expose them t
 
 ## Week 3 : Graph Analytics
 
-* What are the fundamental differences between a graph and a relational database?
-
 ### Big Data and Graph Analytics
 
 #### Focusing on Graph Analytics Techniques
@@ -277,12 +267,11 @@ Promotions could be an attractive way to increase user engagement, expose them t
 
 * Structural Properties
     * Loops : an edge that points to itself.
-    * People send emails to themseves. A website has a link to itself.
+        * People send emails to themseves. A website has a link to itself.
 
 * Multigraphs
     * A graph with more than one edge between two nodes.
     * An email recipient is also a spouse.
-
 
 ### Path Analytics
 
@@ -295,7 +284,7 @@ Promotions could be an attractive way to increase user engagement, expose them t
 * Reachability : a node is reachable a walk between two nodes exists.
 * Diameter : Maximum pairwise distance between nodes.
 
-#### THe Basic Path Ananlysis Question : WHat is the Best Path?
+#### The Basic Path Ananlysis Question : What is the Best Path?
 
 * Determining the best path
     * What function to optimize for (maximum or minimum)?
@@ -589,9 +578,6 @@ MERGE(c)<-[:IS_FROM]-(a);
 
 
 ```
-//
-// Delete **everything**
-//
 
 //
 // Deletes all nodes w/ relationships
@@ -601,7 +587,7 @@ match (a)-[r]->() delete a,r;
 //
 // Deletes all nodes w/o relationships
 //
-match (a) delete a
+match (a) delete a;
 
 //
 // Manually creating a graph
@@ -629,7 +615,7 @@ match (n:ToyNode {name:'Julian'}) return n
 //
 // Counting the number of nodes
 //
-match(n:MyNode) return count(n);
+match(n) return count(n);
 
 //
 // Counting the number of edges.
