@@ -226,30 +226,18 @@ $ pyspark --packages com.databricks:spark-csv_2.10:1.5.0
 
 ### Week 4: Graph Analytics w/ Neo4j
 
-* `chat_create_team_chat.csv`: A line is added whenever a player creates a new chat with their team.
-
 ```
-userid, teamid, TeamChatSessionID, timestamp
-```
+// NOTE : Files must be copied to the neo4j sandbox located at
+    /usr/local/Cellar/neo4j/3.3.0/libexec/import
 
-* `chat_item_team_chat.csv`: Creates ChatItem nodes
 
-```
-userid, teamchatsessionid, chatitemid, timestamp
-```
-
-* Creates nodes labeled ChatItems. Column 0 is User id, column 1 is the TeamChatSession id, column 2 is the ChatItem id (i.e., the id property of the ChatItem node), column 3 is the timestamp for an edge labeled "CreateChat". Also create an edge labeled "PartOf" from the ChatItem node to the TeamChatSession node. This edge should also have a timeStamp property using the value from Column 3.
-
-```
-
+//
+// Create node constraints on all nodes
+//
 CREATE CONSTRAINT ON (u:User) ASSERT u.id IS UNIQUE;
 CREATE CONSTRAINT ON (t:Team) ASSERT t.id IS UNIQUE;
 CREATE CONSTRAINT ON (c:TeamChatSession) ASSERT c.id IS UNIQUE;
 CREATE CONSTRAINT ON (i:ChatItem) ASSERT i.id IS UNIQUE;
-
-// NOTE : Files must be copied to the neo4j sandbox located at /usr/local/Cellar/neo4j/3.3.0/libexec/import
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -333,48 +321,138 @@ MERGE (ci2)-[:ResponseTo{timeStamp: row[2]}]->(ci1);
 
 ```
 
-
-
-* Find the longest conversation chain in the chat data using the "ResponseTo" edge label. This question has two parts,
-    * 1) How many chats are involved in it?
+#### Example Queries
 
 ```
-MATCH p=(a)-[:ResponseTo*]->(a)
-return length(p)
-order by length(p) desc limit 1
+
+//
+// List the first 10 users (by Id)
+///
+MATCH (user:User)
+RETURN user.id
+ORDER BY user.id DESC LIMIT 10;
+
+//
+// Who created the last 10 chat items?
+//
+MATCH (user:User)-[:CreateChat]->(ci:ChatItem)
+RETURN user.id, ci.id
+ORDER BY ci.id DESC LIMIT 10;
+
+
 ```
 
-    * 2) How many users participated in this chain?
+
+#### Assignment Questions
+
+##### Question 1
+
+* Find the longest conversation chain in the chat data using the "ResponseTo" edge label.
+
+###### How many chats are involved in it?
 
 ```
-MATCH p=(i1:ChatItem)-[r:ResponseTo*]->(i2:ChatItem)
-where length(p)=9
-WITH p
-match (u:User)-[:CreateChat*]->(i1:ChatItem)
-WHERE i1 IN Nodes(p)
-return count(DISTINCT u)
+MATCH p=(:ChatItem)-[:ResponseTo*]->(:ChatItem)
+ORDER BY LENGTH(p) DESC LIMIT 1
+WITH LENGTH(p) as MaxLength
+RETURN MaxLength;
+
+```
+
+###### How many users participated in this chain?
+
+```
+
+MATCH p=(:ChatItem)-[:ResponseTo*]->(:ChatItem)
+WITH p as Path
+ORDER BY LENGTH(p) DESC LIMIT 1
+MATCH (u:User)-[:CreateChat]->(ci:ChatItem)
+WHERE ci IN Nodes(Path)
+RETURN COUNT(DISTINCT u);
 ```
 
 
-* Do the top 10 the chattiest users belong to the top 10 chattiest teams? For this question you will need to perform two separate queries.
-    * 1) identify the top 10 chattiest users.
+##### Question 2: Do the top 10 the chattiest users belong to the top 10 chattiest teams?
+
+
+###### Identify the top 10 chattiest users.
 
 ```
 MATCH (u:User)-[r:CreateChat*]->(ci:ChatItem)
-return u.id, count(r) as ChatCount
+RETURN u.id, COUNT(r) AS ChatCount
 ORDER BY ChatCount DESC LIMIT 10
 ```
 
-    * 2) identify the top 10 chattiest teams.
+####### Identify the top 10 chattiest teams.
 
 ```
-MATCH (ci:ChatItem)-[po:PartOf*]->(c:TeamChatSession)-[:OwnedBy]->(t)
-return t.id, count(po) as ChatItemTotal
+MATCH (ci:ChatItem)-[po:PartOf]->(c:TeamChatSession)-[:OwnedBy]->(t:Team)
+RETURN t.id, count(po) as ChatItemTotal
 ORDER BY ChatItemTotal DESC LIMIT 10
 ```
 
-* Determine if any of the chattiest users belong to the chattiest teams.
+##### Question 3: How active are groups of users?
+
+If we can identify the highly chatty users, we could target them with direct advertising.
+
+###### Construct the Neighborhood
+
+Connect two users when:
+1. One user `Mentioned` another user in a `ChatItem`.
+1. One user `CreateChat` in response to a `ChatItem`.
+
+Create a new edge called `InteractsWith` between users to satisfy either of these conditions.
+
+Query for the first connection:
 
 ```
-match p=(u1:User)-[r:InteractsWith]-(u2:User) where u1.id in [394,2067,209,1087,554,516,1627,999,668,461] with p, collect(distinct(u2.id)) as neighbors with neighbors match (u1:User), (u2:User) return u1.id, u2.id, case, when, (u1:User)-->(u2:User), then 1 else 0, end as value
+
+MATCH (u1:User)-[:CreateChat]->(ci:ChatItem)-[:Mentioned]->(u2:User)
+WHERE u1 == u2
+RETURN u1
+CREATE (u1)-[:InteractsWith]->(u2)
 ```
+
+Query for the second connection:
+
+```
+MATCH (u1:User)-[:CreateChat]->(ci1:ChatItem)-[:Mentioned]->(u2:User)-[:CreateChat]->(ci2:ChatItem)
+WHERE u1 <> u2 AND ci1 <> ci2
+CREATE (u1)-[:InteractsWith]->(u2)
+```
+
+
+####### Find the clustering coefficient of the 10 chattiest users.
+
+* What is a clustering coefficient?
+    * A scoring mechanism to find users having dense neighborhoods.
+
+```
+number of edges of all neighbors
+--------------------------------
+# of neighbors * (# of neighbors - 1) == (all possible edges)
+```
+
+* Chattiest users
+    * `394,2067,209,1087,554,516,1627,999,668,461`
+
+```
+
+// Find all neighbors of a node
+
+MATCH (u1:User)-[:InteractsWith]->(u2:User)
+WHERE u1.id IN [394,2067,209,1087,554,516,1627,999,668,461]
+WITH COLLECT(DISTINCT u2.id) as Neighbors
+MATCH (u3:User)-[r:InteractsWith]->(u4:User)
+WHERE
+    u3.id IN (Neighbors)
+AND
+    u4.id IN [394,2067,209,1087,554,516,1627,999,668,461]
+RETURN r
+
+```
+
+For each user:
+* Get the list of neighbors.
+* For each neighbor, find the number of edges it has with other members on the same list.
+* Add the edges for all neighbors, divide by k * (k - 1).
