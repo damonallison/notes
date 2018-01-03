@@ -224,7 +224,7 @@ $ pyspark --packages com.databricks:spark-csv_2.10:1.5.0
 
 
 
-### Week 4: Graph Analytics w/ Neo4j
+## Week 4: Graph Analytics w/ Neo4j
 
 ```
 // NOTE : Files must be copied to the neo4j sandbox located at
@@ -343,6 +343,15 @@ ORDER BY ci.id DESC LIMIT 10;
 ```
 
 
+(User)    <------ RespondsTo ---------\
+   \
+    ------------- CreateChat ---------> (ChatItem)
+   \
+    ------------- Leaves     ---------> (TeamChatSession)
+   \
+    ------------- Joins      ---------> (TeamChatSession)  --------> OwnedBy ------> (Team)
+
+
 #### Assignment Questions
 
 ##### Question 1
@@ -353,21 +362,18 @@ ORDER BY ci.id DESC LIMIT 10;
 
 ```
 MATCH p=(:ChatItem)-[:ResponseTo*]->(:ChatItem)
+RETURN LENGTH(p)
 ORDER BY LENGTH(p) DESC LIMIT 1
-WITH LENGTH(p) as MaxLength
-RETURN MaxLength;
-
 ```
 
 ###### How many users participated in this chain?
 
 ```
-
 MATCH p=(:ChatItem)-[:ResponseTo*]->(:ChatItem)
 WITH p as Path
 ORDER BY LENGTH(p) DESC LIMIT 1
 MATCH (u:User)-[:CreateChat]->(ci:ChatItem)
-WHERE ci IN Nodes(Path)
+WHERE ci IN NODES(Path)
 RETURN COUNT(DISTINCT u);
 ```
 
@@ -378,7 +384,7 @@ RETURN COUNT(DISTINCT u);
 ###### Identify the top 10 chattiest users.
 
 ```
-MATCH (u:User)-[r:CreateChat*]->(ci:ChatItem)
+MATCH (u:User)-[r:CreateChat]->(ci:ChatItem)
 RETURN u.id, COUNT(r) AS ChatCount
 ORDER BY ChatCount DESC LIMIT 10
 ```
@@ -386,14 +392,14 @@ ORDER BY ChatCount DESC LIMIT 10
 ####### Identify the top 10 chattiest teams.
 
 ```
-MATCH (ci:ChatItem)-[po:PartOf]->(c:TeamChatSession)-[:OwnedBy]->(t:Team)
+MATCH (u:User)-[r:CreateChat]->(ci:ChatItem)-[po:PartOf]->(c:TeamChatSession)-[:OwnedBy]->(t:Team)
 RETURN t.id, count(po) as ChatItemTotal
 ORDER BY ChatItemTotal DESC LIMIT 10
 ```
 
 ##### Question 3: How active are groups of users?
 
-If we can identify the highly chatty users, we could target them with direct advertising.
+If we can identify the highly interactive users / neighborhoods, we could target them with direct advertising.
 
 ###### Construct the Neighborhood
 
@@ -406,23 +412,26 @@ Create a new edge called `InteractsWith` between users to satisfy either of thes
 Query for the first connection:
 
 ```
-
-MATCH (u1:User)-[:CreateChat]->(ci:ChatItem)-[:Mentioned]->(u2:User)
-WHERE u1 == u2
-RETURN u1
-CREATE (u1)-[:InteractsWith]->(u2)
+MATCH (u1:User)-[:CreateChat]->(i:ChatItem)-[:Mentioned]->(u2:User)
+MERGE (u1)-[:InteractsWith]->(u2)
 ```
 
 Query for the second connection:
 
 ```
-MATCH (u1:User)-[:CreateChat]->(ci1:ChatItem)-[:Mentioned]->(u2:User)-[:CreateChat]->(ci2:ChatItem)
-WHERE u1 <> u2 AND ci1 <> ci2
-CREATE (u1)-[:InteractsWith]->(u2)
+MATCH (u1:User)-[:CreateChat]->(i1:ChatItem)-[:ResponseTo]-(i2:ChatItem)
+WITH u1, i1, i2
+MATCH (u2:User)-[:CreateChat]->(i2)
+MERGE (u1)-[:InteractsWith]->(u2)
+
+
+//
+// Delete all self-referencing loops (someone responding to their own chat)
+//
+MATCH (u1)-[r:InteractsWith]->(u1) DELETE r
 ```
 
-
-####### Find the clustering coefficient of the 10 chattiest users.
+###### Find the clustering coefficient of the 10 chattiest users.
 
 * What is a clustering coefficient?
     * A scoring mechanism to find users having dense neighborhoods.
@@ -438,21 +447,96 @@ number of edges of all neighbors
 
 ```
 
-// Find all neighbors of a node
+// The number of edges it has with other members on the same list
+match (u1:User)-[r1:InteractsWith]->(u2:User)
+where u1.id <> u2.id
+with u1, collect(u2.id) as neighbors, count(distinct(u2)) as neighborAmount
+match (u3:User)-[r2:InteractsWith]->(u4:User)
+where (u3.id in neighbors) AND (u4.id in neighbors) AND
+(u3.id <> u4.id) return u3.id, u4.id, count(r2)
+
+//
+// Find the cluster coefficient for a given user.
+//
+// A cluster coefficient is how active a user's neighbors
+// are with eachother.
+//
 
 MATCH (u1:User)-[:InteractsWith]->(u2:User)
-WHERE u1.id IN [394,2067,209,1087,554,516,1627,999,668,461]
-WITH COLLECT(DISTINCT u2.id) as Neighbors
-MATCH (u3:User)-[r:InteractsWith]->(u4:User)
+WHERE u1.id = 394
+WITH COLLECT(DISTINCT u2.id) as Neighbors, COUNT(DISTINCT(u2.id)) as NeighborCount
+MATCH (u3:User), (u4:User)
 WHERE
     u3.id IN (Neighbors)
 AND
-    u4.id IN [394,2067,209,1087,554,516,1627,999,668,461]
-RETURN r
+    u4.id IN (Neighbors)
+AND
+    u3 <> u4
+WITH u3, u4, Neighbors, NeighborCount,
+CASE
+    WHEN (u3)-[:InteractsWith]->(u4)
+        THEN 1
+    ELSE
+        0
+END
+AS Degree
+RETURN
+    SUM(Degree) As Degree,
+    NeighborCount,
+    SUM(Degree) * 1.0 / (NeighborCount * (NeighborCount - 1)) AS Coefficient
 
 ```
+394 = 0.916
+2067 = 0.767
+209 = 0.952
+1087 = 0.7666
+554 = 0.809
+516 = 0.952
+1627 = 0.767
+999 = 0.819
+668 = 1.0
+461 = 1.0
+
+
+394 = 3 / 6 = 0.5
+2067 = 20 / 5 * 4 = 1.0
+209 = 20 / 5 * 4 = 1.0
+1087 = 18 / 6 * 5 = 18/30 = .60
+
+
+
+match (u1:User)-[r1:InteractsWith]->(u2:User)
+where u1.id <> u2.id
+AND u1.id = 394
+with u1, collect(u2.id) as neighbors, count(distinct(u2)) as neighborAmount
+match (u3:User)-[r2:InteractsWith]->(u4:User)
+where
+    (u3.id in neighbors) AND (u4.id in neighbors) AND (u3.id <> u4.id)
+with u1, u3, u4, neighborAmount, case when (u3)-->(u4) then 1 else 0 end as value
+return u1, sum(value)*1.0/(neighborAmount*(neighborAmount-1)) as coeff order by coeff desc limit 10
 
 For each user:
 * Get the list of neighbors.
 * For each neighbor, find the number of edges it has with other members on the same list.
 * Add the edges for all neighbors, divide by k * (k - 1).
+
+
+## Week 5
+
+* The hard work is complete. It's time to present findings.
+* Pretend you are presenting to your board of directors.
+
+## Week 6
+
+### Recommendations
+
+* Mobile only (depending on cost associated with Mac / Linux / Windows)
+* Target iOS users with new features, new promotions.
+    * iOS users are spending more money. Understand why.
+    * Research the iOS user demographic, behaviors, beliefs, values.
+    * Develop ad campaigns and special products focused toward iOS users.
+
+* Ads are effective.
+    * Research *why* users click the ads they do.
+    * Watch spam! More != better.
+*
