@@ -1,4 +1,4 @@
-# Research
+# Continuing Education Research
 
 Learning is lifelong. This repository keeps all my notes I've taken during various classes, lectures, books, important meetings, videos, etc.
 

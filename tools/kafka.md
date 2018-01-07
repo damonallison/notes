@@ -1,19 +1,39 @@
 # Kafka
 
-## Questions
+## Todo
 
-* Prove that messages from a partition always be dispatched to the same consumer.
-* Send strongly typed messages to a topic.
-    * What happens on fail messages?
-    * How to version messages to a topic?
+* Cluster / partition strategy.
+    * Any good strategies for key partitioning? By customer identifier?
+
+* Topic naming strategy. Any tips?
+
+* Delivery semantics. How to guarantee once and only once delivery?
+    * Better to design systems to expect "at least once" delivery (allow for duplicates?)
+
+*
+
+* POC
+    * Write a producer and consumer.
+    * Write AVRO messages.
+    * How to version messages?
+    * What are the failure points?
+
 
 ## What is kafka?
 
 * A distributed streaming platform.
 
+* Design motivations for Kafka.
+    * High throughput to support web scale log streams.
+    * Support backlogs to support ETL, bursting data in / out.
+    * Low latency message delivery to replace RabbitMQ / messaging systems.
+    * Streaming.
+    * Fault tolerant.
+
 ## Why use kafka?
 
 * To distribute data between systems.
+* Simplify system-system communication. Avoid API callback hell.
 
 * As a messaging system.
     * Consumers can be scaled as a group.
@@ -42,7 +62,7 @@
     * Partitions provide scale out.
         * Each partition must fit on the servers that host it.
     * Partitions provide parallelism.
-        * Each partition can be processed by a different consuming instance.
+        * Each partition is processed by one consumer per consumer group.
     * Partitions are replicated across N servers for fault tolerance.
     * If you need total message ordering, you must only have 1 partition.
         * This will also mean only 1 consumer process per consumer group.
@@ -59,6 +79,9 @@
     * Each record is delivered to one instance within each consumer group.
     * Each consumer is the exclusive consumer for a partition.
         * `All messages within a partition will be handled by the same consumer instance within each consumer group`.
+        * Parallelism is limited to the number of partitions.
+            * If you have 4 partitions, you can have 4 consumers per consumer group.
+            * If you want to scale consumption, increase the number of partitions.
 
 * Cluster
     * The top level entity of a kafka installation.
@@ -68,30 +91,80 @@
 * Broker
     * Unique "server" node within a cluster.
 
-## Creating Topics
+* Message Delivery Semantics
+    * Message commitment.
+        * Kafka supports an idempotent message delivery option.
+            * The producer attaches an identifier to each message.
+            * Kafka guarantees the message is only committed to the log once.
+        * Producers can publish messages with two delivery semantics
+            * Wait for delivery commit confirmation (10 ms)
+            * Send completely async, only wait until the leader has the message.
+    * Kafka guarantees a committed message will not be lost as long as there is one in-sync replica at all times.
+        * Committed message == all ISRs have applied the message to the log.
 
-* Determine the number of partitions you want to have.
-    * Partitions determine the scale out capability.
+
+* Replication
+    * The partition is the unit of replication.
+    * Each partition has a leader. All read / writes go to the leader.
+    * When partitions > brokers (typical case), leaders are distributed among brokers.
+
+* Log compaction
+    * Simple log compaction happens by date. All data occurring before a fixed date (say 20 days) is deleted.
+    * Key based. The last log message for each key is retained.
+
+* Quotas
+    * Prevent DDoS.
+
+## Operations
+
+* Determine replication factor.
+    * Definitely more than 1. You want to roll servers.
+    * With replication `n`, `n - 1` servers can fail.
+
+* Determine partition count.
+    * Each partition must fit completely on a single machine.
+    * Partitions determine the degree of parallelism.
         * The maximum number of concurrent consumers cannot be greater than the partition size.
     * You can repartition after creation.
+        * Existing data does not move. Therefore partitions relying on hashes may not work.
         * Warning : if a topic that has a key, ordering will be affected.
+        * You cannot reduce the number of partitions for a tpoic. (future plans perhaps)
+
+* Mirroring
+    * 
 
 ```
 
 # Main configuration directory
 /usr/local/etc/kafka
 
-# Log directory (log.dir)
+# Log directory (log.dir) : this is where all kafka data resides
 /usr/local/var/lib/kafka-logs
 
+# Start zookeeper
+$ zookeeper-server-start /Users/allidam/programs/kafka_2.11-1.0.0/config/zookeeper.properties
 
+# Start zookeeper (brew installed)
+$ zookeeper-server-start /Users/allidam/programs/kafka_2.11-1.0.0/config/zookeeper.properties
+
+# Start kafka
+$ ~/programs/kafka_2.11-1.0.0/bin/kafka-server-start.sh ~/programs/kafka_2.11-1.0.0/config/server-0.properties
+
+
+# List topics
 $ kafka-topics --zookeeper localhost:2181 --list
+
+# Create a new topic
 $ kafka-topics --zookeeper localhost:2181 --create --if-not-exists --replication-factor 1 --partitions 1 --topic com.damonallison.test
 
-$ kafka-console-producer --broker-list localhost:9092 --topic com.damonallison.test
-$ kafka-console-consumer --bootstrap-server localhost:9092 --topic com.damonallison.test
-
+# Describe a topic (replication factor)
 $ kafka-topics --zookeeper localhost:2181 --describe --topic com.damonallison.test
+
+# Delete
+$ kafka-topics
+$ ./kafka-console-producer.sh --broker-list localhost:9092 --topic com.damonallison.test
+$ ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic com.damonallison.test --from-beginning
+
 
 # An example Kafka Connect file connector.
 # Reads from a source file (test.txt) writes to a sink (listener) file ()
