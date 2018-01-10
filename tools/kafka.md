@@ -4,20 +4,36 @@
 
 * Cluster / partition strategy.
     * Any good strategies for key partitioning? By customer identifier?
+    * You can't update the partition strategy with hashed keys after topic creation (without strange things happening).
 
-* Topic naming strategy. Any tips?
+* Topic naming strategy. Any tips? How did LinkedIn do it?
 
 * Delivery semantics. How to guarantee once and only once delivery?
     * Better to design systems to expect "at least once" delivery (allow for duplicates?)
 
-*
+* How does user / security work?
+    * `Client Groups` in the documentation state the user / client id
+
+* How can clients track their offset?
+    * The client must send / read it's offset to the offset manager.
+    * The client should use a `GroupCoordinatorRequest`.
+    * "High level" consumers should handle this automatically.
 
 * POC
     * Write a producer and consumer.
-    * Write AVRO messages.
+    * Write JSON and AVRO messages (to different topics).
     * How to version messages?
     * What are the failure points?
 
+* Message format pros / cons
+    * JSON vs. Avro
+
+* Message versioning
+
+* Log compaction strategies. Any tips?
+    * Size
+    * Date
+    * Key
 
 ## What is kafka?
 
@@ -32,7 +48,7 @@
 
 ## Why use kafka?
 
-* To distribute data between systems.
+* To effeciently and quickly distribute data between systems.
 * Simplify system-system communication. Avoid API callback hell.
 
 * As a messaging system.
@@ -85,7 +101,7 @@
 
 * Cluster
     * The top level entity of a kafka installation.
-    * Each topic has a "leader" broker within a cluster.
+    * Each topic partition has a "leader" broker within a cluster. All partition I/O occurs with the leader.
     * The cluster manager (zookeeper?) is responsible for managing the leader, selecting a new leader when the current leader dies.
 
 * Broker
@@ -110,16 +126,40 @@
 
 * Log compaction
     * Simple log compaction happens by date. All data occurring before a fixed date (say 20 days) is deleted.
-    * Key based. The last log message for each key is retained.
+    * A better compaction is key based. The last log message for each key is retained.
 
 * Quotas
     * Prevent DDoS.
+    * Network based quotas - byte rate thresholds.
+    * Request reate quotas - CPU utilization of network and I/O threads.
+    * Quotas are enabled per client group, per server (broker).
+    * The server (broker) sliently slows down the client by delaying responses.
+        * By slowing down the response, the client does not need to implement backoff strategies.
+
+## Implementation
+
+* Log
+    * For a topic `my_log`
+        * Each partition has a unique directory. i.e., `my_log_0` for partition `0`, etc.
+        * Each message's `id` is the byte offset of all messages ever sent to the topic.
+        * Each file is named with the starting message `id` (byte offset).
+    * A message's unique identifier is:
+        * Node id + partition id + message id.
+    * Note that the `message id` (byte offset) is hidden from the consumer.
+
+* Consumer Offset Tracking
+    * Consumer groups use a designated server called the `offset manager` to store offsets.
+    * High level consumers should handle this automatically.
+    * Previous versions of kafka used zookeeper to store offsets. That has been deprecated.
+    * To find your consumer group offset manager, `GroupCoordinatorRequest` to look up it's offset manager.
+    * Offsets are kept by partition.
 
 ## Operations
 
 * Determine replication factor.
-    * Definitely more than 1. You want to roll servers.
-    * With replication `n`, `n - 1` servers can fail.
+    * Replications are evenly distributed across servers.
+    * Definitely more than 1. That will allow you to roll servers.
+    * Each partition is stored with the format `topic_name-[partition]` i.e., `damon-0` for partition 0 of `damon` topic.
 
 * Determine partition count.
     * Each partition must fit completely on a single machine.
@@ -130,8 +170,78 @@
         * Warning : if a topic that has a key, ordering will be affected.
         * You cannot reduce the number of partitions for a tpoic. (future plans perhaps)
 
-* Mirroring
-    * 
+
+
+## API
+
+### Producer API
+
+### Consumer API
+
+* Update `AdvancedConsumer` to manually commit offsets on each message read (override automated defaults).
+* Log each time offsets are committed.
+
+Important configuration
+
+```
+//
+// The only true required setting.
+// The bootstrap server is used *only* for bootstrapping
+// they will self identify all brokers in the cluster during bootstrapping.
+//
+// You typically want > 1 in case you want to bounce a server.
+//
+bootstrap.servers = localhost:9092,localhost:9093
+
+//
+// Client id helps in diagnostics, support.
+//
+client.id = "my-client-id"
+
+//
+// Used to store offsets
+//
+group.id = "my-group-id"
+
+//
+// Controls how often a consumer sends heartbeats to the server.
+// Allows server to better determine when a client is disconnected,
+// when a consumer rebalance is needed.
+// Default 3s
+//
+heartbeat.interval.ms = 2000
+
+//
+// Offset management. Default true
+//
+enable.auto.commit = true
+
+//
+// The auto commit interval. Default 5000
+//
+auto.commit.interval.ms=5000
+
+//
+// The behavior to use when no commit history is found. Default = latest
+//
+// earliest = the first offset
+// none = throw exception on the consumer if no offset is found for the consumer group.
+// latest = the latest offset (stream new events going forward)
+//
+auto.offset.reset=earliest
+
+```
+
+[Confluent - Kafka Consumers](https://docs.confluent.io/current/clients/consumer.html)
+
+* For each consumer group, each partition has a read offset. Each consumer must periodically persist their offsets.
+* New consumers, when assigned partitions to read, will start from the persisted offset.
+
+
+* By default, consumers have a
+* How to reset client offsets?
+
+
 
 ```
 
@@ -161,7 +271,9 @@ $ kafka-topics --zookeeper localhost:2181 --create --if-not-exists --replication
 $ kafka-topics --zookeeper localhost:2181 --describe --topic com.damonallison.test
 
 # Delete
-$ kafka-topics
+$ kafka-topics --zookeeper localhost:2818 --delete --topic com.damonallison.test
+
+# Start a console producer / consumer for testing
 $ ./kafka-console-producer.sh --broker-list localhost:9092 --topic com.damonallison.test
 $ ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic com.damonallison.test --from-beginning
 
@@ -170,4 +282,16 @@ $ ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic com.damo
 # Reads from a source file (test.txt) writes to a sink (listener) file ()
 $ connect-standalone connect-standalone.properties connect-file-source.properties connect-file-sink.properties
 
+
+# List Consumer Groups
+$ ./kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+
+
 ```
+
+
+## Avro
+
+* Schema based. Schemas, defined in JSON, are passed with a message.
+* Dynamic. Code generation to read messages is not required.
+* Avro includes an RPC mechanism. 
