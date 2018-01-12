@@ -289,9 +289,8 @@ $ ./kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
 
 ```
 
-
 ## Avro
 
 * Schema based. Schemas, defined in JSON, are passed with a message.
 * Dynamic. Code generation to read messages is not required.
-* Avro includes an RPC mechanism. 
+* Avro includes an RPC mechanism.
