@@ -7,7 +7,6 @@
 
 import sys
 
-from type_examples import strings
 from algorithms.fibonacci import fib
 
 def print_environment():
@@ -26,8 +25,6 @@ if __name__ == "__main__":
 
     print("hello from " + __name__)
     print_environment()
-
-    strings.string_basics()
 
     if len(sys.argv) > 1:
         try:

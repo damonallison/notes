@@ -81,12 +81,31 @@
 ### Consumer
 
 * EOS : exactly once semantics : not in `librdkafka`
-    * EOS only works with `acks=-1`
+    * Producers : Set `acks=-1` (all). EOS only works with `acks=-1`.
     * Transactional guarantees has been delivered exactly once.
     * Brokers dedupe based on `ProducerId` / `TransactionId`
-    * `enable.idempotence=true`
-    * `acks=-1`
+    * Set `enable.idempotence=true` on brokers.
     * Producer writes atomically across partitions using "transactional" messages.
+
+#### Exactly Once Semantics
+
+
+* [Exactly Once Semantics in Kafka](https://www.confluent.io/blog/exactly-once-semantics-are-possible-heres-how-apache-kafka-does-it/)
+
+* Requires communications between the producer <-> broker, and broker <-> consumer.
+    * The producer must produce exactly once. The consumer must consume each message exactly once (offsets saved).
+
+* Producer send is idempotent.
+    * Each batch of messages sent to Kafka contains a sequence number, which is persisted to a log. Therefore, all brokers know if each incoming message has already been received.
+    * Set `enable.idempotence=true` on the broker to enable message sequence numbers.
+* Producers send records in TXs.
+    * Set `transactional.id=[someid]`. This is needed to provide TX continuity across restarts.
+* Consumers receive records and commit offsets in the same TX.
+    * To read only messages delivered in transactions, set `isolation.level=read_committed`
+
+* Streams
+    * Set `processing.guarantee=exactly_once`. That will ensure that inputs are read once, outputs written once.
+    * ^^ Somewhat magical.
 
 ### Schema Registry
 
@@ -129,7 +148,6 @@ delete.topic.enable=true
 ### Chapter 10 : Kafka Streams
 
 > Only works in Java.
-
 * KSQL -> Graphana is awesome.
 
 

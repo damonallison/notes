@@ -2,14 +2,8 @@
 
 ## Todo
 
-* Cluster / partition strategy.
-    * Any good strategies for key partitioning? By customer identifier?
-    * You can't update the partition strategy with hashed keys after topic creation (without strange things happening).
+* EOS
 
-* Topic naming strategy. Any tips? How did LinkedIn do it?
-
-* Delivery semantics. How to guarantee once and only once delivery?
-    * Better to design systems to expect "at least once" delivery (allow for duplicates?)
 
 * How does user / security work?
     * `Client Groups` in the documentation state the user / client id
