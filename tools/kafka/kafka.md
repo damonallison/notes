@@ -2,32 +2,12 @@
 
 ## Todo
 
-* EOS
+* Write a producer / consumer which guarantees EOS.
+    * Avro messaging.
+    * Consumer : the ability to `reset` via console command.
 
 
-* How does user / security work?
-    * `Client Groups` in the documentation state the user / client id
 
-* How can clients track their offset?
-    * The client must send / read it's offset to the offset manager.
-    * The client should use a `GroupCoordinatorRequest`.
-    * "High level" consumers should handle this automatically.
-
-* POC
-    * Write a producer and consumer.
-    * Write JSON and AVRO messages (to different topics).
-    * How to version messages?
-    * What are the failure points?
-
-* Message format pros / cons
-    * JSON vs. Avro
-
-* Message versioning
-
-* Log compaction strategies. Any tips?
-    * Size
-    * Date
-    * Key
 
 ## What is kafka?
 
@@ -164,13 +144,16 @@
         * Warning : if a topic that has a key, ordering will be affected.
         * You cannot reduce the number of partitions for a tpoic. (future plans perhaps)
 
-
-
 ## API
 
 ### Producer API
 
 ### Consumer API
+
+* How can clients track their offset?
+    * The client must send / read it's offset to the offset manager.
+    * The client should use a `GroupCoordinatorRequest`.
+    * "High level" consumers should handle this automatically.
 
 * Update `AdvancedConsumer` to manually commit offsets on each message read (override automated defaults).
 * Log each time offsets are committed.
@@ -190,12 +173,12 @@ bootstrap.servers = localhost:9092,localhost:9093
 //
 // Client id helps in diagnostics, support.
 //
-client.id = "my-client-id"
+client.id="my-client-id"
 
 //
 // Used to store offsets
 //
-group.id = "my-group-id"
+group.id="my-group-id"
 
 //
 // Controls how often a consumer sends heartbeats to the server.
@@ -203,12 +186,12 @@ group.id = "my-group-id"
 // when a consumer rebalance is needed.
 // Default 3s
 //
-heartbeat.interval.ms = 2000
+heartbeat.interval.ms=3000
 
 //
 // Offset management. Default true
 //
-enable.auto.commit = true
+enable.auto.commit=true
 
 //
 // The auto commit interval. Default 5000
@@ -232,8 +215,6 @@ auto.offset.reset=earliest
 * New consumers, when assigned partitions to read, will start from the persisted offset.
 
 
-* By default, consumers have a
-* How to reset client offsets?
 
 
 

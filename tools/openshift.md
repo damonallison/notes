@@ -1,7 +1,7 @@
 # OpenShift Notes #
 
 username : damon@damonallison.com
-password : All4me11
+password : `All***11`
 
 * "For now, Node.js applications provide most streamline WebSockets support on OpenShift."
 
