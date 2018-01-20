@@ -4,21 +4,24 @@ class ListTests(unittest.TestCase):
     """Tests for built in Python data structures : tuple, list, set, dictionary."""
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         pass
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
         pass
 
-    def setUp(self):
+    def setUp(self) -> None:
         pass
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         pass
 
-    def test_copy(self):
-        """Lists are mutable. To copy, use [:]"""
+    def test_copy(self) -> None:
+        """Lists are mutable. To copy, use [:].
+
+        Always use [:] for iteration.
+        """
 
         lst = ["damon", "kari"]
         copy = lst[:]
@@ -105,6 +108,12 @@ class ListTests(unittest.TestCase):
         evens = [x for x in range(1, 11) if x % 2 == 0]
         self.assertEqual([2, 4, 6, 8, 10], evens)
 
+        squares = [(x, x **2) for x in [0, 1, 2, 3]]
+
+        for x in range(len(squares)):
+            self.assertEqual(squares[x][0], x)
+            self.assertEqual(squares[x][1], x**2)
+
     def test_tuples(self):
         """Tuples are immutable sequences.
 
@@ -121,6 +130,10 @@ class ListTests(unittest.TestCase):
         # You need the comment after the element for a single element tuple.
         t1 = 1,
         self.assertEqual((1,), t1)
+
+        # Access tuple elements using list notation. t[pos]
+        for x in range(0, len(t)):
+            self.assertEqual(x, t[x] - 1)
 
     def test_sets(self):
         """Sets are created using set() or {e1, e2, ...}."""
@@ -146,6 +159,9 @@ class ListTests(unittest.TestCase):
 
         del d["first"]
         self.assertFalse("first" in d)
+
+        # Iterate dictionaries using key, value
+        for k, v
 
 
 if __name__ == '__main__':

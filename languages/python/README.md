@@ -9,7 +9,7 @@
 
 ## Dislikes
 
-* Dynamic. No type checking.
+* Dynamic. No type checking, type information.
 * The core data structures (except tuple) are mutable by default.
     * Swift's `val` and `var` are much more clear, safe.
 * Built-in functions vs. objects. Built-ins should be on objects.
@@ -19,3 +19,8 @@
     * `enumerate`
 * Heterogeneous lists.
 
+
+## Comments
+
+* Primary Collection Types : List, Tuple (immutable), Set, Dictionary
+    * Any hashable object can be a dictionary key. (How does it enforce?)
