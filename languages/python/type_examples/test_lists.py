@@ -161,7 +161,14 @@ class ListTests(unittest.TestCase):
         self.assertFalse("first" in d)
 
         # Iterate dictionaries using key, value
-        for k, v
+        keys = set() #
+        vals = set()
+        for k, v in d.items():
+            keys.add(k)
+            vals.add(v)
+
+        self.assertEqual({"last"}, keys)
+        self.assertEqual({"allison"}, vals)
 
 
 if __name__ == '__main__':
