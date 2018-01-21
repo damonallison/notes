@@ -1,6 +1,4 @@
-#
-# Fibonacci
-#
+"""This module provides various fibonacci implementations for understanding growth patterns"""
 
 # Is there a way to hide this variable (class?)
 call_count = 0

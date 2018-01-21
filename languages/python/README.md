@@ -18,7 +18,9 @@
     * `zip`
     * `enumerate`
 * Heterogeneous lists.
-
+* `__pycache__` and `__init__.py` files in each directory - clutters up working tree.
+* Exceptions are called `Errors`. They should be `Exception`. 
+    * Example `NameError`, `TypeError`, `RuntimeError`.
 
 ## Comments
 

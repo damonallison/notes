@@ -48,9 +48,9 @@ class IOTests(unittest.TestCase):
             f.writelines(lines)
 
         with open(self.testFileName, mode="r") as f:
-            readLines = f.readlines()
+            read_lines = f.readlines()
 
-        self.assertEqual(lines, [x for x in readLines])
+        self.assertEqual(lines, [x for x in read_lines])
 
 
 if __name__ == '__main__':
