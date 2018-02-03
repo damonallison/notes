@@ -2,7 +2,8 @@ import unittest
 
 from ..m2 import M2
 from ...p1c1.p1c2m1 import P1C1M1
-from ....p2.p2m2 import P2M2
+from ....p2m2 import P2M2
+
 class P2C2GC2Test(unittest.TestCase):
 
     @classmethod
