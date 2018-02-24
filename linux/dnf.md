@@ -19,8 +19,10 @@ $ dnf clean all
 # Download and caches (in binary format) metadata for all known repos.
 $ dnf makecache
 
-# Removes all leaf packages which are not referenced and originally installed as a dependency to another package.
+# Removes all leaf packages which are not referenced and originally installed
+* as a dependency to another package.
 $ dnf autoremove
+
 ```
 
 ## Updating
