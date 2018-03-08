@@ -123,7 +123,7 @@ $ git config --global alias.llog "log --stat --graph --decorate --submodule"
     $ git branch --merged
 
     Pushes the current local branch to [remote] [branch]
-    $ git push [remote-name] [branch-name]  
+    $ git push [remote-name] [branch-name]
 
     Pushes [local-branch] (can be omitted for current branch) to [remote-branch] on [remote-name].
     This allows you to name the remote branch something different than the local branch.
@@ -192,7 +192,6 @@ they will have a mess on their hands.
 
 ## Logging ##
 
-
     List commits on origin/branch1 that are not on (local) branch1
     (Both of these forms are identical)
 
@@ -218,7 +217,10 @@ they will have a mess on their hands.
     $ git log --since 2.weeks (see also --until)
 
     View full patches for the last 2 commits.
-    $ git log -p -2  
+    $ git log -p -2
+
+* String search (`-S`). Find all commites containing `ZLIB_BUF_MAX`
+    * `git log -SZLIB_BUF_MAX --online`
 
 #### Shortlog ####
 
