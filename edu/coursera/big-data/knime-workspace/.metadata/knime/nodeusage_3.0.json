@@ -1,0 +1,164 @@
+
+{
+    "version":"3.4.0.v201707101013",
+    "created":"2017-08-28 08:44",
+    "nodestats":{
+        "nodes":[
+            {
+                "id":"org.knime.base.node.preproc.filter.column.DataColumnSpecFilterNodeFactory#Column Filter",
+                "nrexecs":11,
+                "nrfails":0,
+                "exectime":46,
+                "nrcreated":3,
+                "successor":"org.knime.base.node.stats.viz.extended.ExtendedStatisticsNodeFactory#Statistics"
+            },
+            {
+                "id":"org.knime.base.node.io.filereader.FileReaderNodeFactory#File Reader",
+                "nrexecs":11,
+                "nrfails":0,
+                "exectime":3824,
+                "nrcreated":5,
+                "successor":"org.knime.base.node.preproc.filter.row.RowFilterNodeFactory#Row Filter"
+            },
+            {
+                "id":"org.knime.base.node.io.csvwriter.CSVWriterNodeFactory#CSV Writer",
+                "nrexecs":5,
+                "nrfails":0,
+                "exectime":228,
+                "nrcreated":2,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.viz.property.color.ColorManager2NodeFactory#Color Manager",
+                "nrexecs":16,
+                "nrfails":0,
+                "exectime":53,
+                "nrcreated":1,
+                "successor":"org.knime.base.node.preproc.partition.PartitionNodeFactory#Partitioning"
+            },
+            {
+                "id":"org.knime.base.node.preproc.partition.PartitionNodeFactory#Partitioning",
+                "nrexecs":17,
+                "nrfails":0,
+                "exectime":6566,
+                "nrcreated":1,
+                "successor":"org.knime.base.node.mine.decisiontree2.learner2.DecisionTreeLearnerNodeFactory3#Decision Tree Learner"
+            },
+            {
+                "id":"org.knime.base.node.viz.table.TableNodeFactory#Interactive Table",
+                "nrexecs":10,
+                "nrfails":0,
+                "exectime":23,
+                "nrcreated":1,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.mine.decisiontree2.learner2.DecisionTreeLearnerNodeFactory3#Decision Tree Learner",
+                "nrexecs":16,
+                "nrfails":0,
+                "exectime":5529,
+                "nrcreated":1,
+                "successor":"org.knime.base.node.mine.decisiontree2.predictor2.DecTreePredictorNodeFactory#Decision Tree Predictor"
+            },
+            {
+                "id":"org.knime.base.node.stats.viz.extended.ExtendedStatisticsNodeFactory#Statistics",
+                "nrexecs":15,
+                "nrfails":0,
+                "exectime":21681,
+                "nrcreated":1,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.mine.decisiontree2.predictor2.DecTreePredictorNodeFactory#Decision Tree Predictor",
+                "nrexecs":16,
+                "nrfails":0,
+                "exectime":13740,
+                "nrcreated":1,
+                "successor":"org.knime.base.node.mine.scorer.accuracy.AccuracyScorerNodeFactory#Scorer"
+            },
+            {
+                "id":"org.knime.base.node.mine.scorer.accuracy.AccuracyScorerNodeFactory#Scorer",
+                "nrexecs":13,
+                "nrfails":0,
+                "exectime":645,
+                "nrcreated":2,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.viz.plotter.scatter.ScatterPlotterNodeFactory#Scatter Plot",
+                "nrexecs":8,
+                "nrfails":0,
+                "exectime":74,
+                "nrcreated":2,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.viz.histogram.node.FixedColumnHistogramNodeFactory#Histogram",
+                "nrexecs":12,
+                "nrfails":0,
+                "exectime":761,
+                "nrcreated":3,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.preproc.binner.BinnerNodeFactory#Numeric Binner",
+                "nrexecs":9,
+                "nrfails":0,
+                "exectime":467,
+                "nrcreated":4,
+                "successor":"org.knime.base.node.preproc.filter.column.DataColumnSpecFilterNodeFactory#Column Filter"
+            },
+            {
+                "id":"org.knime.base.node.viz.condbox.ConditionalBoxPlotNodeFactory#Conditional Box Plot",
+                "nrexecs":1,
+                "nrfails":0,
+                "exectime":10,
+                "nrcreated":1,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.preproc.pmml.missingval.compute.MissingValueHandlerNodeFactory#Missing Value",
+                "nrexecs":7,
+                "nrfails":0,
+                "exectime":5358,
+                "nrcreated":6,
+                "successor":"org.knime.base.node.viz.histogram.node.FixedColumnHistogramNodeFactory#Histogram"
+            },
+            {
+                "id":"org.knime.js.base.node.viz.plotter.scatterSelectionAppender.ScatterPlotNodeFactory#JavaScript Scatter Plot",
+                "nrexecs":5,
+                "nrfails":0,
+                "exectime":12625,
+                "nrcreated":0,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.preproc.filter.row.RowFilterNodeFactory#Row Filter",
+                "nrexecs":2,
+                "nrfails":0,
+                "exectime":27,
+                "nrcreated":3,
+                "successor":"org.knime.base.node.preproc.binner.BinnerNodeFactory#Numeric Binner"
+            },
+            {
+                "id":"org.knime.base.node.preproc.filter.missingvaluecolfilter.MissingValueColumnFilterNodeFactory#Missing Value Column Filter",
+                "nrexecs":0,
+                "nrfails":0,
+                "exectime":0,
+                "nrcreated":2,
+                "successor":"n/a"
+            }
+        ],
+        "metaNodes":{
+        },
+        "wrappedNodes":{
+        }
+    },
+    "uptime":15524765,
+    "workflowsOpened":35,
+    "remoteWorkflowsOpened":1,
+    "launches":17,
+    "timeSinceLastStart":2702920,
+    "crashes":0,
+    "properlyShutDown":true
+}

@@ -1,0 +1,2 @@
+/Users/allidam/big-data/datasets/big-data-4/binned_no_new_col.csv
+/Users/allidam/projects/research/coursera/big-data/04-machine-learning-with-big-data/knime/filtered.csv

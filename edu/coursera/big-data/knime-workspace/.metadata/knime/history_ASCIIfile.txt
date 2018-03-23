@@ -1,0 +1,8 @@
+file:/Users/allidam/big-data/datasets/big-data-capstone/combined-data.csv
+knime://knime.workflow/data.all
+knime://knime.workflow/../../TheData/Basics/adult.csv
+file:/Users/allidam/big-data/datasets/big-data-4/daily_weather.csv
+knime://knime.workflow/../../TheData/Misc/WebdataOldSystem.csv
+knime://knime.workflow/../../TheData/Misc/SentimentRating.csv
+knime://knime.workflow/../../TheData/Misc/Demographics.csv
+file:/Users/allidam/projects/research/coursera/big-data/datasets/big-data-4/daily_weather.csv

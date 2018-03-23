@@ -1,0 +1,3 @@
+jdbc:sqlite:/Users/allidam/knime-workspace/Example Workflows/TheData/Misc/WebActivity.sqlite
+jdbc:sqlite:/Users/knime/Desktop/Server_Course/webdatanew.sql
+jdbc:sqlite:C:\Users\Vincenzo\knime-workspace_3.3_nightly build\Example Workflows\TheData\Misc\WebActivity.sqlite

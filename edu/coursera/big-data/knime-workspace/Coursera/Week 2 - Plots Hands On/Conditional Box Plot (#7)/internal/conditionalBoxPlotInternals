@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://www.knime.org/2008/09/XMLConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knime.org/2008/09/XMLConfig http://www.knime.org/XMLConfig_2008_09.xsd" key="conditionalBoxPlotInternals">
+<entry key="nrOfCols" type="xint" value="2"/>
+<config key="col0">
+<entry key="column_name" type="xstring" value="humidity_low"/>
+<config key="element_names">
+<entry key="array-size" type="xint" value="0"/>
+</config>
+<config key="column_type">
+<entry key="cell_class" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+</config>
+<config key="column_domain">
+<config key="lower_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="911.0000000000076"/>
+</config>
+</config>
+<config key="upper_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="929.3200000000012"/>
+</config>
+</config>
+</config>
+<config key="column_properties"/>
+</config>
+<config key="col1">
+<entry key="column_name" type="xstring" value="humidity_not_low"/>
+<config key="element_names">
+<entry key="array-size" type="xint" value="0"/>
+</config>
+<config key="column_type">
+<entry key="cell_class" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+</config>
+<config key="column_domain">
+<config key="lower_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="907.9900000000024"/>
+</config>
+</config>
+<config key="upper_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="925.7400000000059"/>
+</config>
+</config>
+</config>
+<config key="column_properties"/>
+</config>
+<config key="numColSpec">
+<entry key="column_name" type="xstring" value="air_pressure_9am"/>
+<config key="element_names">
+<entry key="array-size" type="xint" value="0"/>
+</config>
+<config key="column_type">
+<entry key="cell_class" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+</config>
+<config key="column_domain">
+<config key="lower_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="907.9900000000024"/>
+</config>
+</config>
+<config key="upper_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="929.3200000000012"/>
+</config>
+</config>
+</config>
+<config key="column_properties"/>
+</config>
+<config key="statshumidity_low">
+<entry key="array-size" type="xint" value="7"/>
+<entry key="0" type="xdouble" value="911.0000000000076"/>
+<entry key="1" type="xdouble" value="913.3000000000067"/>
+<entry key="2" type="xdouble" value="918.2350000000065"/>
+<entry key="3" type="xdouble" value="920.3663282846846"/>
+<entry key="4" type="xdouble" value="922.0652274587676"/>
+<entry key="5" type="xdouble" value="927.6100000000024"/>
+<entry key="6" type="xdouble" value="929.3200000000012"/>
+</config>
+<config key="mildKeyshumidity_low0">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="14"/>
+</config>
+<config key="mildKeyshumidity_low1">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="281"/>
+</config>
+<config key="mildhumidity_low">
+<entry key="array-size" type="xint" value="2"/>
+<entry key="0" type="xdouble" value="911.0000000000076"/>
+<entry key="1" type="xdouble" value="929.3200000000012"/>
+</config>
+<config key="extremehumidity_low">
+<entry key="array-size" type="xint" value="0"/>
+</config>
+<config key="statshumidity_not_low">
+<entry key="array-size" type="xint" value="7"/>
+<entry key="0" type="xdouble" value="907.9900000000024"/>
+<entry key="1" type="xdouble" value="909.8600000000093"/>
+<entry key="2" type="xdouble" value="915.5000000000082"/>
+<entry key="3" type="xdouble" value="917.3300000000058"/>
+<entry key="4" type="xdouble" value="919.4000000000015"/>
+<entry key="5" type="xdouble" value="924.4600000000046"/>
+<entry key="6" type="xdouble" value="925.7400000000059"/>
+</config>
+<config key="mildKeyshumidity_not_low0">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="204"/>
+</config>
+<config key="mildKeyshumidity_not_low1">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="342"/>
+</config>
+<config key="mildKeyshumidity_not_low2">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="474"/>
+</config>
+<config key="mildKeyshumidity_not_low3">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="708"/>
+</config>
+<config key="mildKeyshumidity_not_low4">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="1076"/>
+</config>
+<config key="mildKeyshumidity_not_low5">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="82"/>
+</config>
+<config key="mildhumidity_not_low">
+<entry key="array-size" type="xint" value="6"/>
+<entry key="0" type="xdouble" value="907.9900000000024"/>
+<entry key="1" type="xdouble" value="908.4200000000076"/>
+<entry key="2" type="xdouble" value="908.9700000000045"/>
+<entry key="3" type="xdouble" value="909.1900000000032"/>
+<entry key="4" type="xdouble" value="925.5500000000062"/>
+<entry key="5" type="xdouble" value="925.7400000000059"/>
+</config>
+<config key="extremehumidity_not_low">
+<entry key="array-size" type="xint" value="0"/>
+</config>
+</config>
