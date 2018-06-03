@@ -33,7 +33,7 @@ Let's start with Ballmer in 2000. I realize that Bill and Steve go way back. Bil
 
 When Ballmer was titled CEO, Gates was still there. So in theory, he was behind the scenes focused on engineering while Steve was the face of Microsoft. Perhaps he thought he could focus on products and drive the engineering organization rather than focus on corporate business.
 
-What I never understood is why he kept Ballmer in charge of Microsoft when he left to start his foundation. Perhaps Gates felt Ballmer's economic success was good enough to carry the company into new markets. But didn't Bill see mobile (or cloud, or AI) coming and know that Ballmer didn't have what it takes to pivot the company? It's all speculative, and hindsight is perfect, but I certainly thought Bill would have seen their dominance slipping with Apple, Google's growing dominance and instill a strong engineering focused CEO to compete with them.
+What I never understood is why he kept Ballmer in charge of Microsoft when he left to start his foundation. Perhaps Gates felt Ballmer's economic success was good enough to carry the company into new markets. But didn't Bill see mobile (or cloud, or AI) coming and know that Ballmer didn't have vision to pivot the company? It's all speculative, and hindsight is perfect, but I certainly thought Bill would have seen Microsoft's dominance slipping with Apple, Google's growing influence and instill a strong engineering focused CEO to compete against them.
 
 
 ---
