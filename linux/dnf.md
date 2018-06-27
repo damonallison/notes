@@ -1,5 +1,12 @@
 # dnf
 
+Dandified YUM.
+
+## TODO
+
+* How to remove older kernel versions?
+* How to install chrome, vs code?
+
 ## Switches
 
 ```
@@ -10,7 +17,7 @@
 --refresh  # set metadata as expired before running the command
 ```
 
-## Cleaning
+## Cleaning / Maintenance
 
 ```
 # Cleans out caches, metadata, and packages
@@ -20,9 +27,11 @@ $ dnf clean all
 $ dnf makecache
 
 # Removes all leaf packages which are not referenced and originally installed
-* as a dependency to another package.
+# as a dependency to another package.
 $ dnf autoremove
 
+// Check the local packagedb, producing any problems it finds.
+$ dnf check su
 ```
 
 ## Updating
@@ -43,9 +52,14 @@ $ dnf install emacs
 ## List command
 
 ```
-$ dnf list upgrades [list upgrades available to the installed packages]
-$ dnf list installed
-$ dnf list autoremove [list packages which will be removed by the `dnf autoremove` command]
+
+$ dnf list --installed
+$ dnf list --upgrades  [list upgrades available to the installed packages]
+$ dnf list --autoremove [list packages which will be removed by the `dnf autoremove` command]
+
+// List all repositories
+$ dnf repolist --all 
+
 
 $ dnf provides <provide-spec>
 finds the package providing <provide-spec>
@@ -53,7 +67,6 @@ finds the package providing <provide-spec>
 $ dnf reinstall <package-spec>
 $ dnf remove <package-spec>
 
-$ dnf repolist
 
 $ dnf group list [shows the available groups]
 $ dnf group info <group-spec>
