@@ -15,7 +15,6 @@
   </tr>
 </table>
 
-
 ## Package Administration
 
 <table>
@@ -56,7 +55,7 @@
     </td>
   </tr>
   <tr>
-    <td>`$ brew upgrade [--cleanup]`</td>
+    <td>`$ brew upgrade [--cleanup] [-n]`</td>
     <td>
       Upgrade outdated, unpinned brews.<br>
       `--cleanup` to remove previously installed formula.
@@ -72,8 +71,7 @@
   <tr>
     <td>`$ brew leaves`</td>
     <td>
-      Find "leaves" (not dependents of other formula).<br>
-      **These are candidates to be deleted!**
+      Find "leaves" (not dependents of other formula).
     </td>
   </tr>
 </table>
