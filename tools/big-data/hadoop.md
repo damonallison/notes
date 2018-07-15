@@ -5,7 +5,7 @@ Much of hadoop is geared around redundancy and fault tolerance at the machine an
 "Google is a few years ahead of us who use Hadoop."
 
 ```
-Google                     Open source project
+Google                       Open source project
 2004 - GFS & MapReduce       2006 - Hadoop           batch programs
 2005 - Sawzall               2008 - Pig & Hive       batch queries
 2006 - Big Table             2008 - HBase            online key/value
@@ -15,9 +15,11 @@ Google                     Open source project
 
 ## Hadoop
 
-Hadoop is a batch based map reduce engine.
+Hadoop is a batch based on a map reduce engine.
 
-* Commodity hardware (is anything non-commodity today).
+### Characteristics
+
+* Commodity hardware (is anything non-commodity today?).
 * Open source software (is anything not open source?).
 * Fault tolerant. Survives single machine failures with any component.
 * Schema-on-read. You can save data in the raw form, project it on the fly to the desired format (schema).
