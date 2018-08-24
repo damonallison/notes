@@ -3,10 +3,10 @@
 `ASP.NET 5.2.3`
 
 When the host authenticates a user, it creates an **IPrincipal** and assigns it
-to `Thread.CurrentPrincipal`. 
+to `Thread.CurrentPrincipal`.
 
 If you need to support self hosting (OWIN), use an HttpModule. Otherwise, use an
-HTTP Module. 
+HTTP Module.
 
 Set the principal on both the thread and HTTP context.
 
@@ -20,6 +20,23 @@ private void SetPrincipal(IPrincipal principal)
     }
 }
 ```
+
+## NuGet
+
+* `dotnet nuget locals --list all`   // list all local
+* `dotnet nuget locals --clear all`  // clear
+
+* NuGet on disk storage:
+  * "/Users/allidam/.dotnet/store/|arch|/|tfm|"
+  * "/Users/allidam/.nuget/packages"
+  * "/Users/allidam/.dotnet/NuGetFallbackFolder"
+  * "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+
+* How to clean the nuget cache, force a clean download when doing restore?
+* Publish a NuGet package.
+
+* What are the `csc` command line options?
+* What's the relationship between `dotnet build` and `msbuild`?
 
 # T-SQL
 
