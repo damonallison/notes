@@ -36,15 +36,13 @@ $ mongoimport --db test --collection restaurants --drop --file ~/projects/mongo/
 * Collections - similar to tables in a relational DB.
 * Documents in a collection must have an `_id` field (primary key).
 
-
--------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
 ## Connecting to MongoDB
 
 Mongo will create it's database structure. All it needs is a path to use when launching the daemon, specified with the `--dbpath <path>` option.
 
-```
+```bash
 
 # Start mongo
 $ cd big-data-3/mongodb
