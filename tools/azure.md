@@ -4,6 +4,25 @@
 
 AzureDemo12~%9
 
+## Command Line
+
+### .NET
+
+```bash
+
+# Local version information
+$ dotnet info
+
+# List of available templates
+$ dotnet new --list
+
+# Create a new console application.
+$ dotnet new console --name [project-name]
+
+# Add a nuget package
+$ dotnet add package MongoDB.Driver
+```
+
 ## Needs
 
 * Security - Auth0 OK?
@@ -64,13 +83,10 @@ New Apps in app service can be of type:
 * Mobile Apps : Web Apps w/ extra support for authentications and push notifications.
 * API Apps : for API hosting (w/ swagger metadata)
 
-
 #### Service Fabric
 
-* Infrastructure for managing microservices.
+* Infrastructure for hosting, scaling, deploying, versioning, managing microservices.
 * Supports WebAPI / OWIN / ASP.NET Core
-
-
 
 ### Azure Services
 
@@ -78,25 +94,21 @@ New Apps in app service can be of type:
 * Azure Storage - blob
 * Azure DocumentDB - non-relational NoSQL (json documents). SQL queries over object data.
 
-
 ### Docker Support
 
 * Docker provides efficient, predictable deployment. The unit of deployment is
   the coarse grained container, not individual files or executables.
 * Azure Container Service allows you to manage / configure a cluster of VMs.
 
-
 ### Authentication
 
 * Azure AD
 * App Service hosts get built-in support for Azure AD, Twitter, Facebook.
 
-
 ### Monitoring
 
 * Application Insights
 * Azure Monitoring (graphing)
-
 
 ### Azure Management
 
@@ -105,12 +117,14 @@ New Apps in app service can be of type:
 * Azure Portal : web based interface
 * REST APIs
 * Azure SDKs
-*
 
+---
 
+## CosmosDB
 
-## Service Fabric
-
-* Infrastructure for hosting, scaling, deploying, versioning microservices.
-* Stateful services (DB backed). Service Fabric can co-locate stateful services together
-  (i.e., services that use the same DB).
+* The next generation of Azure DocumentDB.
+* A schemaless DB which natively supports multiple data models
+  * document, key-value, graph, table and columnar data models.
+* Access the data using NoSQL APIs of your choice.
+  * MongoDB (document)
+  * Azure Table Storage (key value)

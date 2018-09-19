@@ -1,3 +1,45 @@
+# Apple
+
+* How to install / switch between / use multiple toolchains?
+* What is the structure of the Xcode directory / SDK hierarchy?
+
+## Xcode Tools
+
+```bash
+
+# xcode-select
+#
+# xcode-select manages the active developer dir for Xcode and BSD tools. It
+# allows you to switch between different versions of Xcode tools or to update
+# the path to Xcode tools if the directory has been moved.
+#
+# You can also use xcode-select to automatically install development tools.
+
+# ---
+# Set the command line tools to use those found in /Applications/Xcode.app
+
+$ sudo xcode-select --switch /Applications/Xcode.app
+# ---
+
+# ---
+# Install the command line developer tools.
+# Command line tools are installed to /Library/Developer/CommandLineTools
+
+# xcode-select --install
+# ---
+
+
+#
+# Uses the Xcode development environment to execute the given command.
+
+# xcrun runs or locates development tools.
+
+$ xcrun [-v] --find <tool name>
+
+
+
+```
+
 ## appledoc ##
 
 	/**

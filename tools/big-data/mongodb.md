@@ -24,7 +24,7 @@
 
 * Mongo runs on port `27017`.
 
-```
+```bash
 # Bulk importing of mongo data
 # --drop == drop collection before inserting documents.
 
@@ -33,8 +33,9 @@ $ mongoimport --db test --collection restaurants --drop --file ~/projects/mongo/
 
 ## Conceptual
 
-* Collections - similar to tables in a relational DB.
-* Documents in a collection must have an `_id` field (primary key).
+* Database : contains a set of collections (tables).
+* Collections : similar to tables in a relational DB.
+* Documents : Records in a collection. Must have an `_id` field (primary key).
 
 -------------------------------------------------------------------------------
 

@@ -58,7 +58,7 @@ $ dnf list --upgrades  [list upgrades available to the installed packages]
 $ dnf list --autoremove [list packages which will be removed by the `dnf autoremove` command]
 
 // List all repositories
-$ dnf repolist --all 
+$ dnf repolist --all
 
 
 $ dnf provides <provide-spec>
