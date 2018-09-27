@@ -5,7 +5,7 @@
 * Document <refspec>.
 * How to determine a common ancestor (multiple branches)?
 
-## Chapter 1 : Introduction / Basics
+## Git Philosophy / Basics
 
 * Git goals
   * Fast
@@ -25,10 +25,11 @@
 * Everything has integrity (SHA-1 checksums) - files, tags, commits, trees,
   stashes.
 
-* git will only allow you to push to a remote branch if the push results in the
-  branch being fast-forwarded. If the remote branch cannot be fast-forwarded,
-  the push will fail. This safety can be overridden (-f for most commands) but
-  it follows git's "safe by default philosophy"
+* git is safe by default. If actions would result in data loss it will prevent
+  it by default. For example, git will only allow you to push to a remote branch
+  if the push results in the branch being fast-forwarded. If the remote branch
+  cannot be fast-forwarded, the push will fail. This safety can be overridden
+  (-f for most commands) but it follows git's "safe by default philosophy"
 
 * 3 stages - committed, staged, modified. The staging area is called the index
   in git's internals.
@@ -43,24 +44,43 @@ Think of git as a database that has three trees:
 
 ### Git configuration
 
-git has three levels of configuration
+git has three levels of configuration, ranging from lowest priority (global) to
+highest priority (local). If a setting is defined at multiple levels, the
+highest priority value is used.
 
-1. System `/etc/gitconfig`. All users, all repos (lowest priority).
-  * `$ git config --system <setting> <value>`
-    1. Global `~/.gitconfig`. Current user, all repos.
-  * Use : `$ git config --global <setting> <value>`
-1. local `./.git/config` current repo (highest priority).
-  * Use : `$ git config <setting> <value>`
+#### System - `/etc/gitconfig`
 
+System configuration applies to all users. This is typically not needed.
 
-#### Configuration Values
+`$ git config --system <setting> <value>`
+
+#### Global - `~/.gitconfig`
+
+Global is user wide, applying to all repos.
+
+`$ git config --global <setting> <value>`
+
+#### Local
+
+Local applies to the current repository in `./git/config`
+
+`$ git config <setting> <value>`
+
+#### Common Configuration Values
 
 The following variables are helpful defaults when setting up git on a new machine.
 
 ```bash
+#
+# User level settings
+#
 $ git config --global user.name "Damon Allison"
 $ git config --global user.email "damon@damonallison.com"
-$ git config --global core.editor "emacs" [or "atom -w"]
+$ git config --global core.editor "code -w"
+
+# Always track a remote branch (--track) when doing a checkout.
+
+$ git config --global branch.autosetupmerge=always
 
 #
 # When creating a new branch, always setup a remote tracking branch with the
@@ -119,17 +139,16 @@ $ git rm --cached <file>             // removes from git, keeps files on disk.
 ## Commit
 
 ```bash
-Adds diff output to the commit message (as comments)
-$ git commit -v
 
-Amend the prevous commit.
-*NOTE* will rewrite history - don't do this if you've pushed
+# Adds diff output to the commit message (as comments)
+
 $ git commit --amend
 ```
 
 ## Branches
 
 ```bash
+
 # Lists all branches verbosely.
 # Verbose prints the head SHA, extra verbose prints relevant aliases.
 $ git branch -vv --all
