@@ -71,6 +71,16 @@ Local applies to the current repository in `./git/config`
 The following variables are helpful defaults when setting up git on a new machine.
 
 ```bash
+
+# Show all config.
+# You can also look @ the config files directly, which can be easier than remembering these commands.
+#
+# "system" == /usr/local/etc/gitconfig
+# "global" == ~/.gitconfig
+# "local"  == ./git/config
+
+$ git config --list
+
 #
 # User level settings
 #
@@ -78,51 +88,49 @@ $ git config --global user.name "Damon Allison"
 $ git config --global user.email "damon@damonallison.com"
 $ git config --global core.editor "code -w"
 
-# Always track a remote branch (--track) when doing a checkout.
-
-$ git config --global branch.autosetupmerge=always
-
 #
 # When creating a new branch, always setup a remote tracking branch with the
-# same name.
+# same name. Sets the following git config options for the branch
 #
 # `branch.<name>.remote
-    # `branch.<name>.merge
+# `branch.<name>.merge
 #
 $ git config --global branch.autoSetupMerge always
 
-// Use Apple's "FileMerge.app" merge tool.
+# Use Apple's "FileMerge.app" merge tool.
 $ git config --global merge.tool opendiff
 
-// Shows a list of all submodule commits as part of diff output
+# Shows a list of all submodule commits as part of diff output
 $ git config --global diff.submodule log
 
-// Show a short summary of changes to your submodules
+# Show a short summary of changes to your submodules
 $ git config --global status.submodulesummary 1
 
-// Have `git grep` print line number (-n) by default
+# Have `git grep` print line number (-n) by default
 $ git config --global grep.lineNumber true
 
-// Have `git grep` always print full git path for each git match
+# Have `git grep` always print full git path for each git match
 $ git config --global grep.fullName true
 
-// Have `git grep` always use extended regexp
+# Have `git grep` always use extended regexp
 $ git config --global grep.extendedRegexp true
 
-// Stores username / password into OSX's keychain by remote serverg
+# Stores username / password into OSX's keychain.
 $ git config --global credential.helper osxkeychain
-
-// show all config
-$ git config --list
-
 ```
 
 #### Helpful Aliases
 
 ```bash
+# Print *all* relevant information about branches.
+$ git config --global alias.br "branch --list --all -vv"
+
+# If you have to deal w/ submodules...
 $ git config --global alias.sur "submodule update --init --recursive"
+
+#
+# --decorate shows the ref names associated with each commit.
 $ git config --global alias.llog "log --stat --graph --decorate --submodule"
-$ git config --global alias.gba "branch --all
 ```
 
 ## Staging Area
