@@ -15,9 +15,12 @@
   * Scalable (handle large projects - Linux kernel)
   * Safe by default
 
-* git (all DVCSs) keeps a copy of the entire repo on each client. This makes everything (history browsing) extremely fast since very few commands use the network.
+* git (all DVCSs) keeps a copy of the entire repo on each client. This makes
+  everything (history browsing) extremely fast since very few commands use the
+  network.
 
-* DVCS completely mirrors the repo locally. This allows for multiple workflow strategies, like hierarchal models (git flow).
+* DVCS completely mirrors the repo locally. This allows for multiple workflow
+  strategies, like hierarchal models (git flow).
 
 * Everything has integrity (SHA-1 checksums) - files, tags, commits, trees, stashes.
 
