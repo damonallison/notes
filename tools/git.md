@@ -22,11 +22,16 @@
 * DVCS completely mirrors the repo locally. This allows for multiple workflow
   strategies, like hierarchal models (git flow).
 
-* Everything has integrity (SHA-1 checksums) - files, tags, commits, trees, stashes.
+* Everything has integrity (SHA-1 checksums) - files, tags, commits, trees,
+  stashes.
 
-* git will only allow you to push to a remote branch if the push results in the branch being fast-forwarded. If the remote branch cannot be fast-forwarded, the push will fail. This safety can be overridden (-f for most commands) but it follows git's "safe by default philosophy"
+* git will only allow you to push to a remote branch if the push results in the
+  branch being fast-forwarded. If the remote branch cannot be fast-forwarded,
+  the push will fail. This safety can be overridden (-f for most commands) but
+  it follows git's "safe by default philosophy"
 
-* 3 stages - committed, staged, modified. The staging area is called the index in git's internals.
+* 3 stages - committed, staged, modified. The staging area is called the index
+  in git's internals.
 
 Think of git as a database that has three trees:
 
@@ -42,7 +47,7 @@ git has three levels of configuration
 
 1. System `/etc/gitconfig`. All users, all repos (lowest priority).
   * `$ git config --system <setting> <value>`
-1. Global `~/.gitconfig`. Current user, all repos.
+    1. Global `~/.gitconfig`. Current user, all repos.
   * Use : `$ git config --global <setting> <value>`
 1. local `./.git/config` current repo (highest priority).
   * Use : `$ git config <setting> <value>`
@@ -52,10 +57,19 @@ git has three levels of configuration
 
 The following variables are helpful defaults when setting up git on a new machine.
 
-```
+```bash
 $ git config --global user.name "Damon Allison"
 $ git config --global user.email "damon@damonallison.com"
 $ git config --global core.editor "emacs" [or "atom -w"]
+
+#
+# When creating a new branch, always setup a remote tracking branch with the
+# same name.
+#
+# `branch.<name>.remote
+    # `branch.<name>.merge
+#
+$ git config --global branch.autoSetupMerge always
 
 // Use Apple's "FileMerge.app" merge tool.
 $ git config --global merge.tool opendiff
@@ -88,6 +102,7 @@ $ git config --list
 ```
 $ git config --global alias.sur "submodule update --init --recursive"
 $ git config --global alias.llog "log --stat --graph --decorate --submodule"
+$ git config --global alias.gba "branch --all
 ```
 
 ## Staging Area ##
@@ -111,19 +126,26 @@ $ git config --global alias.llog "log --stat --graph --decorate --submodule"
     $ git commit --amend
 
 
-## Branches ##
+## Branches
 
-    Creates a local serverfix branch from origin/serverfix
-    $ git checkout -b serverfix origin/serverfix
+```bash
 
-    Shortcut - same as above
-    $ git checkout --track origin/serverfix
+# Lists all branches verbosely.
+# Verbose prints the head SHA, extra verbose prints relevant aliases.
+$ git branch -vv --all
 
-    Lists tracking info, ahead / behind stats
-    $ git branch -vv
+# Create a local branch from a remote branch and tracks the remote.
+$ git checkout --track origin/serverfix
 
-    Lists all branches fully merged into the current branch
-    $ git branch --merged
+# Lists all branches fully merged into the current branch
+$ git branch --merged
+
+# Push local branch to remote. If [branch-name] is omitted
+$ git push origin branch-name
+
+# If
+```
+
 
     Pushes the current local branch to [remote] [branch]
     $ git push [remote-name] [branch-name]
