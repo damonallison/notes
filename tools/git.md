@@ -15,15 +15,23 @@
   * Scalable (handle large projects - Linux kernel)
   * Safe by default
 
-* git (all DVCSs) keeps a copy of the entire repo on each client. This makes everything (history browsing) extremely fast since very few commands use the network.
+* git (all DVCSs) keeps a copy of the entire repo on each client. This makes
+  everything (history browsing) extremely fast since very few commands use the
+  network.
 
-* DVCS completely mirrors the repo locally. This allows for multiple workflow strategies, like hierarchal models (git flow).
+* DVCS completely mirrors the repo locally. This allows for multiple workflow
+  strategies, like hierarchal models (git flow).
 
-* Everything has integrity (SHA-1 checksums) - files, tags, commits, trees, stashes.
+* Everything has integrity (SHA-1 checksums) - files, tags, commits, trees,
+  stashes.
 
-* git will only allow you to push to a remote branch if the push results in the branch being fast-forwarded. If the remote branch cannot be fast-forwarded, the push will fail. This safety can be overridden (-f for most commands) but it follows git's "safe by default philosophy"
+* git will only allow you to push to a remote branch if the push results in the
+  branch being fast-forwarded. If the remote branch cannot be fast-forwarded,
+  the push will fail. This safety can be overridden (-f for most commands) but
+  it follows git's "safe by default philosophy"
 
-* 3 stages - committed, staged, modified. The staging area is called the index in git's internals.
+* 3 stages - committed, staged, modified. The staging area is called the index
+  in git's internals.
 
 Think of git as a database that has three trees:
 
@@ -39,7 +47,7 @@ git has three levels of configuration
 
 1. System `/etc/gitconfig`. All users, all repos (lowest priority).
   * `$ git config --system <setting> <value>`
-1. Global `~/.gitconfig`. Current user, all repos.
+    1. Global `~/.gitconfig`. Current user, all repos.
   * Use : `$ git config --global <setting> <value>`
 1. local `./.git/config` current repo (highest priority).
   * Use : `$ git config <setting> <value>`
@@ -49,10 +57,19 @@ git has three levels of configuration
 
 The following variables are helpful defaults when setting up git on a new machine.
 
-```
+```bash
 $ git config --global user.name "Damon Allison"
 $ git config --global user.email "damon@damonallison.com"
 $ git config --global core.editor "emacs" [or "atom -w"]
+
+#
+# When creating a new branch, always setup a remote tracking branch with the
+# same name.
+#
+# `branch.<name>.remote
+    # `branch.<name>.merge
+#
+$ git config --global branch.autoSetupMerge always
 
 // Use Apple's "FileMerge.app" merge tool.
 $ git config --global merge.tool opendiff
@@ -80,63 +97,101 @@ $ git config --list
 
 ```
 
-#### Helpful Aliases ####
+#### Helpful Aliases
 
-```
+```bash
 $ git config --global alias.sur "submodule update --init --recursive"
 $ git config --global alias.llog "log --stat --graph --decorate --submodule"
+$ git config --global alias.gba "branch --all
 ```
 
-## Staging Area ##
+## Staging Area
 
-    Show a short status:
-    $ git status -s
+Show a short status:
+$ git status -s
 
-    Show a diff of what's in the index (staging area);
-    $ git diff --cached
-    $ git diff --check [--cached]        // checks for whitespace errors
-    $ git commit -v                      // add diff output to commit msg
-    $ git rm --cached <file>             // removes from git, keeps files on disk.
+Show a diff of what's in the index (staging area);
+$ git diff --cached
+$ git diff --check [--cached]        // checks for whitespace errors
+$ git commit -v                      // add diff output to commit msg
+$ git rm --cached <file>             // removes from git, keeps files on disk.
 
-## Commit ##
+## Commit
 
-    Adds diff output to the commit message (as comments)
-    $ git commit -v
+```bash
+Adds diff output to the commit message (as comments)
+$ git commit -v
 
-    Amend the prevous commit.
-    *NOTE* will rewrite history - don't do this if you've pushed
-    $ git commit --amend
+Amend the prevous commit.
+*NOTE* will rewrite history - don't do this if you've pushed
+$ git commit --amend
+```
+
+## Branches
+
+```bash
+# Lists all branches verbosely.
+# Verbose prints the head SHA, extra verbose prints relevant aliases.
+$ git branch -vv --all
+
+# Creates a new branch from HEAD. Does *not* switch to it.
+$ git branch [branch-name]
+
+# Creates and checks out a new local branch from the current branch.
+$ git checkout -b [branch-name]
+
+# Create a local branch from a remote branch and tracks the remote.
+$ git checkout --track origin/serverfix
+
+# Lists all branches fully merged into the current branch
+$ git branch --merged
+```
+
+## Fetching / Pushing
+
+```bash
+
+# Fetch all, pruning local branches which don't exist on the remotes
+$ git fetch -v --all --tags
+
+# Push local branch to remote. If [branch-name] is omitted
+$ git push <remote-name> <branch-name>
+$ git push origin branch-name
+
+# If the local branch is *not* tracking a remote branch, adding [--set-upstream-branch | -u]
+# will start tracking the remote branch.
+$ git push -u origin [branch-name]
+
+# Pushes [local-branch] (can be omitted for current branch) to [remote-branch] on [remote-name].
+# This allows you to name the remote branch something different than the local branch.
+$ git push [remote-name] [local-branch]:[remote-branch]
+$ get push origin damonallison/issue22:damonallison/issue22-push-notifications
+
+# Delete a local branch
+$ git branch -d [branch-name]
+
+# Delete a remote branch
+$ git push origin --delete [branch-name]
+
+```
+## Remote
+
+```bash
+
+# List remotes
+$ git remote -v
+
+# Show all info about remote (including branches, tracking branches)
+$ git remote show origin
+
+# Adding a remote
+$ git remote add [name] [url]
+$ git remote add damon git@bitbicket.org:damonallison/test.git
 
 
-## Branches ##
-
-    Creates a local serverfix branch from origin/serverfix
-    $ git checkout -b serverfix origin/serverfix
-
-    Shortcut - same as above
-    $ git checkout --track origin/serverfix
-
-    Lists tracking info, ahead / behind stats
-    $ git branch -vv
-
-    Lists all branches fully merged into the current branch
-    $ git branch --merged
-
-    Pushes the current local branch to [remote] [branch]
-    $ git push [remote-name] [branch-name]
-
-    Pushes [local-branch] (can be omitted for current branch) to [remote-branch] on [remote-name].
-    This allows you to name the remote branch something different than the local branch.
-    $ git push [remote-name] [local-branch]:[remote-branch]
-    $ get push origin damonallison/issue22:damonallison/issue22-push-notifications
-
-    Deletes remote branch
-    $ git push origin --delete serverfix
-    $ git push origin :serverfix
+```
 
 
-    Pushes the current branch to origin/[branch-name] and sets the upstream branch to origin/[branch-name]
-    $ git push -u origin [branch-name]
 
     Fetches (and merges) the remote tracked branch into the local branch.
     $ git pull
@@ -180,15 +235,6 @@ Rebase does the following:
 Do *not* rebase commits that have been pushed up to a public server. Rebasing will abandon the previous commits. If anyone based their work on those commits,
 they will have a mess on their hands.
 
-## Remotes ##
-
-    // show remotes w/ URLs that git has associated with each remote
-    $ git remote -v
-    $ git remote add [shortname] [url]
-
-    $ git fetch [remote-name]               // pulls refs only, does not merge into local branches.
-
-    $ git fetch --all                       // fetches (but does not merge) all remotes
 
 ## Logging ##
 
