@@ -174,6 +174,7 @@ $ git branch -d [branch-name]
 $ git push origin --delete [branch-name]
 
 ```
+
 ## Remote
 
 ```bash
@@ -188,29 +189,29 @@ $ git remote show origin
 $ git remote add [name] [url]
 $ git remote add damon git@bitbicket.org:damonallison/test.git
 
-
 ```
-
-
-
-    Fetches (and merges) the remote tracked branch into the local branch.
-    $ git pull
-
-    Squashes all commits in [branch-name] into a single commit. --no-commit will not record a commit, rather leave the changes locally so you can make additional changes before committing.
-    # git merge --no-commit --squash [branch-name]
 
 ## Merge ##
 
-    $ git merge --abort
+```bash
+# Squashes all commits in [branch-name] into a single commit.
+# --no-commit will not record a commit, rather leave the changes locally
+# so you can make additional changes before committing.
 
-    If we are in a conflicted state, this command will show commits that touched a file that's currently conflicted. Can be used to determine what caused the conflict (and give you hints on how you should resolve it).
-    $ git log --oneline --left-right --merge
+git merge --no-commit --squash [branch-name]
 
-    Show the entire diff of what's in merge conflict (as well as the branch that introduced the conflicting regions)
-    $ git log -p --left-right --merge
+# If we are in a conflicted state, this command will show commits that
+# touched a file that's currently conflicted. Can be used to determine
+# what caused the conflict (and give you hints on how you should resolve it).
+$ git log --oneline --left-right --merge
 
+# Show the entire diff of what's in merge conflict
+# (as well as the branch that introduced the conflicting regions)
+$ git log -p --left-right --merge
 
-## Rebase ##
+```
+
+## Rebase
 
 Rebasing takes all changes on one branch and replays them on top of another branch. Rebasing creates a linear commit history free of merge commits.
 
