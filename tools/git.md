@@ -185,7 +185,7 @@ $ git fetch -v --all --tags
 $ git push <remote-name> <branch-name>
 $ git push origin branch-name
 
-# If the local branch is *not* tracking a remote branch, adding [--set-upstream-branch | -u]
+# If the local branch is *not* tracking a remote branch, adding [--set-upstream-to | -u]
 # will start tracking the remote branch.
 $ git push -u origin [branch-name]
 
