@@ -9,7 +9,7 @@ Dandified YUM.
 
 ## Switches
 
-```
+```bash
 --debuglevel=[0-10]
 --version
 --help [-h]
@@ -19,7 +19,7 @@ Dandified YUM.
 
 ## Cleaning / Maintenance
 
-```
+```bash
 # Cleans out caches, metadata, and packages
 $ dnf clean all
 
@@ -31,30 +31,35 @@ $ dnf makecache
 $ dnf autoremove
 
 // Check the local packagedb, producing any problems it finds.
-$ dnf check su
+$ dnf check
 ```
 
 ## Updating
 
-```
+```bash
 # Checks if updates are available
 $ dnf check-update [<package-specs>...]
 
 # Upgrades packages to match the latest version available
 $ dnf distro-sync [<package-spec>...]
 
+```
+
+## Installing
+
+```bash
 
 $ dnf search emacs
 $ dnf install emacs
-```
 
+```
 
 ## List command
 
-```
+```bash
 
 $ dnf list --installed
-$ dnf list --upgrades  [list upgrades available to the installed packages]
+$ dnf llsist --upgrades  [list upgrades available to the installed packages]
 $ dnf list --autoremove [list packages which will be removed by the `dnf autoremove` command]
 
 // List all repositories
