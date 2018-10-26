@@ -539,4 +539,3 @@ For each user:
 * Ads are effective.
     * Research *why* users click the ads they do.
     * Watch spam! More != better.
-*

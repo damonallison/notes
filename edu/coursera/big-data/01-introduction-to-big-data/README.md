@@ -31,8 +31,9 @@ Other "Vs" include"
 * Veracity (quality).
 * Valence (connectness). Think graph theory.
 
-
 **The goal of big data is to make better decisions.**
+
+---
 
 # Week 1
 
@@ -93,7 +94,6 @@ The goals of this course are:
 * 16 million shipments per day.
 * 40 million tracking requests per day.
 * Route optimization saves big money.
-
 
 ## Tooling
 
@@ -318,7 +318,7 @@ The goals of this course are:
 ### Data Science : Getting Value out of Big Data
 
 * Data Science == Big Data -> Insight -> Action (Prediction)
-* Data Science and models is constantly improving.
+* Data Science and models are constantly improving.
 * Data Science : Intersection between math, business, and hacking.
 
 * You need to pick your domain within data science to focus on.

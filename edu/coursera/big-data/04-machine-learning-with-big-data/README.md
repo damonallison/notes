@@ -23,8 +23,6 @@ There were two tools used in this class to examine data.
     * Graphs
     * Not as simple to find pre-canned blocks of functionality (i.e., KNIME nodes)
 
-
-
 ## Questions
 
 * What is a model?
@@ -69,6 +67,7 @@ The Hadoop ecosystem (distributed, fault tolerant, scalable) was created to addr
 ### Machine Learning Overview and Applications
 
 #### Machine Learning Overview
+
 * What is Machine Learning?
   * Computers (models) that can learn from data, without being explicitly programmed.
   * The volume and quality of training data improves ML performance.
@@ -139,7 +138,6 @@ The Hadoop ecosystem (distributed, fault tolerant, scalable) was created to addr
     * Retail : Beer / Diapers were associated together. Putting the items together on the shelf increased sales of both.
     * Recommend items based on purchase history (hoses and garden soil are related).
     * Identify web pages accessed together.
-
 
 * Supervised vs. Unsupervised Approaches
   * Supervised
@@ -646,8 +644,6 @@ Classification is the process of assigning a category to a given input. For exam
 
 ### Classification Algorithms
 
-#### Classification Algorithms
-
 * kNN
   * "k nearest neighbors"
     * Classify based on neighbors (graph theory).
@@ -713,7 +709,6 @@ Classification is the process of assigning a category to a given input. For exam
   * Resulting tree is often simple and easy to interpret.
   * Good starting model to get an idea. The tree is a simple model. It's a good starting point.
   * Computationally inexpensive.
-
 
 #### Naïve Bayes
 

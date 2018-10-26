@@ -709,9 +709,8 @@ match (n:ToyNode) where n.name = 'Harry' set n.job = n.job + ['lead guitarist']
 #### Path Analytics
 
 ```
-
 //
-//Finding all paths between specific nodes.
+// Finding all paths between specific nodes.
 //
 // Note : TO* will return an arbitrary number of edges between
 //        the source and destination nodes.

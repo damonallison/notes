@@ -799,7 +799,7 @@ Information integration is combining (integrating) data from multiple data sourc
 
 ## Week 4
 
-### Big Data Pipelines and High-level Operations for Big Data Processing
+k### Big Data Pipelines and High-level Operations for Big Data Processing
 
 #### Big Data Processing pipelines
 
@@ -968,7 +968,7 @@ There are common big data transformations.
 * Why Spark?
   * Hadoop is solely based on Map Reduce. Not all problems fit into this model.
   * i.e. Join between data sets, grouping data, performing multiple stages of map reduce.
-  * Relies on reading data from HDFS. Will not work for iterative algorithms.
+  * Relies on reading data from HDFS. Hadoop will not work for iterative algorithms.
   * Native support for Java only.
   * No interactive shell support. Scientists prefer REPL support.
   * No support for streaming.
@@ -1243,7 +1243,8 @@ df.groupBy("zip").count().show()
 
 * MLLib Example - Summary Statistics
 
-```
+```python
+
 from pyspark.mllib.stat import Statistics
 
 # data as RDD
@@ -1254,11 +1255,13 @@ summary = Statistics.colStats(dataMatrix)
 print(summary.mean())
 print(summary.variance())
 print(summary.numNonzeros())
+
 ```
 
 * MLLib Example - Classification
 
-```
+```python
+
 from pyspark.mllib.tree import DecisionTree, DecisionTreeModel
 from pyspark.mllib.util import MLUtils
 
@@ -1269,6 +1272,7 @@ data = sc.textFile("data.txt")
 model = DecisionTree.trainClassifier(parsedData, numClasses=2)
 print(model.toDebugString())
 model.save(sc, "decisionTreeModel")
+
 ```
 
 * Main take aways
@@ -1390,7 +1394,7 @@ model.save(sc, "decisionTreeModel")
           { tweet_text: { $not: /UEFA/ } }
         ]
     }, { tweet_text: 1})`
-  * `35`
+
 
 * Query 5: Get all the tweets from the location "Ireland" and contains the string "UEFA"?
   * `db.users.find({
