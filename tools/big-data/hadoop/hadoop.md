@@ -17,7 +17,6 @@ Google                       Open source project
 2012 - Spanner               ?                       global transactions
 ```
 
-
 ## Characteristics
 
 * Commodity hardware (is anything non-commodity today?).
@@ -31,7 +30,7 @@ Google                       Open source project
 ### Strengths
 
 * Hadoop is good for distributed data storage and basic MapReduce algorithms.
-* Hadoop is good for batch processing of large data sets.
+* Hadoop is good for batch processing of large data sets (not real time).
 
 ### Weaknesses
 
@@ -88,21 +87,46 @@ JobTracker - job scheduler - pushes work to available TaskTracker nodes. The Job
 
 ## Hadoop example
 
+Hadoop, installed thru `brew`, is located at `/usr/local/Cellar/hadoop/3.1.1
+
 ```shell
 
-# import a file into hadoop
+# `hadoop` is the main executable to interact with hadoop.
 
-$ hadoop fs -put words.txt
+# `hadoop fs` interacts with HDFS.
 $ hadoop fs -ls
-$ hadoop fs -cp words.txt words2.txt
-$ hadoop fs -get words2.txt
+$ hadoop fs -get <src> <localdst>
+$ hadoop fs -put <localsrc> <dst>
 
+# get help on a specific subcommand
+$ hadoop fs -help get
+
+
+# Creating and running a MapReduce job:
+
+# Compile Wordcount.java (using the fish shell)
+$ mkdir WordCount
+$ javac -classpath (hadoop classpath) -d WordCount WordCount.java
+
+# Create a jar
+$ jar -cvf WordCount.jar WordCount/ .
+
+#Delete the output directory
+$ hadoop fs -rm -r output
+
+# Assume that we have sample text files in HDFS at "/user/dra/input"
+# Run the MapReduce job.
+$ hadoop jar WordCount.jar WordCount input output
+
+# Get the output
+$ hadoop fs -get output
 ```
 
 ## MapReduce
 
-* MapReduce jobs are distributed and executed across nodes in the Hadoop cluster.
-* Jobs read from a a file, execute their map / combine / reduce steps, then write to a file.
+* MapReduce splits the input data-set into chunks, which are processed by map tasks across nodes in parallel.
+* Jobs typically read from a a file, execute their map / combine / reduce steps, then write to a file.
+
 
 ### MapReduce Example
 
