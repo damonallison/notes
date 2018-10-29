@@ -128,6 +128,8 @@ When using certain features in spark (explode, for example), a Derby DB is creat
 
 spark.driver.extraJavaOptions -Dderby.system.home=/tmp/derby
 
+```
+
 ---
 
 ## Using Spark
