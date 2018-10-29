@@ -62,14 +62,69 @@ Create Dataset ->
 
 ```
 
-If results are too large for the driver, results can be written to `HDFS`.
+---
+
+## Installing / Configuring Spark
+
+* Using `brew`, spark is installed to `/usr/local/Cellar/apache-spark/2.3.2`
+* `SPARK_HOME=/usr/local/Cellar/apache-spark/2.3.2/libexec`
+
+### Spark configuration
+
+* `$SPARK_HOME/conf/spark-env.sh` allows you to setup environment variables.
+
+```bash
+
+# Add the following line to have spark bind on a local IP.
+# This works around issues with IP binding on some networks.
+
+SPARK_LOCAL_IP=127.0.0.1
+
+```
+
+### Running Spark
+
+You can launch spark in `scala` or `python` shells.
 
 ```python
 
+# launch a scala spark REPL
+$ spark-shell
+
 # Launch the python spark REPL
 $ pyspark
+```
 
-# Create a Dataframe
+### Installing / Running juptyer notebook
+
+```bash
+# install
+$ pip install jupyter
+
+# run
+$ jupyter notebook
+```
+
+# Configuring the PySpark driver to automatically open a Jupyter Notebook
+
+Pyspark can be configured to launch in a jupyter notebook at launch.
+
+```bash
+
+# In ~/.config/fish/config.fish
+
+set --export PYSPARK_DRIVER_PYTHON jupyter
+set --export PYSPARK_DRIVER_PYTHON_OPS 'notebook'
+
+```
+
+---
+
+## Using Spark
+
+### Create a Dataframe
+
+```bash
 >>> textFile = spark.read.text("/tmp/damon.txt")
 
 >>> textFile.count() # Number of rows in the Dataframe
@@ -86,7 +141,6 @@ $ pyspark
 # or running an iterative algorithm like PageRank.
 
 >>> textFile.cache()
-
 ```
 
 * Since `python` is not strongly typed, spark Datasets are not strongly typed in
@@ -111,7 +165,6 @@ To print an RDD across all nodes within a cluster, they must be `collect()`ed fi
 ```python
 
 > rdd.collect().foreach(println)
-
 ```
 
 If you only need to print out a few elements:
@@ -148,6 +201,7 @@ If you only need to print out a few elements:
 * Copy output file out of HDFS
   * `hadoop fs -copyToLocal wordcount/outputDir/part-00000 count.txt`
 
+---
 
 ### Course 3 - Week 5 : Hands-on: Data Processing in Spark
 
