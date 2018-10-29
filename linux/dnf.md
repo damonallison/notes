@@ -10,11 +10,13 @@ Dandified YUM.
 ## Switches
 
 ```bash
+
 --debuglevel=[0-10]
 --version
 --help [-h]
 --verbose [-v]
 --refresh  # set metadata as expired before running the command
+
 ```
 
 ## Cleaning / Maintenance
@@ -23,15 +25,17 @@ Dandified YUM.
 # Cleans out caches, metadata, and packages
 $ dnf clean all
 
+# Verify the local packagedb 
+$ dnf check
+
 # Download and caches (in binary format) metadata for all known repos.
 $ dnf makecache
 
 # Removes all leaf packages which are not referenced and originally installed
 # as a dependency to another package.
-$ dnf autoremove
 
-// Check the local packagedb, producing any problems it finds.
-$ dnf check
+# Remove any "leaf" packages no longer used.
+$ dnf autoremove -v 
 ```
 
 ## Updating

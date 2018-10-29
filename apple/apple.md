@@ -1,54 +1,6 @@
 # Apple
 
-## Xcode Tools
-
-```bash
-
-# xcode-select
-#
-# xcode-select manages the active developer dir for Xcode and BSD tools. It
-# allows you to switch between different versions of Xcode tools or to update
-# the path to Xcode tools if the directory has been moved.
-#
-# ---
-# Set the command line tools to use those found in /Applications/Xcode.app
-
-$ sudo xcode-select --switch /Applications/Xcode.app
-
-# ---
-#
-# Install the command line developer tools.
-# Command line tools are installed to /Library/Developer/CommandLineTools
-
-$ sudo xcode-select --install
-
-# ---
-#
-# xcrun ses the Xcode development environment to find and execute the given
-# command.
-#
-$ xcrun [-v] --find <tool name>
-```
-
-## appledoc ##
-
-	/**
-	 * Tweet-sized high-level documentation for this class/method.
-	 *
-	 * Reference other classes like `NSString` with ticks.
-	 *
-	 * @note this will appear in a letterbox inside the appledoc output
-	 *
-	 * @see anotherFunction:withParam1:param2
-	 * @param param1 Some integer field.
-	 * @param param2 Some `NSString` field.
-	 * @return An int
-	 */
-	- (int) myMethod:(int)param1 withString:(NSString *)param2 {
-
-	}
-
-## Apple Environment Notes ##
+## Apple Environment Notes
 
 ~/Library/MobileDevice/Provisioning Profiles
 
@@ -147,7 +99,7 @@ Persistence Stack
 
 
 
-## Data ##
+## Data
 
 CD was designed around a "document model" - change tracking / undo support.
 
@@ -170,7 +122,7 @@ CD problems:
 
 
 
-## ARC ##
+## ARC
 
 * Retainable objects: Arc is available on objc objects and blocks. Not available on CF or C objects
   (int *). See toll-free-bridging for __bridge attributes that tell ARC what the ownership semantics
@@ -222,97 +174,3 @@ Delegate implementation -- use __weak
     NSString *name = (NSString *)CFBridgingRelease(ABRecordCopyValue(person,
     kABPersonFirstNameProperty)); NSLog(@"Person's first name: %@", name); }
 
-## NSTableView | NSOutlineView ##
-
-* NSTableColumn : .identifier used to uniquely identify the column (used from delegate |
-  viewForTableColumn)
-
-NSTableView NSTableViewRow :
-
-* OutlineView (start here)
-* SourceView : finder
-* TableViewPlayground
-* DragNDropOutlineView
-
-## iOS Stuff ##
-
-* How to download older versions of the SDK (where do they go on disk?)
-
-# OS X Reading Plan #
-
-Cocoa Fundamentals Guide:
-
-	https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CocoaFundamentals/Introduction/Introduction.html#//apple_ref/doc/uid/TP40002974
-
-
-Cocoa Event Handling Guide:
-
-Event Messages : events sent from HW / I/O Kit to your app (mouse, keyboard, trackpad).  Action
-Messages : application level events (target/action) sent from one control to another.
-
-
-### Mouse ###
-
-* Mouse moved events happen so fast, the bog down the event queue. By default NSWindow will not
-  watch for them. Set [NSWindow setAcceptsMouseMovedEvents:YES]; to receive the mouse moved events.
-
-* Mouse moved events are *always* sent to the first responder, not the view under the mouse.
-
-### Keyboard ###
-
-Key event priority:
-
-1. Key equivalent : performKeyEquivalent is sent down the view hierarchy. If nobody handles it, it
-is sent to NSMenu objects.
-
-2. Keyboard Interface Control (tab / shift-tab) : moves focus between controls.  To programmatically
-	manipulate the key loop, use IB or [NSView setNextKeyView].
-
-3. Keyboard action : (beginningOfLine, etc..)
-
-4. Characters for insertion as text.
-
-
-### Action Messages (target/action) ###
-
-[NSApplication sendAction:to:from]; // if to (target) nil, action goes up the responder chain.
-
-
-### Responders ###
-
-[NSView setAcceptsFirstResponder:NO]; [NSWindow makeFirstResponder:];
-
-
-
-Mac App Programming Guide App lifecycle, full screen, iCloud, implementing preferences...
-
-	https://developer.apple.com/library/mac/#documentation/General/Conceptual/MOSXAppProgrammingGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40010543
-
-*********************************************************************************************************
-*********************************************************************************************************
-
-# Cocoa Bindings #
-
-* Implement NSEditorRegistration protocol on a NSTextField to indicate start|end of an editing
-  session. Here is another test line and another and ano
-
-
-* Use a value transformer.
-
-* NSArrayController : subclass to customize sorting | filtering.
-
-* All bindings are based on KVC | KVO.  (See Key-Value Coding Programming Guide)
-
-* Why use NSController at all?
-
-	* NSController instances manage their current selection | placeholder values (acts as an
-      intermediary)
-
-
-NSEditorRegistration protocol : objectDid[Begin|End]Editing
-
-NSObjectController contentObject
-
-	 | NSArrayController | NSTreeController | NSUserDefaultsController
-
-bind contentArray => selection.weapons arrangedObjects.name selection.weapons

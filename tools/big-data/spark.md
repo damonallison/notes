@@ -1,16 +1,104 @@
 # Spark
 
-The **big idea** with spark is providing in-memory data processing. Data is read from any source (HDFS, file system, SQL, etc) into in-memory RDD (resilient distributed datasets) and processed in memory.
+The **big idea** with spark is in-memory data processing. Data is read from any
+source (HDFS, file system, SQL, etc) into in-memory Dataset and processed in
+memory.
 
-RDDs are fault tolerant, distributed, and immutable.
+Datasets are fault tolerant, distributed, and immutable.
 
-Two types of operations can be performed on RDDs.
+Two types of operations can be performed on Datasets:
 
-* Transformations. Create a new RDD.
+* Transformations. Create a new Dataset.
 * Actions. Return a value to the driver program after running a computation on the RDD.
 
-## Do not use global variables!
-Lambdas should *not* reference non-local (global) variables. When lambdas execute across nodes in a cluster, each cluster node will have it's own copy of the global variable. Thus, the variable on the driver program will not be updated.
+## Spark vs. Hadoop
+
+Spark is *similar* to Hadoop in some respects:
+
+* Computation is distributed to handle large data sets.
+* Both systems are resilient - they can handle node failures.
+
+### Differences
+
+* Hadoop is somewhat limited to MapReduce jobs in batch environments.
+* Spark is a more general purpose programming environment.
+  * Support for Python, SQL (SparkSQL), and countless statistics libraries.
+* Hadoop does not handle iterative algorithms (multiple stages of MR).
+* Spark supports streaming.
+  * Streams are converted into Dataset windows.
+  * Stream sources could be HDFS, Twitter, API, Socket, Kafka.
+* REPL support.
+* Spark is in-memory and fast.
+
+
+## Dataset
+
+Spark's main abstration is the Dataset. The Dataset is a collection of elements
+partitioned across nodes in a cluster that can be operated on in parallel.
+
+* Datasets can be cached (using `.cache`) in memory for faster processing.
+  Consider this for "hot" data sources.
+
+* Spark’s original (pre-2.0) main programming interface was called the
+  "Resilient Distributed Dataset" (RDD). RDD was replaced in 2.0 with `Dataset`.
+  Dataset is strongly typed like RDD, but faster.
+
+## Shared Variables
+
+* By default, when spark runs a task on different nodes, it ships a copy of each
+  variable used in the function to each task.
+
+* Spark supports two types of shared variables: broadcast variables and accumulators.
+  * Broadcast: used to cache a value in memory on all nodes.
+  * Accumulators: variables which are only added to - such as counters and sums.
+
+Programming in spark is a pipeline.
+
+```plain
+
+Create Dataset ->
+  Apply transformations (map / filter) ->
+    Perform action (collect, reduce, take)
+
+```
+
+If results are too large for the driver, results can be written to `HDFS`.
+
+```python
+
+# Launch the python spark REPL
+$ pyspark
+
+# Create a Dataframe
+>>> textFile = spark.read.text("/tmp/damon.txt")
+
+>>> textFile.count() # Number of rows in the Dataframe
+
+# Maps a line to an integer value and aliases it "numWords",
+# creating a new DataFrame. `agg` is called to find the largest
+# word count.
+
+>>> from pyspark.sql.functions import *
+>>> textFile.select(size(split(textFile.value, "\s+")).name("numWords")).agg(max(col("numWords"))).collect()
+
+# Spark supports caching. This is useful when data is
+# accessed repeatedly, such as when querying a small Dataset
+# or running an iterative algorithm like PageRank.
+
+>>> textFile.cache()
+
+```
+
+* Since `python` is not strongly typed, spark Datasets are not strongly typed in
+  python. All Datasets in python are Dataset[Row], and called `DataFrame` to be
+  consistent with the data frame concept in `R` and `Pandas`.
+
+## Do not use global variables
+
+Lambdas should *not* reference non-local (global) variables. When lambdas
+execute across nodes in a cluster, each cluster node will have it's own copy of
+the global variable. Thus, the variable on the driver program will not be
+updated.
 
 **Closures should not be used to mutate non-local state.**
 
@@ -20,21 +108,28 @@ To reference variables across all nodes in a cluster, use an `Accumulator`.
 
 To print an RDD across all nodes within a cluster, they must be `collect()`ed first on the driver:
 
+```python
+
 > rdd.collect().foreach(println)
+
+```
 
 If you only need to print out a few elements:
 
+```python
+
 > rdd.take(100).foreach(println)
 
+```
 
 ## Examples
-
-* Start jupyter (pile of shit editor)
-  * `$ pyspark`
 
 * Copy a file into HDFS
   * `$ hadoop fs -ls`
   * `$ hadoop fs -put words.txt`
+
+* Start pyspark
+  * `$ pyspark`
 
 * Creating a spark context given a text file into a `lines` RDD and `words` RDD.
   * `lines = sc.textFile("hdfs:/user/cloudera/words.txt")`
@@ -58,7 +153,8 @@ If you only need to print out a few elements:
 
 This example loads data from the "gameclicks" table in postgres into spark.
 
-```
+```python
+
 from pyspark.sql import SQLContext
 sqlsc = SQLContext(sc)
 df = sqlsc.read.format("jdbc")
@@ -109,10 +205,13 @@ merge.printSchema()
 
 
 #### Spark Streaming
-```
+
+```python
+
 # Parse a line of weather station data, returning the average wind direction measurement
-#
+
 import re
+
 def parse(line):
     match = re.search("Dm=(\d+)", line)
     if match:
@@ -152,14 +251,3 @@ ssc.start()
 ssc.stop()
 
 ```
-
-
-### Course 3, Week 6 : Assignment : Analysis using Spark
-
-Launch pyspark with the following command
-
-> pyspark --packages com.databricks:spark-csv_2.10:1.5.0
-
-#### Question 1:
-
-How many different countries are mentioned in the tweets? Each country can only count 1 time.
