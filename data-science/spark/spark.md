@@ -105,7 +105,7 @@ $ pip install jupyter
 $ jupyter notebook
 ```
 
-# Configuring the PySpark driver to automatically open a Jupyter Notebook
+### Configuring the PySpark driver to automatically open a Jupyter Notebook
 
 Pyspark can be configured to launch in a jupyter notebook at launch.
 
@@ -117,6 +117,16 @@ set --export PYSPARK_DRIVER_PYTHON jupyter
 set --export PYSPARK_DRIVER_PYTHON_OPS 'notebook'
 
 ```
+
+### Set the default Derby DB directory to /tmp/derby
+
+When using certain features in spark (explode, for example), a Derby DB is created. To avoid creating this DB in your local directory, create it in `/tmp`.
+
+```bash
+
+# Edit $SPARK_HOME/spark-defaults.conf
+
+spark.driver.extraJavaOptions -Dderby.system.home=/tmp/derby
 
 ---
 
