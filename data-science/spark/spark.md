@@ -20,16 +20,15 @@ Spark is *similar* to Hadoop in some respects:
 
 ### Differences
 
+* Spark is in-memory and fast.
 * Hadoop is somewhat limited to MapReduce jobs in batch environments.
 * Spark is a more general purpose programming environment.
   * Support for Python, SQL (SparkSQL), and countless statistics libraries.
-* Hadoop does not handle iterative algorithms (multiple stages of MR).
+* Hadoop is not ideal for iterative algorithms (multiple stages of MR).
 * Spark supports streaming.
   * Streams are converted into Dataset windows.
   * Stream sources could be HDFS, Twitter, API, Socket, Kafka.
-* REPL support.
-* Spark is in-memory and fast.
-
+* REPL /Jupyter support.
 
 ## Dataset
 
