@@ -175,6 +175,11 @@ public class WordCount2 {
     public void setup(Context context) throws IOException,
         InterruptedException {
       conf = context.getConfiguration();
+
+      //
+      // Config values are specified on the command line when executing the job. For example:
+      // $ hadoop jar wc.jar WordCount2 -Dwordcount.case.sensitive=false input output -skip wordcount/patterns.txt
+      //
       caseSensitive = conf.getBoolean("wordcount.case.sensitive", true);
       if (conf.getBoolean("wordcount.skip.patterns", false)) {
         URI[] patternsURIs = Job.getInstance(conf).getCacheFiles();
@@ -200,17 +205,20 @@ public class WordCount2 {
     }
 
     @Override
-    public void map(Object key, Text value, Context context
-                    ) throws IOException, InterruptedException {
-      String line = (caseSensitive) ?
-          value.toString() : value.toString().toLowerCase();
+    public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+
+      String line = (caseSensitive) ? value.toString() : value.toString().toLowerCase();
       for (String pattern : patternsToSkip) {
         line = line.replaceAll(pattern, "");
       }
       StringTokenizer itr = new StringTokenizer(line);
       while (itr.hasMoreTokens()) {
         word.set(itr.nextToken());
+
+        // Writes ["word", 1] as an intermediate output pair.
         context.write(word, one);
+
+        // The global number of input words for statistical purposes.
         Counter counter = context.getCounter(CountersEnum.class.getName(),
             CountersEnum.INPUT_WORDS.toString());
         counter.increment(1);
@@ -218,10 +226,21 @@ public class WordCount2 {
     }
   }
 
+  //
+  // Hadoop sorts, then groups (partitions) intermediate values by key and passes each key to a reducer instance.
+  // You can customize how key groupings happen by specifying a custom comparator class via Job.setGroupingComparatorClass(Class)
+  //
+  // Hadoop creates a reducer for each key partition. You can write a custom partitioner to specify which keys go
+  // to each reducer by implementing a custom `Partitioner`. The default partitioner is `HashPartitioner`, which
+  // partitions based on key hash.
+  //
+  // The number of reducers per job can be set using the Job.setNumReduceTasks(int)
+  //
   public static class IntSumReducer
        extends Reducer<Text,IntWritable,Text,IntWritable> {
     private IntWritable result = new IntWritable();
 
+    // Sum each word count.
     public void reduce(Text key, Iterable<IntWritable> values,
                        Context context
                        ) throws IOException, InterruptedException {
@@ -242,6 +261,14 @@ public class WordCount2 {
       System.err.println("Usage: wordcount <in> <out> [-skip skipPatternFile]");
       System.exit(2);
     }
+
+    //
+    // Job represents a MR job configuration. Here, you specify the job's:
+    // Mapper, combiner, Partitioner, Reducer, InputFormat, OutputFormat
+    //
+    // Jobs are run in a child vm. The vm instance can be configured using
+    // configuration files (see https://hadoop.apache.org/docs/r3.1.1/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html)
+    //
     Job job = Job.getInstance(conf, "word count");
     job.setJarByClass(WordCount2.class);
     job.setMapperClass(TokenizerMapper.class);
