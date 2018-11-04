@@ -1,6 +1,6 @@
 # Spark
 
-The **big idea** with spark is in-memory data processing. Data is read from any
+The **big idea** with spark is parallel, in-memory data processing. Data is read from any
 source (HDFS, file system, SQL, etc) into in-memory Dataset and processed in
 memory.
 
@@ -8,10 +8,15 @@ Datasets are fault tolerant, distributed, and immutable.
 
 Two types of operations can be performed on Datasets:
 
-* Transformations. Create a new Dataset.
-* Actions. Return a value to the driver program after running a computation on the RDD.
+1. Transformations. Transformations are lazy operations which are added to the
+   RDD pipeline. Transformations are not executed until an `Action` occurs.
+1. Actions. Return a value to the driver program after running a computation on
+   the RDD. Actions could potentially bring the entire RDD back to the driver
+   program, causing the driver to run out of memory.
 
 ## Spark vs. Hadoop
+
+### Similarities
 
 Spark is *similar* to Hadoop in some respects:
 
@@ -28,9 +33,9 @@ Spark is *similar* to Hadoop in some respects:
 * Spark supports streaming.
   * Streams are converted into Dataset windows.
   * Stream sources could be HDFS, Twitter, API, Socket, Kafka.
-* REPL /Jupyter support.
+* REPL / Jupyter support.
 
-## Dataset
+## Dataset (RDD)
 
 Spark's main abstration is the Dataset. The Dataset is a collection of elements
 partitioned across nodes in a cluster that can be operated on in parallel.
@@ -44,8 +49,9 @@ partitioned across nodes in a cluster that can be operated on in parallel.
 
 ## Shared Variables
 
-* By default, when spark runs a task on different nodes, it ships a copy of each
-  variable used in the function to each task.
+By default, when spark runs a task on different nodes, it ships a copy of each
+variable used in the function to each executor. Therefore, each node has a copy
+within it's JVM. `By default, state is not shared across nodes.`
 
 * Spark supports two types of shared variables: broadcast variables and accumulators.
   * Broadcast: used to cache a value in memory on all nodes.
@@ -60,6 +66,87 @@ Create Dataset ->
     Perform action (collect, reduce, take)
 
 ```
+
+## Shuffle Operations / Memory Usage
+
+Some transformations in spark require data to be shuffled in memory. For
+example, `reduceByKey` must read *all* data in the RDD, group values by key, and
+then run the reduce operation. Reading all data and building new RDDs for `map`
+and `reduce` operations to run by key requires data to be shuffled in memory.
+
+Shuffling can be very memory / resource heavy. Spark uses temporary files to
+during shuffling.
+
+
+---
+
+## Spark SQL
+
+Spark SQL allows you to process (i.e., query) data in structured `Dataset`s. A
+`Dataset` is a faster implementation of `RDD`. `Dataset` are strongly typed like
+`RDD`s.
+
+A `DataFrame` is a `Dataset` organized into named colums. They are conceptually
+similar to a SQL relational table.
+
+`DataFrame`s can be created from multiple input sources:
+
+* Files (text, csv, json)
+* Hive
+* JDBC
+
+```python
+
+from pyspark.sql import SparkSession
+
+df = spark.read.json("file.json")
+df.show()
+
+# +----+-------+
+# | age|   name|
+# +----+-------+
+# |null|Michael|
+# |  30|   Andy|
+# |  19| Justin|
+# +----+-------+
+
+df.printSchema()
+```
+
+---
+
+## Spark Structured Streaming
+
+Spark Streaming is a stream processing engine based on Spark SQL. It allows you
+to write SQL queries against a series of data with results updating in real
+time. 
+
+* Supports windowing.
+* Supports joining stream with non-stream (fixed) data.
+* Support deduplication based on watermark (unique id).
+
+
+Similar to `ksql` in the Kafka ecosystem.
+
+Input sources include:
+
+* Files
+* Kafka
+* Socket (for testing only)
+* "Rate source" : manual data creation (for testing only)
+
+Output sources (sinks) include:
+
+* File
+* Kafka
+* Console
+* Memory
+
+## Spark Streaming
+
+* Spark streaming receives live data streamed in from Kafka, TCP, HDFS, or another data source.
+* Data is processed into batches (RDDs).
+* Batches are processed in Spark and sent to 
 
 ---
 
