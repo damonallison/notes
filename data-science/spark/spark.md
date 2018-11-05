@@ -23,12 +23,6 @@ Oudside of `RDD`s, spark offers two forms of shared variables:
 * `Broadcast Variables` : Read only data that needs to be accessed across all nodes.
 * `Accumulators`
 
-## Spark SQL
-
-Spark SQL introduces `DataFrames`. Spark SQL allows you to connect to JDBC /
-ODBC data sources and pull data into `DataFrames`.
-
-
 ## Spark vs. Hadoop
 
 ### Similarities
@@ -81,7 +75,6 @@ Create Dataset ->
     Perform action (collect, reduce, take)
 
 ```
-
 ## Shuffle Operations / Memory Usage
 
 Some transformations in spark require data to be shuffled in memory. For
@@ -92,17 +85,12 @@ and `reduce` operations to run by key requires data to be shuffled in memory.
 Shuffling can be very memory / resource heavy. Spark uses temporary files to
 during shuffling.
 
-
 ---
 
 ## Spark SQL
 
-Spark SQL allows you to process (i.e., query) data in structured `Dataset`s. A
-`Dataset` is a faster implementation of `RDD`. `Dataset` are strongly typed like
-`RDD`s.
-
-A `DataFrame` is a `Dataset` organized into named colums. They are conceptually
-similar to a SQL relational table.
+Spark SQL allows you to query and filter data contained within a `DataFrame`. A
+`DataFrame` is conceptually similar to TABLEs in SQL.
 
 `DataFrame`s can be created from multiple input sources:
 
@@ -110,36 +98,17 @@ similar to a SQL relational table.
 * Hive
 * JDBC
 
-```python
-
-from pyspark.sql import SparkSession
-
-df = spark.read.json("file.json")
-df.show()
-
-# +----+-------+
-# | age|   name|
-# +----+-------+
-# |null|Michael|
-# |  30|   Andy|
-# |  19| Justin|
-# +----+-------+
-
-df.printSchema()
-```
-
 ---
 
 ## Spark Structured Streaming
 
 Spark Streaming is a stream processing engine based on Spark SQL. It allows you
 to write SQL queries against a series of data with results updating in real
-time. 
+time.
 
 * Supports windowing.
 * Supports joining stream with non-stream (fixed) data.
 * Support deduplication based on watermark (unique id).
-
 
 Similar to `ksql` in the Kafka ecosystem.
 
@@ -161,7 +130,38 @@ Output sources (sinks) include:
 
 * Spark streaming receives live data streamed in from Kafka, TCP, HDFS, or another data source.
 * Data is processed into batches (RDDs).
-* Batches are processed in Spark and sent to 
+* Batches are processed in Spark and sent to
+
+---
+
+## Spark MLLib
+
+MLLib provides ML functionality on top of Spark. It's goal is to make practical
+machine learning scalable and easy. It takes advantage of Spark's parallel,
+distributed nature to run ML algorithms on massive data sets
+
+Features:
+
+* ML Algorithms: classification, regression, clustering, collaborative
+  filtering.
+* Featurization: feature extraction, transformation, dimensionality, selection.
+* Pipelines: tools for constructing, evaluating, and tuning ML pipelines.
+* Persistence: save / load algorithms, models, and Pipelines.
+* Utilities: linear algebra, statistics, data handling, etc.
+
+Pipelines are inspired by `scikit-learn`.
+
+The core data structure used by `MLLib` is the `DataFrame`. Pipelines are built
+by combining `Transformer` and `Estimator` algorithms together in a sequence.
+
+* Transformer: A Transformer is an algorithm which can transform one DF to
+  another DF.
+
+* Estimator: An `Estimator` accepts a `DataFrame` and creates a `Model`, which
+  is a `Transformer`. For example, `LinearRegression` is an `Estimator`, and
+  calling `fit()` on it trains a `LogisticRegressionModel`, which is a
+  `Transformer`.
+
 
 ---
 
