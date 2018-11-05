@@ -1,5 +1,11 @@
 # Spark
 
+<<<<<<< Updated upstream
+The **big idea** with spark is parallel, in-memory data processing. Data is read from any
+source (HDFS, file system, SQL, etc) into in-memory Dataset and processed in
+memory.
+=======
+>>>>>>> Stashed changes
 
 Spark is a cluster computing framework. Data is read from any source (HDFS, file
 system, SQL, etc) into in-memory Dataset (RDD) and processed in-memory.
@@ -28,6 +34,14 @@ Oudside of `RDD`s, spark offers two forms of shared variables:
 Spark SQL introduces `DataFrames`. Spark SQL allows you to connect to JDBC /
 ODBC data sources and pull data into `DataFrames`.
 
+<<<<<<< Updated upstream
+1. Transformations. Transformations are lazy operations which are added to the
+   RDD pipeline. Transformations are not executed until an `Action` occurs.
+1. Actions. Return a value to the driver program after running a computation on
+   the RDD. Actions could potentially bring the entire RDD back to the driver
+   program, causing the driver to run out of memory.
+=======
+>>>>>>> Stashed changes
 
 ## Spark vs. Hadoop
 
