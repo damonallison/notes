@@ -1,14 +1,14 @@
 # Spark
 
-
-Spark is a cluster computing framework. Data is read from any source (HDFS, file
-system, SQL, etc) into in-memory Dataset (RDD) and processed in-memory.
+Spark is a general purpose cluster computing framework. Data is read from any
+source (HDFS, file system, SQL, etc) into in-memory Dataset (RDD) and processed
+across the cluster.
 
 ## Spark Core
 
 The primary architectural component is the `Dataset`, which is based on the
-original `RDD` (Resilient, Distributed Dataset). `RDD`s are lazy. Functions are
-not performed until an action (like `count`) is executed.
+original `RDD` (Resilient, Distributed Dataset). `Dataset`s are lazy. Functions
+are not performed until an action (like `count`) is executed.
 
 Spark was born out of the limitations of single pass MapReduce popularized by
 Hadoop. Applications like ML require multipass iterative algorithms which
@@ -38,7 +38,7 @@ Spark is *similar* to Hadoop in some respects:
 * Hadoop is somewhat limited to MapReduce jobs in batch environments.
 * Spark is a more general purpose programming environment.
   * Support for Python, SQL (SparkSQL), and countless statistics libraries.
-* Hadoop is not ideal for iterative algorithms (multiple stages of MR).
+* Hadoop is not ideal for iterative algorithms (multiple stages of ML).
 * Spark supports streaming.
   * Streams are converted into Dataset windows.
   * Stream sources could be HDFS, Twitter, API, Socket, Kafka.
@@ -75,6 +75,7 @@ Create Dataset ->
     Perform action (collect, reduce, take)
 
 ```
+
 ## Shuffle Operations / Memory Usage
 
 Some transformations in spark require data to be shuffled in memory. For
@@ -89,14 +90,16 @@ during shuffling.
 
 ## Spark SQL
 
-Spark SQL allows you to query and filter data contained within a `DataFrame`. A
-`DataFrame` is conceptually similar to TABLEs in SQL.
+Spark SQL introduced the `DataFrame` abstraction. A `DataFrame` is conceptually
+similar to TABLEs in SQL (rows / columns).
 
 `DataFrame`s can be created from multiple input sources:
 
 * Files (text, csv, json)
 * Hive
 * JDBC
+
+`Dataset` can be converted to a `DataFrame`.
 
 ---
 
@@ -130,7 +133,8 @@ Output sources (sinks) include:
 
 * Spark streaming receives live data streamed in from Kafka, TCP, HDFS, or another data source.
 * Data is processed into batches (RDDs).
-* Batches are processed in Spark and sent to
+* Batches are processed in Spark, gathered on the driver, and written to an
+  output data source.
 
 ---
 
