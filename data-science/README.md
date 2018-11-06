@@ -20,6 +20,7 @@
 
 * Provides a SQL-like interface (HiveQL) which operates on databases and file systems which integrate with Hadoop.
 * Abstracts away the underlying Hadoop / Java MapReduce API into a user friendly SQL interface.
+* Hive compiles `HiveQL` statements into MapReduce or Spark jobs, which are submitted for execution.
 
 ## Anaconda
 
@@ -31,6 +32,15 @@
 * Flume is a kafka-like streaming engine with tight integration with Hadoop.
 * Kafka is a much better general purpose streaming engine than Flume. tl;dr - Use Kafka.
 * Flume is tightly integrated with Hadoop / HDFS and is generally used to ingest data into HDFS.
+
+---
+
+## Cassandra
+
+
+
+## Redis
+
 
 ---
 
