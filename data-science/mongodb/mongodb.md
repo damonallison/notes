@@ -1,21 +1,42 @@
-# mongodb
+# MongoDB
 
-## Likes
+MongoDB is a distributed document store. Documents are stored in `collections`,
+queried using a JSON-like based query language, and have dynamic schemas.
+Documents in the same collection can have different schemas.
 
-* Documents can have varying schema. This is similar to "NULL" in T-SQL. Simplifies adding elements to a schema.
-* Geo filter queries (within center, within box).
-* Ability to scale out? How to handle consistency, ACID compliance?
+The key advantage of document stores over relational stores is the flexability
+and dynamic nature of documents. Documents do not require you to create complex,
+potentially slow `JOIN` statements or create a dedicated stored procedure query
+layer.
 
-## Questions
+Schema is not enforced or does not have to be consistent between documents. This
+allows you to version on demand.
 
-* How does schema versioning in Mongo differ from T-SQL? In good or bad ways?
-* How is concurrency handled?
-* `mongoimport` (and mongo in general) looks to be based on `go`. What is mongo's relationship to `go`?
-* What is the indexing strategy for mongo? Similar to SQL - index frequently used filter fields?
+## Key Features
 
-## Commands
+* Performance.
+  * Document based queries avoid expensive JOIN operations found in
+    SQL based DMBSs.
 
-### Launching Mongo
+* High Availability.
+  * Mongo supports multiple replica sets, providing automatic
+    fail over and data redundancy.
+
+* Scalable.
+  * Mongo shards data horizontally across a cluster of machines.
+
+## Conceptual
+
+* Database
+  * A set of document collections.
+* Collections
+  * A set of documents.
+* Documents
+  * Records in a collection. Must have an `_id` field (primary key).
+  * Documents are stored in `BSON`. `BSON` is a binary representation of `JSON`
+    but contains more types.
+
+## Launching Mongo
 
 * To start mongod at runtime : `brew services start mongodb`
 
@@ -31,15 +52,12 @@
 $ mongoimport --db test --collection restaurants --drop --file ~/projects/mongo/primer-dataset.json
 ```
 
-## Conceptual
-
-* Database : contains a set of collections (tables).
-* Collections : similar to tables in a relational DB.
-* Documents : Records in a collection. Must have an `_id` field (primary key).
-
 -------------------------------------------------------------------------------
 
 ## Connecting to MongoDB
+
+* `mongodb` launches a server instance.
+* `mongo`
 
 Mongo will create it's database structure. All it needs is a path to use when launching the daemon, specified with the `--dbpath <path>` option.
 
@@ -61,7 +79,7 @@ $ ./mongodb/bin/mongo
 
 ```
 
-## Creating a collection
+## Working with Mongo
 
 > db.runCommand( {
 >   create: "users",         -- The new collection name. Required.
