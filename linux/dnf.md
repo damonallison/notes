@@ -1,11 +1,21 @@
 # dnf
 
-Dandified YUM.
+Dandified YUM. The success to `yum` for RPM based distributions.
 
-## TODO
+## Config
 
-* How to remove older kernel versions?
-* How to install chrome, vs code?
+```bash
+
+# The configuration file for DNF and related utilities is located at
+#
+# /etc/dnf/dnf.conf
+#
+# Individual repositories are added to YUM by adding .repo files to the
+# directory:
+#
+# /etc/yum.repos.d
+
+```
 
 ## Switches
 
@@ -22,20 +32,22 @@ Dandified YUM.
 ## Cleaning / Maintenance
 
 ```bash
+
 # Cleans out caches, metadata, and packages
 $ dnf clean all
 
-# Verify the local packagedb 
+# Verify the local packagedb
 $ dnf check
 
 # Download and caches (in binary format) metadata for all known repos.
 $ dnf makecache
 
+#
 # Removes all leaf packages which are not referenced and originally installed
 # as a dependency to another package.
+#
+$ dnf autoremove -v
 
-# Remove any "leaf" packages no longer used.
-$ dnf autoremove -v 
 ```
 
 ## Updating
