@@ -2,9 +2,9 @@
 
 Happy New Year! I'm writing this on January 1st, 2019. The day of the year where
 millions of people make resolutions and set goals to change their lives for the
-better. We can probably guess the top resolutions people make. Lose weight is
-probably #1, exercise, eat better, spend less money, spend more time with family
-/ friends, run a marathon, quit smoking, drink less, etc.
+better. We can definitely guess the top resolutions people make. Lose weight,
+exercise, eat better, spend less money, spend more time with family / friends,
+run a marathon, quit smoking, drink less, etc.
 
 After literally typing in "top new years resolutions" into Google, we find a
 [survey of 2000
@@ -17,14 +17,41 @@ the top New Years resolutions people make:
 * 32% - save more, spend less
 * 26% - learn a new hobby or skill
 
-Hopefully the actual resolutions are S.M.A.R.T. or have a much better defined
-goal than those generalized goals, but you get the idea. It's all about
-improving self image, finances, or generally improve yourself personally.
+Hopefully the actual resolutions are S.M.A.R.T.er or at least measurable (e.g.,
+lose 10 lbs) than the generalized goals above, but you get the idea.
+
+On the surface, those are great resolutions. Who wouldn't want to exercise more,
+eat better? But stop for a minute and actually *think*. Why are they being made?
+What are the deep desires which are motivating people to set these resolutions?
+To me, it seems people value their appearance, their personal wealth, and
+generally improving themselves. Without a doubt all great things.
+
+What if the results turned out like this:
+
+* 71% - give more
+* 65% - donate time to a non-profit
+* 54% - become a mentor
+* 32% - invest more, save less
+* 26% - teach a hobby or skill
+
+Could you imagine what the world would be like if these were the actual survery
+results? What an amazing culture we would have. Stop and think about the deep
+desires behind these goals - investing in others, improving the lives of others,
+a desire to give.
+
+The deep desires which drive our lives, our thoughts, our actions, our feelings,
+and our resolutions, are idols. Idols motivate us, they encourage us, they are
+the lens thru which we view life, ourselves, our values, our political beliefs,
+and others.
+
+---
 
 
-I couldn't think of a
-better topic to write about on New Years Day than one which makes you look deep
-into your heart and think about what truly motivates you.
+
+
+o I couldn't think of a better topic to write
+about on New Years Day than one which makes you look deep into your heart and
+think about what truly motivates you.
 
 For me, the best part of the new year is setting aside time to review the last
 year and plan the next. Reflection, at least for me, is a great source of
