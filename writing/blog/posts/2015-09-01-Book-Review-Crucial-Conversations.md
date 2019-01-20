@@ -1,4 +1,4 @@
-# 2015-09-01 Book Review: Crucial Conversations
+# Book Review: Crucial Conversations
 [Image](https://cdn-images-1.medium.com/max/640/1*gpnf63TZqeIqaWbpZTQSPQ.png)
 Simple: Love & Respect People
 

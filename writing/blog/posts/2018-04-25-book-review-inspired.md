@@ -1,4 +1,4 @@
-# Inspired : Marty Cagan
+# Book Review: Inspired
 
 * Image
 
@@ -6,19 +6,19 @@
 
 By all accounts, software development has been wildly successful. Simply consider where technology is at today.
 
-Look no further than the internet. We can find ~1,650,000 articles about random topics like Fly Fishing in 0.52 seconds.  We can provision a worldwide software infrastructure with a few clicks of a mouse.  We can receive precise driving directions and accurate ETA, taking into account current traffic conditions. We can point our cellphone camera at a random dog and find out the breed with 99% accuracy.  We pay people in universal currency and store the transaction in a global, distributed, incorruptible ledger. We ask a small cylinder to book movie tickets for Friday night, turn up the thermostat and recommend restaurants. Cars drive billions of miles fully autonomous. Software is handily beating the world’s best Go champion at his game. 
+Look no further than the internet. We can find ~1,650,000 articles about random topics like Fly Fishing in 0.52 seconds.  We can provision a worldwide software infrastructure with a few clicks of a mouse.  We can receive precise driving directions and accurate ETA, taking into account current traffic conditions. We can point our cellphone camera at a random dog and find out the breed with 99% accuracy.  We pay people in universal currency and store the transaction in a global, distributed, incorruptible ledger. We ask a small cylinder to book movie tickets for Friday night, turn up the thermostat and recommend restaurants. Cars drive billions of miles fully autonomous. Software is handily beating the world’s best Go champion at his game.
 
 And it’s speeding up. AI is advancing ever faster given the petabytes of data being generated daily. At Google’s I/O keynotes from 2015 onward, Sundar Pichai and Google have consistently and relentlessly focused on their AI first mission. Satya Nadella calls today’s AI driven landscape the “4th Industrial Revolution”.  It’s the “AI revolution”. And it’s on. It’s been on for a while. It’s so on that governments are publicly and proudly declaring intent to “win” AI. China publicly declared a AI arms race, the US is responding.
 
 There’s nothing that will slow the accelerating and brutally aggressive force of innovation. Software continues to eat the world. Technology continues to eat the world.
 
-But you know what? 
+But you know what?
 
 > **Underlying all the success is a trail paved with failed projects.**
 
 The unfortunate truth is the vast majority of software projects fail. Judging from , it appears people have [tried](https://www.zdnet.com/article/study-68-percent-of-it-projects-fail/) to measure [failure](https://www.cio.com/article/3068502/project-management/more-than-half-of-it-projects-still-failing.html), but I’m skeptical of the accuracy. Even if you interview 1000’s of people, how could you consistently label projects as successes or failures? I’ve been on individual *teams* where many hours were spent “defining what success means”. Heck, even “defining what done means” is something I’ve seen teams struggle with.
 
-Still, the trends are clear and indisputable. 
+Still, the trends are clear and indisputable.
 
 > **The majority of software projects fail**.
 
@@ -30,7 +30,7 @@ The single question this book seeks to answer, the holy grail everyone in tech i
 
 > How do you create successful tech products?
 
-Sounds easy, right? We’ve seen the countless success stories. The IPOs. The VC investments. The launch parties. The TechCrunch articles. We read books like INSPIRED, click bait LinkedIn headlines claiming the “5 steps to build a successful startup”. 
+Sounds easy, right? We’ve seen the countless success stories. The IPOs. The VC investments. The launch parties. The TechCrunch articles. We read books like INSPIRED, click bait LinkedIn headlines claiming the “5 steps to build a successful startup”.
 
 I’ve heard a bunch of common themes through the years. And in many cases, successful products have come from these approaches:
 
@@ -42,7 +42,7 @@ While I believe there is a hint of truth to all of those approaches, the bottom 
 
 INSPIRED distills down the essence of what author Marty Cagan has seen over his career working with mostly tech companies. He focuses on creating “tech” products, not manufacturing, or how to start a bakery, however the principles behind success are universal. He rightfully focuses on tech because all companies are tech companies. Even your bakery needs to embrace tech.
 
-So, let’s answer the question, shall we? 
+So, let’s answer the question, shall we?
 
 **How do we create successful tech products?**
 
@@ -54,27 +54,27 @@ I’m cheating on this review. I’m starting from the end of the book. The last
 
 > **It’s all about culture**
 
-This, my friends, is it. The holy grail of successful tech companies. You can stop reading this post right now and you have 90% of what you need to know about how to create great products. Culture is the root from which all things good and bad grow. 
+This, my friends, is it. The holy grail of successful tech companies. You can stop reading this post right now and you have 90% of what you need to know about how to create great products. Culture is the root from which all things good and bad grow.
 
 I realize that customers don’t buy your culture. They buy your products. A skeptic would say, and on the surface I would agree, if you don’t have a compelling product that customers love, it doesn’t matter how good your culture is. You need to focus on the product vision and the product itself - after tall that is what sells!
 
 While I agree you need to make a great product, how does the product get made? Culture is the underlying fabric upon which products are built. How people are hired. How motivated and inspired the team is. How product decisions are made. Culture helps engineers decide if they are going to spend the next few hours digging into a bug or call it quits for the night.
 
-**Every company has a culture. Every. One.** 
+**Every company has a culture. Every. One.**
 
 So before we start talking about the formula to create great products, we need to define the environment and framework in which those products will be built. You need to ask yourself the hard questions.
 
 * Why does your company exist?
-* What’s your North Star? 
-* What does your company value? 
+* What’s your North Star?
+* What does your company value?
 * Does every employee know the company mission and values? Do they live them?
 
-INSPIRED lays out characteristics of “good” and “bad” cultures. Obviously your company doesn’t need to check off every item on the “good” list, but in aggregate they give us a picture of what successful and unsuccessful teams look like. 
+INSPIRED lays out characteristics of “good” and “bad” cultures. Obviously your company doesn’t need to check off every item on the “good” list, but in aggregate they give us a picture of what successful and unsuccessful teams look like.
 
 #### Good cultures
 	* Obsess over their customers.
 	* Have a product mindset.
-	* Passionate about the solving the problem. 
+	* Passionate about the solving the problem.
 	* Have an attitude that they are “going to war”.
 	* Have an inspiring product vision they are working towards.
 	* Are data driven. Instrument their work. Analyze the data.
@@ -94,11 +94,11 @@ I love the quote INSPIRED includes from John Doerr.
 
 > We need teams of missionaries, not mercenaries. - John Doerr
 
-Hiring great people is the mark of a great leader. Thankfully, smart people are drawn to great culture. If you build a great culture, chances are you’ll attract great people. 
+Hiring great people is the mark of a great leader. Thankfully, smart people are drawn to great culture. If you build a great culture, chances are you’ll attract great people.
 
-Once you hire great people, you need to set them up for success. Instill in them a product vision they can become a missionary over - something they are passionate to attack. 
+Once you hire great people, you need to set them up for success. Instill in them a product vision they can become a missionary over - something they are passionate to attack.
 
-We also need to organize them. This involves teams, politics, communication, and corporate structure. This is critical to get right. INSPIRED lists traits successful teams have. 
+We also need to organize them. This involves teams, politics, communication, and corporate structure. This is critical to get right. INSPIRED lists traits successful teams have.
 
 #### Successful teams…
 * Are given clear objectives.
@@ -108,7 +108,7 @@ We also need to organize them. This involves teams, politics, communication, and
 * Are autonomous.
 * Minimize dependencies.
 * Stay together. Relationships build and expertise deepens.
-* Are co-located (together) when possible. 
+* Are co-located (together) when possible.
 
 I feel like if you look at that list, you are really talking about *trust* and *control*. You want teams to feel in control of their work. If they are going to take pride in their work, they need control of their destiny.
 
@@ -136,7 +136,7 @@ Many enterprise companies today build roadmaps. INSPIRED spends pages on why roa
 
 Companies and products aren’t measured by how many project roadmaps they complete, how many teams they have, or how many “points” they finish every week. They are measured by outcomes. INSPIRED views today’s “Church of Agile”, where points are measured and “burndown charts” determine a teams productivity as not *nearly* as important as happy customers, increased sales, increasing usage, you know - actual *results*.
 
-People, teams, products, and companies must be measured by outcomes, not outputs. INSPIRED really hammers on enterprise companies who are roadmap driven. I completely agree. Let’s get this straight: *completing a roadmap is not the goal*! Just because you finish a roadmap doesn’t mean a thing. What value have you produced? 
+People, teams, products, and companies must be measured by outcomes, not outputs. INSPIRED really hammers on enterprise companies who are roadmap driven. I completely agree. Let’s get this straight: *completing a roadmap is not the goal*! Just because you finish a roadmap doesn’t mean a thing. What value have you produced?
 
 I like INSPIRED’s discussion of what’s wrong with product roadmaps:
 
@@ -152,7 +152,7 @@ For example, rather than giving a team the objective of “complete the on board
 
 ### Great Process
 
-Oh, here we go. Everyone’s favorite topic. Process. Agile. Scrum. Waterfall. Religion. Scrum masters. Agile coaches. 
+Oh, here we go. Everyone’s favorite topic. Process. Agile. Scrum. Waterfall. Religion. Scrum masters. Agile coaches.
 
 Thankfully, you’re saved. INSPIRED doesn’t discuss Agile much (thankfully). INSPIRED focuses on the process of *product* development, not team execution. How refreshing. It’s so much more important to discuss the product development process (analyzing the market, understanding competition, creating ideas, etc) than the more narrow focused execution process that “Agile” teams typically follow.
 
@@ -179,7 +179,7 @@ So, what are the traits of a great product development process?
 
 * Cultivate product ideas
 	* Story mapping
-	* Find six reference (prospective) customers. 
+	* Find six reference (prospective) customers.
 		* Have them guide the product development. But don't customize the product for each customer. You are building a general product.
 	* Do customer interviews.
 	* Pretend you are the customer using your product.
@@ -197,9 +197,9 @@ So, what are the traits of a great product development process?
 
 Overall, I really appreciated the book’s focus on product development. As I was reading, I didn’t have an “ah ha” moment where I learned something radically new. Each point by itself makes complete sense. Yes, we need vision. Yes, culture is critical. Yes, product managers must own their product. Yes, we must collect feedback, analyze the data, and improve.
 
-But taken as a whole, INSPIRED painted a great picture of what characteristics successful products, teams, and companies embody. 
+But taken as a whole, INSPIRED painted a great picture of what characteristics successful products, teams, and companies embody.
 
-For me personally, INSPIRED opened my eyes to the broader context of overall product development. For so many years as an engineer I’ve focused on such a small but critically important piece of the product development process - coding. As engineers we typically focus on learning the next library, language, framework, service, component, or database that we miss the broader picture. Successful software products are built with great cultures, by great people, lead by visionary product managers, are outcome focused, and have a holistic product focused process.  
+For me personally, INSPIRED opened my eyes to the broader context of overall product development. For so many years as an engineer I’ve focused on such a small but critically important piece of the product development process - coding. As engineers we typically focus on learning the next library, language, framework, service, component, or database that we miss the broader picture. Successful software products are built with great cultures, by great people, lead by visionary product managers, are outcome focused, and have a holistic product focused process.
 
 As I approach new products or companies, those are the traits I’m going to look for and help build.
 
@@ -219,7 +219,7 @@ As I approach new products or companies, those are the traits I’m going to loo
 * Tell the engineers what you want, let them tell you how.
 
 * Why are we creating products?
-* How do companies create great products? 
+* How do companies create great products?
 * Inspired is about how large, successful tech companies are able to stay innovative and build great products.
 * In order to build great products, build great teams.
 * Fall in love with the problem, not the solution.
@@ -228,7 +228,7 @@ As I approach new products or companies, those are the traits I’m going to loo
 
 ## Robinson Lessons Learned
 
-### Personal 
+### Personal
 
 * Relationships are key.
 * Make people feel like missionaries, not mercenaries.
@@ -246,7 +246,7 @@ As I approach new products or companies, those are the traits I’m going to loo
 * Get product, marketing, technology together to define the strategy.
 
 ## Part 1: Lessons from tech companies
-* Behind every successful product is a great product manager. 
+* Behind every successful product is a great product manager.
 	* The book defines Product Manager as being an all encompassing product visionary.
 	* The book defines a Product Owner in the Agile sense - a backlog planner.
 * Product management is critical to success. It doesn't matter how good your engineering team is if they aren't building the right product.
@@ -268,7 +268,7 @@ As I approach new products or companies, those are the traits I’m going to loo
 
 * Traditional enterprise software has a long waterfall of ideas, business case (ROI), roadmap, requirements, design, engineering, QA, release.
 * The only agile part of traditional engineering projects is the engineering part.
-* Why roadmaps? 
+* Why roadmaps?
 	* Prioritization, planning.
 
 #### Problems with the enterprise development model
@@ -302,7 +302,7 @@ As I approach new products or companies, those are the traits I’m going to loo
 ### Key concepts of modern product work
 
 * Holistic product. Think about everything from engineering to UX to sales.
-* Continuous discovery and delivery. 
+* Continuous discovery and delivery.
 * Collaborative. UX, product management, engineering working together to determine what will be successful in the market.
 * Multiple prototypes (10-20 per week).
 * Product vision is defined with objectives 2-10 years out, relate to company mission.
@@ -317,19 +317,19 @@ As I approach new products or companies, those are the traits I’m going to loo
 
 * You want people who believe in a mission, not those who do what they are told.
 * Teams are given clear objectives.
-* Team empowerment and accountability. 
+* Team empowerment and accountability.
 * Teams are responsible for their `outcomes`. They need to feel ownership.
 * Teams are autonomous.
 * Minimize dependencies.
 * Keep teams together. Relationships build and expertise deepens.
-* Teams are co-located (together) when possible. 
+* Teams are co-located (together) when possible.
 * Its critical for the head of product and the head of engineering to be aligned.
 
 ### The Product Manager
 * The product manager must be strong. Not a converted BA.
 * Product managers are the next CEOs.
 * Product managers need to convince the team why the product is worth building.
-* Engineers need to push back on the PM. 
+* Engineers need to push back on the PM.
 	* Make him/her convince them the product will be a success.
 
 #### Traits of a successful PM
@@ -339,10 +339,10 @@ As I approach new products or companies, those are the traits I’m going to loo
 * Deep knowledge of the business.
 * Deep knowledge of the market.
 
-* In all the examples in the book, no products came from sales or users. 
+* In all the examples in the book, no products came from sales or users.
 * They were created and made successful by product teams.
 
-* PMs should basics. 
+* PMs should basics.
 
 ### The product designer
 * UX and UI are key to successful products. PMs and UX must be partners.
@@ -366,7 +366,7 @@ As I approach new products or companies, those are the traits I’m going to loo
 	* Have a strategy for managing tech debt.
 
 #### Head of product - skillset
-* Team development. 
+* Team development.
 * Product vision.
 * Execution.
 * Product culture.
@@ -389,10 +389,10 @@ As I approach new products or companies, those are the traits I’m going to loo
 
 ## Part 3 : The Right Product
 
-What product should the team work on? 
+What product should the team work on?
 
 * Produce results, outcomes, not projects, roadmaps!
-* Most product roadmaps are the root cause of most waste and failed efforts in product organizations. 
+* Most product roadmaps are the root cause of most waste and failed efforts in product organizations.
 
 ### The problems with product roadmaps
 
@@ -408,7 +408,7 @@ The alternative to roadmaps is results. Give the team OKRs, goals, to reach. Hol
 
 * Why roadmaps at all?
 	* Management wants to know teams are working on the most valuable thing.
-	* Businesses need to make date based commitments. 
+	* Businesses need to make date based commitments.
 * Product teams must understand:
 	* How do they fit into the company vision?
 	* The product vision and strategy.
@@ -417,16 +417,16 @@ The alternative to roadmaps is results. Give the team OKRs, goals, to reach. Hol
 	* "Onboard new customers in 3 hours or less"
 * Prioritize business results, not product ideas.
 * Tell the team what you want, what the objectives are, let them figure out how.
-* For date based commitments, make **high integrity commitments**. 
-	* Don't make commitments too early. 
-	* Do Discovery first - prototype, customer validation first, before investing. 
+* For date based commitments, make **high integrity commitments**.
+	* Don't make commitments too early.
+	* Do Discovery first - prototype, customer validation first, before investing.
 * In good companies, date based commitments are minimized.
 
 ### Product vision
 
 * Vision is the most effective motivation tool.
 * Vision is like leadership, it inspires.
-* Strategy is like management, it helps us get there. 
+* Strategy is like management, it helps us get there.
 * Vision should be inspiring, the product strategy should be focused.
 
 ### Principles of product vision
@@ -458,7 +458,7 @@ The alternative to roadmaps is results. Give the team OKRs, goals, to reach. Hol
 ## Product @ Scale
 * In large companies, teams need more help understanding their teams objectives and how they fit into the organization objectives.
 * Platform teams don't align with corporate objectives. Help them set objectives.
-* At scale, management must ensure teams are aligned, each team understands how they fit into the organization, what they are there to contribute. 
+* At scale, management must ensure teams are aligned, each team understands how they fit into the organization, what they are there to contribute.
 
 ### Product evangelism
 * Use a prototype
@@ -467,9 +467,9 @@ The alternative to roadmaps is results. Give the team OKRs, goals, to reach. Hol
 * Share learning generously
 * Share credit generously
 * Learn how to give a great demo
-* Do your homework. 
+* Do your homework.
 * Be an expert.
-* Show your enthusiasm 
+* Show your enthusiasm
 * Spend time with your team. With large companies, is hard to drive substantial change. But that is what good product managers do.
 
 ## The right process
@@ -496,7 +496,7 @@ The alternative to roadmaps is results. Give the team OKRs, goals, to reach. Hol
 
 #### Discovery planning techniques to get product ideas
 * Story mapping
-* Find six reference (prospective) customers. 
+* Find six reference (prospective) customers.
 	* Have them guide the product development. But don't customize the product for each customer. You are building a general product.
 * Do customer interviews.
 * Pretend you are the customer using your product.
@@ -525,7 +525,7 @@ Most product teams in large companies don't think about new ideas. They are give
 
 ##### Customer Interviews
 
-Really understand the problems your customers have and how they deal with them today. Look for opportunity. 
+Really understand the problems your customers have and how they deal with them today. Look for opportunity.
 
 ##### Concierge test technique
 
@@ -560,7 +560,7 @@ Low fidelity prototype like a wireframe or high fidelity like a click thru.
 ##### Live data prototype
 A small MVP version to collect feedback and/or prove it a major risk.
 
-Very limited in scope, but usable for customers to get real work done. 
+Very limited in scope, but usable for customers to get real work done.
 
 #### Discovery testing techniques
 
@@ -572,15 +572,15 @@ When doing Discovery, we are answering:
 
 ##### Usability testing
 
-When working with us, use a high fidelity prototype. 
+When working with us, use a high fidelity prototype.
 
 Remove the emotion from your love of the product. Be humble and open to new ideas.
 
-Take time to understand the customer's problem and how they solve it today. 
+Take time to understand the customer's problem and how they solve it today.
 
-When running the test, keep the users in "use mode" not "critique mode". Don't lead them and try not to jump in and help. 
+When running the test, keep the users in "use mode" not "critique mode". Don't lead them and try not to jump in and help.
 
-You want to understand how users think about the problem and where your software is inconsistent with hour the user is thinking. 
+You want to understand how users think about the problem and where your software is inconsistent with hour the user is thinking.
 
 ##### Testing value
 
@@ -608,9 +608,9 @@ Will the product work for the business?
 
 ### Transformation techniques
 
-Transformation is hard. Moving from roadmap driven teams to output focused teams is a cultural shift and a handoff of power and control from management to individuals on the teams. 
+Transformation is hard. Moving from roadmap driven teams to output focused teams is a cultural shift and a handoff of power and control from management to individuals on the teams.
 
-#### Discovery sprint. 
+#### Discovery sprint.
 
 Spend a week discovering and exploring product ideas and solving business problems.
 
@@ -620,7 +620,7 @@ Discovery coaches are always ex product people who know how to build tech produc
 
 #### Pilot teams
 
-Not all people want to see change. Start new processes or organizational change with a single team. 
+Not all people want to see change. Start new processes or organizational change with a single team.
 
 If successful, other teams will want to be a part of it.
 
@@ -653,14 +653,14 @@ It's critical the organization understands discovery and innovation is about con
 
 * Good teams a big product vision and bring passion. They analyze data. They love the problem.
 * Bad teams gather requirements from sales and customers.
-* Good teams rapidly prototype new ideas. Bad teams hold meetings about roadmaps. 
-* Good teams instrument their work to immediate understand how their product is being used. 
+* Good teams rapidly prototype new ideas. Bad teams hold meetings about roadmaps.
+* Good teams instrument their work to immediate understand how their product is being used.
 * Bad teams consider reporting and analytics a nice to have.
-* Good teams obsess over their reference customers. Bad teams obsess over their competitors. 
+* Good teams obsess over their reference customers. Bad teams obsess over their competitors.
 
 ### Top reasons for loss of innovation
 
-To keep innovation strong at scale: 
+To keep innovation strong at scale:
 
 * Customer focus
 * Strong product vision
@@ -687,14 +687,14 @@ A product culture has two dimensions:
 * What is a strong innovation culture?
 	* Culture of experimentation.
 	* Culture of empowerment.
-	* Culture of technology - new technology can improve or create new products. 
+	* Culture of technology - new technology can improve or create new products.
 	* Culture of open minds. Good ideas can come from anywhere.
 
 * What is a strong execution culture?
 	* Culture of urgency. People feel like they are in wartime.
 	* Culture of high integrity commitments. Teams know they must commit to dates. They make high integrity commitments.
 	* Culture of empowerment. Teams feel they have tools, resources, permission to whatever necessary to meet their commitments.
-	* Culture of collaboration. Teams know they must hold each other accountable. 
+	* Culture of collaboration. Teams know they must hold each other accountable.
 	* Culture of results, not output. I y
 
 #books
