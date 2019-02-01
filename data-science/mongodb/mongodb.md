@@ -29,8 +29,10 @@ allows you to version on demand.
 
 * Database
   * A set of document collections.
+
 * Collections
   * A set of documents.
+
 * Documents
   * Records in a collection. Must have an `_id` field (primary key).
   * Documents are stored in `BSON`. `BSON` is a binary representation of `JSON`
