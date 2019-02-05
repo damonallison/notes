@@ -1,16 +1,20 @@
 # xplat
 
+Cross platform tooling makes a *lot* of sense at the UI level.
+
 * Cross platform can provide code and skillset reuse.
 * When using Javascript, deployments do *not* always require app store releases.
 * The best mobile developers will still need to know iOS and Android at a deep level.
-* You are going to have custom iOS / Android code in most applications, but xplat approaches will save you from *always* needing custom code.
+* You are going to have custom iOS / Android code in most applications, but
+  xplat approaches will save you from *always* needing custom code.
 * Writing both apps from a single codebase simplifies things *a lot*.
 
 ## Goals
 
 * Single codebase.
 * Code / skills reuse.
-* Web : Simplify deployments and maintenance. Avoid app stores, update clients via servers.
+* Web : Simplify deployments and maintenance. Avoid app stores, update clients
+  via servers.
 
 ## Weaknesses
 
@@ -23,13 +27,16 @@
 
 ## Strategy : which is best?
 
-There is no "right" strategy for every project. The "right" strategy depends on the team, product, and company strategy.
+There is no "right" strategy for every project. The "right" strategy depends on
+the team, product, and company strategy.
 
 * Strategy
 	* Is mobile a competitive differentiator for the company?
 	* Are the users internal or external? External is more demanding.
+
 * Team
     * What is your current (or desired) engineering skillset?
+
  * Product
     * How tied into native features is the app?
 		* messaging, camera, notifications, background, custom functionality
@@ -39,18 +46,19 @@ There is no "right" strategy for every project. The "right" strategy depends on 
         	* If you want “native” look / feel
 				* Favor Xamarin / React Native which use native controls.
         	* High read-only, layout heavy UI favors the web.
+
 * Performance
-	* Web apps are slower.
+	* Web apps are slower. But perf for non-games is not noticeable.
 
 ## xplat Approaches
 
-### HTML / CSS / JS
+### Full Web : HTML / CSS / JS
 
 With this approach, all development is done via web technologies.
 
 * Rendering is done inside a web view.
 * Native components (plugins) provide access to platform / OS / HW features.
-* Ionic (Cordova) uses this approach.
+* Ionic uses this approach.
 
 #### Strengths
 
@@ -88,7 +96,6 @@ React Native is a set of react extensions that render views as native iOS / Andr
 
 #### Weaknesses
 
-* Javascript
 * Intermediary libraries needed for native features. Not part of React Native proper.
 * Native needed for:
 	* Push Notifications
@@ -98,7 +105,8 @@ React Native is a set of react extensions that render views as native iOS / Andr
 #### Recommendation
 
 * Obviously ideal for companies who have an investment in JS (everyone?) / React.
-*
+* A *little* more native in that it compiles down to native controls.
+
 
 ### Xamarin
 
@@ -120,6 +128,7 @@ Xamarin can be thought of as a "native" cross platform framework. Developers hav
 
 * Feels like Microsoft is embracing Javascript / React more than Xamarin.
 * Compile times and project setup is time consuming and slow.
+* Xamarin feels old, obsolete.
 
 #### Recommendations
 
@@ -127,11 +136,21 @@ Xamarin can be thought of as a "native" cross platform framework. Developers hav
 * Use if you want complete access to the underlying platform SDKs at a low level.
 
 
-
 ## Flutter
 
-* [Easy and fast SDK for beautiful apps  - Flutter](https://flutter.io/)
-* Written in Dart.
+[Easy and fast SDK for beautiful apps  - Flutter](https://flutter.io/)
+
+A completely new language (dart) and rendering engine (skia). Similar to writing
+a game, the entire rendering process is done in it's own graphic context,
+bypassing UIKit and Android Views completely. This is awesome.
+
+
+
+### Strengths
+
+* Dart > Javascript.
+* High performance rendering and layout.
+* Functional, follows the flux / unidirectional flow model.
 
 
 ## xplat frameworks
