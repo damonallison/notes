@@ -81,7 +81,6 @@
 
 * 2D plotting library.
 
-
 ---
 
 ## Splunk
