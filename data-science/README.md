@@ -86,4 +86,3 @@
 ## Splunk
 
 * Splunk is a web based, data analysis and visualization tool.
-* The main goal is to
