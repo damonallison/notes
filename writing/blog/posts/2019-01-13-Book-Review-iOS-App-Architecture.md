@@ -1,4 +1,4 @@
-# Book Review: App Architecture : iOS Application Patterns in Swift
+# Book Review: App Architecture: iOS Application Patterns in Swift
 
 Since iOS’s introduction in March 2008, almost 11 years ago, the core iOS MVC
 architecture hasn’t materially changed. Over the years, as applications have

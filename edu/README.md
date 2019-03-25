@@ -26,21 +26,18 @@
 
 * PostreSQL
 * NoSQL : Mongo and/or Cassandra
-
+* Spark
+  * When to use it, when not to use it?
+  * Spark WebUI
+* Apache Airflow
+  * How to build data pipelines?
 
 ### Math
 
 * Linear Algebra (matrix multiplication, manipulation)
 * Calculus (maximizing and minimizing algebraic equations)
 * OLAP vs. OLTP
-
-* **Spark**
-  * When to use it, when not to use it?
-  * Spark WebUI
-
 * Statistics
-* Linear Algebra
-* Airflow
 
 * Relational DB Modeling
   * Schema fundamentals - normalization and denormalized schemas (STAR and
@@ -52,15 +49,14 @@
   * Primary key selection, clustering column selection.
   * Mongo, Cassandra
 
-* Apache Airflow
-  * How to build data pipelines?
-
 
 ## Programs
 
 ### Udacity
 
 ##### Data Engineering Nanodegree Program
+
+One 5 month term. Estimated salary $74-110k
 
 The focus of this class is working with databases, data sets, and data movement
 (pipelines). This class is more about collecting (ETL), storing, and moving
@@ -75,14 +71,19 @@ data. It's not about analysis or algorithms to process the data.
 #### Data Science Nanodegree Program
 
 This class is much more technical and engineering based - more advanced than the
-Data Engineering Nanodegree. 7 months total over 2 terms.
+Data Engineering Nanodegree. 7 months total over 2 terms. ($2000)
+
+This is an ideal transition from engineer into data scientist. This is a
+difficult program. It also has a great two term setup - the first term is ML
+algorithms, the second term is applied ML - tools and languages that you'll use
+in the real world.
 
 Optional texts:
-  * Elements of Statistical Learnin
+  * Elements of Statistical Learning
   * Machine Learning: A Probabilistic Perspective
   * Python Machine Learning
 
-It expects that you understand
+It expects that you understand:
 
 * Programming
   * Python, SQL, NumPy, Pandas
@@ -107,22 +108,14 @@ It expects that you understand
   * Deploy DS solutions using a basic flask app.
   * Manipulate / analyze data at scale using Spark.
 
-##### Term1 : Machine Learning for Data Scientists
+#### AI Programming With Python
 
-###### Project 1: Finding Donors for CharityML with Kaggle
+AI programming with python includes learning about python, common DS libraries
+(NumPy, Pandas, Matplotlib, PyTorch) as well as foundational math - linear
+algebra and calculus.
 
-Build an algorithm which identifies potential donors. You test multiple models
-to determine which one performs the best.
-
-* Regression: Distinguish between regression and classification. Prediction
-  using Logistic Regression
-* Decision Trees
-* Naive Bayes. Train models using Bayesian Learning. Use Bayesian Inference to
-  create Bayesian Networks of several variables.
-* Support Vector Machines
-* Ensemble of Learners: Random Forests, boosting, AdaBoost
-* Evaluation: Determine accuracy, precision, recall to measure model
-  performance.
-
-###### Project 2: Image Classifer
-
+* Intro to Python
+* Jupyter Notebooks, NumPy, Anaconda, Pandas, Matplotlib
+* Linear Algebra
+* Calculus Essentials
+* Neural Networks: NNs, deep learning, and PyTorch
