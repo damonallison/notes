@@ -8,6 +8,10 @@
 > perspective makes our work meaningful, fullfilling, less stressful, and
 > ultimately more rewarding.
 
+Summary:
+
+
+
 ## "I Have to Work"
 
 I have struggled with work for almost 20 years. 

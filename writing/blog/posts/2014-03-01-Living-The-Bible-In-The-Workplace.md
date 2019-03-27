@@ -4,7 +4,12 @@ March 2014, I attended a Men’s breakfast at [The Grove Church](https://www.myg
 
 Experienced engineers and scientists know that while computers are important, the most important skill we can master is dealing with people. Bill’s talk challenged us to think about we treat people at work, how we want our professional legacy to be remembered, and how we can focus our daily activities towards achieving success with our work and with our professional relationships.
 
-Questions about values, character, people, and relationships are questions are timeless. They should be consistently reviewed. They serve a constant reminder: think critically about how your actions line up with Biblical values and how you can improve.
+The values we live by, our character, and the relationships we build are a few
+of the most important aspects of our lives. Regardless of how hard you work or
+what you achieve, how you act and treat others will form the basis for how you
+will be remembered. They should be consistently reviewed. They serve a constant
+reminder: think critically about how your actions line up with Biblical values
+and how you can improve.
 
 ## Legacy
 
