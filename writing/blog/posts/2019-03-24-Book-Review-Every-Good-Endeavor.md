@@ -6,12 +6,20 @@
 > have with work, and how powerful mindset is to make work meaningful,
 > fullfilling, less stressful, and ultimately more rewarding.
 
-## Current State of Work
+Work is an increasingly important and demanding part of our lives. We spend more
+waking hours of our lives working than we do with our spouses, families, or our
+hobbies. Work forms our identity, is a source of pride and accomplishment, and
+is of course a primary source of income.
 
-From the dawn of time, people have worked. Today, work is an increasingly
-important part of our lives. We spend more and more waking hours of our lives
-working than anywhere else. Work forms our identity, is a source of pride and
-accomplishment, and, oh by the way, it is how we make money. 
+But how often do we step back and put work into perspective? What are our goals
+with work? Not to move up the ladder - what are our long term goals? When we
+die and look back on our lives, what will we think of our work - the jobs we
+did, the people we met, the struggles we overcame, the failures, how we acted,
+etc.
+
+Let's take a look at the current state of owrk
+
+## Current State of Work
 
 Culture
 
@@ -61,13 +69,13 @@ the key to success, how much my company values equality, diversity, ethics, etc.
 From the outside, people love their jobs, their companies, and want people to
 know it. 
 
-Anxious Reality
+Fallout
 
 Inwardly, a different story is playing out. The American Psychiatric Association
 (APA) is claiming that 40 million Americans, about 18% (1 in 5), have an anxiety
 disorder. That's over double the world average. Acording to the World Health
-Organization, 1 in 13 suffer from anxiety disorders. Still a high number, but
-America is much higher than the world average. 
+Organization, 1 in 13 worldwide suffer from anxiety disorders. Still a high
+number, but America is much higher than the world average. 
 
 Why? Why are Americans so much more anxious and depressed? What are they anxious
 about? While people are anxious about many different things, money and work are
@@ -75,22 +83,21 @@ numbers one and two - in that order.
 
 So while outwardly people love their jobs, the reality is work is one of the
 leading forms of anxiety. And honstely, given the cultural importance we put on
-work, success, "hustle", etc, it's easy to see why. Money and work are made into
-idols.
-
+work, success, "hustle", drive, etc, it's easy to see why. Money and work have
+become cultural idols.
 
 ## Need for Perspective, Mindset
 
 Like anything in life, too much of a good thing is not healthy. We need to put
 work into perspective, into the broader context of life. Work is important and
 we were made to do it, but I hope we collectively believe it's not the primary
-goal of our lives - to work more.
+goal of our lives.
 
 Every Good Endeavor, by Christian pastor Tim Keller, examines the history, the
 troubles, and mindset we should have toward work. Regardless if you are a
 Christian or not, the history and perspective Keller brings will allow you to
 examine how *you* view work, your mindset, and make you think about how you want
-to change your mindset towards work.
+to change your mindset towards work. It puts work into perspective.
 
 
 ## Every Good Endeavor - Introduction
@@ -113,18 +120,15 @@ In my opinion, his style is extremely effective.
 You most certainly do *not* need to be a Christian to grow from this book. In
 fact, the Christian mindset and values described in Every Good Endeavor are at
 work and practiced, many times better, by non-Christians than they are by
-Christians themselves.
+Christians themselves. Regardless if or what religion you hold, the Christian
+mindset towards work gives you another perspective from which you can pull ideas
+from.
 
 The book is broken up into three sections:
 
 1. The origins of work
 2. The problems with work
 3. The mindset we should have toward work
-
-Let's look at those three sections now. While you read thru this, ask yourself
-this question, which we'll come back to later:
-
-> Why do I work? 
 
 ## Part 1: God's Plan for Work (The Origins of Work)
 
@@ -133,9 +137,9 @@ come from? Why was it created?
 
 God Designed Work
 
-The book starts off with the origin of work. Work was created by God. God
-himself worked. He created the heavens and earth, man and woman, all creation.
-Because we were created in God's image, and God worked, we also work. 
+The book starts off with the Biblical origin of work. Work was created by God.
+God himself worked. He created the heavens and earth, man and woman, all
+creation. Because we were created in God's image, and God worked, we also work. 
 
 Regardless of *how* work came into existence, we all realize work is a basic
 human need that we have. We need to work. It gives us a sense of accomplishment,
@@ -167,9 +171,8 @@ The Bible tells us that God does not look down on anyone. Case in point: Jesus.
 Jesus was a carpenter. Not a CEO or position demanding high organizational
 authority.
 
-The lesson here is we shuold not look down on anyone. We should respect those
-who clean the floors as much as the CEO. All work has dignity the way God
-designed it.
+The lesson here is to not look down on anyone. Respect those who clean the
+floors as much as the CEO. All work has dignity the way God designed it.
 
 Work as a Service
 
@@ -184,20 +187,24 @@ a calling if you do it for something bigger than yourself. It's here, in serving
 others, that you find the most fulfillment, joy, and sense of accomplishment
 from your work.
 
-Companies have realized that purpose and mission are more impactful than money
-and profits. People want to work for a mission, a cause, that is bigger than
-themselves. For example, Satya Nadella is executing one of the most successful
-corporate turnarounds in history by focusing on purpose, mission, and empathy.
+Today's companies have realized that purpose and mission are more impactful than
+money and profits. People want to work for a mission, a cause, that is bigger
+than themselves. For example, Satya Nadella is executing one of the most
+successful corporate turnarounds in history by focusing on purpose, mission, and
+empathy. Companies pride themselves on their ethics, values, and generosity.
+They've also realized that what's good for people is also good for business.
+
+Christian Beliefs
 
 For Christians, Keller reminds us that we are saved by faith, not works. Jesus
 came to save us, our battle has already been won. You can rest assured in your
 work that regardless of how successful or not you are, you can't be more saved
 than you are today. Knowing that, there is no reason to be anxious or worry
-about work or money.
+about work or money. Be humbly confident in your work.
 
-Also, Christians realize that God is giving us work and we are working for Him.
-Only your best will do. Christians should do their absolute best work, never
-cutting corners, knowing they are working for God, not man.
+Also, Christians realize that God provides work and we are working for Him. Only
+your best will do. Christians should do their absolute best work, never cutting
+corners, knowing they are working for God, not man.
 
 ## Part 2: The Problems With Work
 
