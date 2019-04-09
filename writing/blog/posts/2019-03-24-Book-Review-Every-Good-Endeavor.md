@@ -12,22 +12,24 @@ hobbies. Work forms our identity, is a source of pride and accomplishment, and
 is of course a primary source of income.
 
 But how often do we step back and put work into perspective? What are our goals
-with work? Not to move up the ladder - what are our long term goals? When we
-die and look back on our lives, what will we think of our work - the jobs we
-did, the people we met, the struggles we overcame, the failures, how we acted,
-etc.
+with work? Not to move up the ladder - what are our long term goals? When we die
+and look back on our lives, what will we think of our work - the jobs we did,
+the people we met, the struggles we overcame, the successes, the failures, and
+how we treated people?
 
-Let's take a look at the current state of owrk
+Before we think about our personal situation with work, let's step back and
+reflect at the current state of work in today's world.
 
 ## Current State of Work
 
 Culture
 
-American culture and society rewards hard work, dedication, entrepreneurship,
-risk taking, and success. It's hardwired into our minds early on. We tell our
-kids they can do anything they want if they put their mind to it and work hard.
-We idolize people like Steve Jobs and Elon Musk who have literally given their
-lives to their companies.
+I'm American, so I'll pick on American culture. American culture and society
+idolizes hard work, dedication, entrepreneurship, risk taking, money, and
+success. It's hardwired into our minds early on. We tell our kids they can do
+anything they want if they set their mind to it and work hard. We idolize people
+like Steve Jobs and Elon Musk who have literally given their lives for their
+companies.
 
 A work driven culture is not unique to America. China prides themselves on "996"
 work schedules and demanding environments. 996 is unhealthy and insane - working
@@ -36,43 +38,44 @@ is to dominate technology and AI in the coming decade, making China the world
 leader in advanced technology. Given their ambition, track record, size, and
 resources, they will definitely be a leader.
 
-We have an increasingly "always on" work culture . Work for many doesn't stop
-when they get home. Technology has allowed us to take work with us. We check our
-calendars when we wake up, email around the clock, and never turn our minds off.
-As work has gone global it's become a 24-7 operation - there is no downtime.
+We have an increasingly "always on" expectation. Work for many doesn't stop when
+they get home. Technology has allowed us to take work with us - and increasingly
+we do. We check our calendars when we wake up, email around the clock, and never
+turn our minds off. As work has gone global it's become a 24-7 operation - there
+is no downtime.
+
+In America, and increasingly around the world, work is idolized. Work has become
+our source of identity, of confidence, of control, and of self-worth. Life for
+many people *is* work. It *is* how we identity ourselves with the world. 
+
+With this type of work driven culture, it's easy to see why people struggle
+finding "work / life balance". The culture doesn't value balance - it values
+work.
 
 Identity
 
-There are very few activities we do in life more than we work. Many people spend
-more time working many days than sleeping. We sleep 7 hours a night, we work 10
-hour days. We answer work emails late at night and check our calendar the first
-chance we get after waking up. We see our coworkers more than our spouses. If we
-were aliens landing on the planet, we may think that life revolves around
-work. Unfortunately for many people, that's a sad reality.
-
-In America, and increasingly around the world, work has become an idol. Work has
-become our source of identity, of confidence, of control, and of self-worth.
-Life for many people *is* work. It *is* how we identity ourselves with the
-world. 
-
 Regardless of what field you're in, you're known largely by your work. "He's a
-doctor", "She's a lawyer", "He's in computers". The truth is work *is* a large
-part of our identity. And we work hard to build and convey our image.
+doctor", "She's a lawyer", "He's an engineer". The truth is work *is* a large
+part of our identity. And we work hard to build and shape that identity.
 
 Consider LinkedIn. People spend countless hours forming and crafting their
-LinkedIn profile, posting messages to reflect their values, their ideal image. 
+LinkedIn profile, posting messages to reflect their values, their ideal image.
+The things we post, like, comment on, and promote help shape the image we want
+to portray. And judging by the growth of social media, we work hard at shaping
+our image.
 
 People post about how successful they are, how hard they've worked, the struggle
 and pain they are going thru because of how dedicated and driven they are, how
 great their company is, how being an entrepreneur and following your dream is
 the key to success, how much my company values equality, diversity, ethics, etc.
-From the outside, people love their jobs, their companies, and want people to
-know it. 
 
-Fallout
+From the outside, it appears people are successful, love their their jobs, their
+companies, their accomplishments, and want people to know it. 
+
+Anxiety
 
 Inwardly, a different story is playing out. The American Psychiatric Association
-(APA) is claiming that 40 million Americans, about 18% (1 in 5), have an anxiety
+(APA) claims that 40 million Americans, about 18% (1 in 5), have an anxiety
 disorder. That's over double the world average. Acording to the World Health
 Organization, 1 in 13 worldwide suffer from anxiety disorders. Still a high
 number, but America is much higher than the world average. 
@@ -86,26 +89,26 @@ leading forms of anxiety. And honstely, given the cultural importance we put on
 work, success, "hustle", drive, etc, it's easy to see why. Money and work have
 become cultural idols.
 
+Keller calls worry, anxiety, and the need to self-promote yourself "the work
+under the work". It's a catchy, memorable phrase but it carries a lot of truth.
+His point is worrying itself is hard work. It consumes time, energy, and stress
+which could be better directed at doing actual work. 
+
+
 ## Need for Perspective, Mindset
 
 Like anything in life, too much of a good thing is not healthy. We need to put
 work into perspective, into the broader context of life. Work is important and
-we were made to do it, but I hope we collectively believe it's not the primary
-goal of our lives.
+we were made to do it, but I hope we agree it's not the primary goal of our
+lives.
+
+## Every Good Endeavor - Introduction
 
 Every Good Endeavor, by Christian pastor Tim Keller, examines the history, the
 troubles, and mindset we should have toward work. Regardless if you are a
 Christian or not, the history and perspective Keller brings will allow you to
 examine how *you* view work, your mindset, and make you think about how you want
 to change your mindset towards work. It puts work into perspective.
-
-
-## Every Good Endeavor - Introduction
-
-Every Good Endeavor examines the origins, problems, and Christian mindset toward
-work. It helps put work into perspective by taking a step back and looking at
-work as work from a broader context. It's easy for us to get wrapped up in our
-day-to-day "grind" in our jobs and careers that we lose the big picture.
 
 Tim Keller is a Christian pastor and founder of Redeemer Presbyterian Church in
 New York City. He's an approachable, down to earth speaker and writer who
@@ -122,7 +125,7 @@ fact, the Christian mindset and values described in Every Good Endeavor are at
 work and practiced, many times better, by non-Christians than they are by
 Christians themselves. Regardless if or what religion you hold, the Christian
 mindset towards work gives you another perspective from which you can pull ideas
-from.
+from to shape your own mindset and perspective.
 
 The book is broken up into three sections:
 
@@ -132,14 +135,12 @@ The book is broken up into three sections:
 
 ## Part 1: God's Plan for Work (The Origins of Work)
 
-For as long as there have been people, there has been work. But where does work
-come from? Why was it created? 
-
 God Designed Work
 
-The book starts off with the Biblical origin of work. Work was created by God.
-God himself worked. He created the heavens and earth, man and woman, all
-creation. Because we were created in God's image, and God worked, we also work. 
+Where does work come from? The book starts off with the Biblical origin of work.
+Work was created by God. God himself worked. He created the heavens and earth,
+man and woman, all creation. Because we were created in God's image, and God
+worked, we also work. 
 
 Regardless of *how* work came into existence, we all realize work is a basic
 human need that we have. We need to work. It gives us a sense of accomplishment,
@@ -236,7 +237,6 @@ The Bible also gives us wisdom as to how to make work meaningful:
 
 * Work to benefit your field. Make your industry better for the next generation.
   
-
 Work Becomes Selfish
 
 We've mentioned earlier how much more meaningful and impactful purpose and
@@ -250,7 +250,7 @@ In the Christian world view, everything you have has been given to you by God.
 The country you were born in, the opportunities you have, the money you've made,
 the people you come in contact with, your drive and ambition. Everything comes
 from God. Christians should possess a humbleness and appreciation for everything
-they have and not set their sights on selfish motives.
+they have and should not set their sights on selfish motives.
 
 
 ## Part 3: The Mindset We Should Have Toward Work
@@ -267,152 +267,59 @@ your mindset. Not just regarding work, but your mindset towards life. Here,
 we'll just talk about work, but mindset controls everything you do.
 
 So, what should our mindset be to have meaningful, productive, and rewarding
-work?
+work? There is no right or wrong answer. It ultimately depends on your values,
+your "North Star". Productivity gurus will tell you to start with your long term
+(life) goals and set goals for the next 5 years, to the next year,
+this month, this week, and today. Today's goals should contribute to the weekly
+goals, to the monthly goals, annual goals, 5 year goals, and ultimately get
+relfected as your life's work.
 
-Your World View
+Keller lays out the Christian mindset:
 
-
-Need for a Mindset
-
-
-* We all have a "worldview" which shapes our lives.
-* Do great work to glorify God.
-* Always honor God in your work.
-* Respect others - all are made in the image of God.
-* Having things won't make us any happier. Doing good for others 
-* We should rest, respect the Sabbath. It reminds us of our true dependence on
-  God.
-* Intgrate faith and work. You must be the same person at work that you are at
-  Church. 
-
-
-### Mindset
-
-* Respect everyone
-* Be grateful for your job
-* Work to glorify God, for the work itself, not for yourself.
-* Work is a "calling", not a vocation.
-
-### Christian Beliefs
-
-* Our place in heaven, with God, is secured thru the death of Jesus. By grace,
-  we have been saved. Our battle has been won. We can work in humble confidence
-  knowing that God will provide.
-
-* Christians don't take jobs for the money, rather for the work itself. We will
-  accept less money to work on something that glorifies God or helps others.
+* Be grateful for what you have, in any situation. Regardless if you are rich,
+  poor, employed, or unemployed - be thankful.
+* Love others. People are the most important thing on this planet. Take care of
+  people.
+* Do exceptional work. Don't cut corners. Only the best will do. Your work
+  should be honoring to God.
+* Work hard, but do not idolize work. Have perspective.
+* Work should be your "calling", not a vocation.
+* Work is not about money. 
+* Do not worry. Our place in heaven, with God, is secured thru the death of
+  Jesus. By grace, we have been saved. Our battle has been won. We can work in
+  humble confidence knowing that God will provide.
 
 
-----
+## Final Thoughts
 
+For me, Every Good Endeavor put work into perspective. I struggled with work for
+years. I have fallen into the trap of working around the clock, taking on too
+many side projects, spending countless hours trying to learn every technology
+imaginable, worrying that I'm not keeping up with others, losing my job, not
+being able to support my family, you name it.
 
-## Why do *you* work?
+But after years of iodolizing work, I'm starting to realize it needs to be put
+into perspective. Work has meaning and value, but it doesn't define me as a
+person. There is more to life than work. 
 
-### Identity
+As a Christian, I appreciated Keller's reminder that there is no need to worry.
+God is in control. I have the confidence and strength to face any trial that
+comes my way.
 
-Work is an increasingly important facet of our lives. Work is a source of
-income, yes, but to many people, work is their identity. It's *who they are*. 
+I also reevaluated my mindset, being much more grateful and content with what I
+have today, not what I could have if the current project I'm working on or
+company I'm building is successful.
 
-Despite, or perhaps because of, all the technology we have, it seems people are
-working technology would allow us to *reduce* the amount of time we spend
-working by harder, longer than ever before. Early technologists and philosophers
-believed making us more produtive and simplifying our lives. 
+Does putting work into perspective mean I'm going to slow down? Not a chance.
+Setting boundaries on work allows me to clearly focus on work when I'm working,
+clearly focus on life when I'm not. I'm much less worried and much more
+productive both at work and at home. Which is good, because I have a lot of
+things to learn and a lot of code to write.
 
-Yet we spend more time today working than ever before. We login at night, on the
-weekends, and have constant contact with work. We are increasingly having to put
-up boundaries and create "work/life balance" for ourselves.
-
-Why?
-
-In today's world, work is a source of pride, accomplishment, status,
-self-esteem, and ego. People pride themselves on how much they work, how busy
-they are, how many projects they do, how good they are at their jobs, and how
-great their company is. 
-
-As the world becomes more connected, competition becomes more fierce, companies
-and people are being driven to work longer, harder, and produce more than every
-before. 
-
-Where does it end? Will there ever be a work/life balance? Why is work so
-important to so many, to the point it is controlling their lives? Why are our
-social media feeds flooded with people self-promoting themselves and the work
-they do?
-
-A huge percentage of our waking lives is spent working. Chances are good you'll
-send more time with your coworkers many weeks than you will with your family. It
-is wise, then, to reflect on the work you do and the long term goals you have
-for work.
-
-
-## Key Ideas
-
-### Job vs. Calling
-
-All jobs are important. Treat everyone with respect. If you treat everyone with
-respect, you can talk with the CEO as easily as the janitor. 
-
-The most valuable thing I took away from this book is the mindset and world view
-perspective associated with how to view work. 
-
-
-### Work Under the Work
-
-
-
-
-
-
-### Money
-
-If you ask the average American (or other nationalities as well) why they work,
-you'll certainly hear the word "money". We need money to survive.
-
-
-
-### Work for pride
-
-* Self-image, source of identity, fuels our ego and sets our self-esteem.
-* America values *self* more than others.
-  * Taught early 
-    * "You can do anything you put your mind to".
-    * "Your Dad worked extremely hard to get us to where we are today."
-* Hard to distinguish what you do - need to advertise and self-promote on
-  LinkedIn. Work is not visible - like building decks or cutting grass.
-
-
-### Work for fulfullment
-
-* There is a *joy* about doing great work, accomplishing something. It help us
-  thrive mentally.
-* There is a pride for a "job well done" - to be recognized by your company or
-  peers.
-
-### Work to keep up
-
-* Society respects and values hard work. To "fit in", you're expected to embrace
-  the "hustle", "grind", "persevere" cultural norms. If you don't, someone else
-  will.
-
-### Work to help others.
-
-* The most meaningful work is what you do for others.
-* Volunteering, but also in the day-to-day.
-
-
-### Work / Life Balance
-
-Railing against overworking is not new. People have been struggling and pushing
-back against workaholic cultures. Employees are looking for cultures that
-encourage work life balance.
-
-## Does balancing work make you soft?
-
-* If you set goals and focus (work smart), you can beat others who are working
-  more.
-* It's about putting work into perspective, not making it an idol which becomes
-  your identity and ruins your life.
-
-
+Hopefully this review prompts you to reflect on the role of work in your life.
+We spend so much time working, we owe it to ourselves to reflect, reset, adjust,
+set goals and plan to make work meaningful, fulfilling, less stressful, and
+ultimately more rewarding.
 
 ## Bibliography
 
