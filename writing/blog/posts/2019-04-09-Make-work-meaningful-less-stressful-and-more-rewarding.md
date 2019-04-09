@@ -1,4 +1,4 @@
-# Book Review: Every Good Endeavor
+# Make Work Meaningful, Less Stressful, and More Rewarding
 
 * Image
 
@@ -8,17 +8,24 @@
 
 Work is an increasingly important and demanding part of our lives. We spend more
 waking hours of our lives working than we do with our spouses, families, or our
-hobbies. Work forms our identity, is a source of pride and accomplishment, and
-is of course a primary source of income.
+hobbies. Work forms our identity, is a source of pride and accomplishment, and 
+for most, a primary source of income. Test 
 
-But how often do we step back and put work into perspective? What are our goals
-with work? Not to move up the ladder - what are our long term goals? When we die
-and look back on our lives, what will we think of our work - the jobs we did,
-the people we met, the struggles we overcame, the successes, the failures, and
-how we treated people?
 
-Before we think about our personal situation with work, let's step back and
-reflect at the current state of work in today's world.
+
+But how often do you step back and put work into perspective? What role does
+work have in your life? Why are you working so hard? What are your life goals
+and what role does work contribute to those goals? When we die and look back on
+our lives, what will we think of our work - the jobs we did, the people we met,
+the struggles we overcame, the successes, the failures, and how we treated
+people?
+
+This post started, and still is, as a book review of Every Good Endeavor by Tim
+Keller. As part of researching for this post, I gathered information on the
+current state of work. I'm going to start by discussing what I found before
+moving into the review. While we all have our personal view on work, our jobs
+and feelings, I feel it helps to understand at a broad level the culture and
+state of work in the world today.
 
 ## Current State of Work
 
@@ -35,7 +42,7 @@ A work driven culture is not unique to America. China prides themselves on "996"
 work schedules and demanding environments. 996 is unhealthy and insane - working
 9AM to 9PM 6 days a week. China is also extremely ambitious. Their public goal
 is to dominate technology and AI in the coming decade, making China the world
-leader in advanced technology. Given their ambition, track record, size, and
+leader in advanced technology. Given their ambition, track record, size,and
 resources, they will definitely be a leader.
 
 We have an increasingly "always on" expectation. Work for many doesn't stop when
@@ -50,7 +57,8 @@ many people *is* work. It *is* how we identity ourselves with the world.
 
 With this type of work driven culture, it's easy to see why people struggle
 finding "work / life balance". The culture doesn't value balance - it values
-work.
+work. I do feel it's changing - companies are prioritizing balance and having
+better expectations around schedules.
 
 Identity
 
@@ -76,7 +84,7 @@ Anxiety
 
 Inwardly, a different story is playing out. The American Psychiatric Association
 (APA) claims that 40 million Americans, about 18% (1 in 5), have an anxiety
-disorder. That's over double the world average. Acording to the World Health
+disorder. That's over double the world average. According to the World Health
 Organization, 1 in 13 worldwide suffer from anxiety disorders. Still a high
 number, but America is much higher than the world average. 
 
@@ -85,14 +93,15 @@ about? While people are anxious about many different things, money and work are
 numbers one and two - in that order. 
 
 So while outwardly people love their jobs, the reality is work is one of the
-leading forms of anxiety. And honstely, given the cultural importance we put on
+leading forms of anxiety. And honestly, given the cultural importance we put on
 work, success, "hustle", drive, etc, it's easy to see why. Money and work have
 become cultural idols.
 
 Keller calls worry, anxiety, and the need to self-promote yourself "the work
 under the work". It's a catchy, memorable phrase but it carries a lot of truth.
 His point is worrying itself is hard work. It consumes time, energy, and stress
-which could be better directed at doing actual work. 
+which could be better directed at doing actual work. Now not only do we have a
+job, we have a second job worrying about our job. How ironic.
 
 
 ## Need for Perspective, Mindset
@@ -101,6 +110,9 @@ Like anything in life, too much of a good thing is not healthy. We need to put
 work into perspective, into the broader context of life. Work is important and
 we were made to do it, but I hope we agree it's not the primary goal of our
 lives.
+
+Perspective and mindset is the key to a healthy relationship with work. That is
+the focus of Every Good Endeavor. Let's dive into the book.
 
 ## Every Good Endeavor - Introduction
 
@@ -146,11 +158,11 @@ Regardless of *how* work came into existence, we all realize work is a basic
 human need that we have. We need to work. It gives us a sense of accomplishment,
 of pride, and meaning in our lives. If we didn't have "a job", we would have to
 do something with our time. Consider the person who dreamed of retiring. But
-after a few months in retirement, boredom sets in. Human's weren't made to sit
+after a few months in retirement, boredom sets in. Humans weren't made to sit
 and do nothing.
 
 So why do many people *not* enjoy work? Why is work stressful? Why do we
-struggle with work realted anxiety?
+struggle with work related anxiety?
 
 The Bible tells us that work was not designed to be toilsome labor. However
 after Adam and Eve disobeyed God, sin entered the world. As part of this great
@@ -192,8 +204,9 @@ Today's companies have realized that purpose and mission are more impactful than
 money and profits. People want to work for a mission, a cause, that is bigger
 than themselves. For example, Satya Nadella is executing one of the most
 successful corporate turnarounds in history by focusing on purpose, mission, and
-empathy. Companies pride themselves on their ethics, values, and generosity.
-They've also realized that what's good for people is also good for business.
+empathy in how he leads Microsoft. Companies are increasingly priding themselves
+on their ethics, values, and generosity. They've also realized that what's good
+for people is also good for business. And that's good for everyone.
 
 Christian Beliefs
 
@@ -205,7 +218,7 @@ about work or money. Be humbly confident in your work.
 
 Also, Christians realize that God provides work and we are working for Him. Only
 your best will do. Christians should do their absolute best work, never cutting
-corners, knowing they are working for God, not man.
+corners or being unethical, knowing they are working for God, not man.
 
 ## Part 2: The Problems With Work
 
@@ -230,7 +243,8 @@ of this world is pointless. We can't take them with us when we die.
 The Bible also gives us wisdom as to how to make work meaningful:
 
 * Choose work that fits your gifts. Take an honest inventory of what makes you
-  great, where you fit, and choose work accordingly.
+  great, where you fit, and choose work accordingly. It may mean taking less
+  money or status, but ultimately you'll find more fulfillment.
 
 * Choose work that benefits others. Watch out for unethical people and
   companies.
@@ -259,7 +273,10 @@ Part 3 is all about mindset. This is where the book became really valuable to me
 personally. I'm a big believer in power of mindset. I feel the mindset you have
 controls your actions, your thoughts, your success, and your happiness. If you
 want to change your views on life, control stress, run a marathon, start a
-company, it all comes down to your mindset.
+company, it all comes down to your mindset. Carol Dweck's popular book
+[mindset](https://www.amazon.com/Mindset-Psychology-Carol-S-Dweck/dp/0345472322)
+is a good starting point towards understanding the power of mindset if you're
+intereseted in learning more about the subject.
 
 Whether you realize it or not, you have a mindset. If you don't take away
 anything else from this blog post, I really hope you spend the time examining
@@ -268,11 +285,9 @@ we'll just talk about work, but mindset controls everything you do.
 
 So, what should our mindset be to have meaningful, productive, and rewarding
 work? There is no right or wrong answer. It ultimately depends on your values,
-your "North Star". Productivity gurus will tell you to start with your long term
-(life) goals and set goals for the next 5 years, to the next year,
-this month, this week, and today. Today's goals should contribute to the weekly
-goals, to the monthly goals, annual goals, 5 year goals, and ultimately get
-relfected as your life's work.
+your "North Star". Do you value power and authority, wanting to climb a
+corporate ladder? Are you grateful for your work, or do you feel the company
+owes you something? 
 
 Keller lays out the Christian mindset:
 
@@ -290,31 +305,70 @@ Keller lays out the Christian mindset:
   humble confidence knowing that God will provide.
 
 
+## Case Study: AI and Kai-Fu Lee
+
+I bet you didn't expect a book review about work and Christianity to be related
+to AI. Neither did I. But as it turns out, AI is highly relevant to the
+discussion on work and perspective. 
+
+AI is literally transforming the world. Law, logistics, medicine, agriculture,
+manufacturing, there are very few industries which will not be revolutionized by
+AI. AI is advancing humanity at an amazing pace. AI showcases the best of what
+can be accomplished thru work.
+
+Unfortunately, AI also showcases the worst of work. Those in AI work extremely
+long hours and give their lives to their work. 
+
+I watched an excellent [TED talk]() by Kai-Fu Lee titled "How AI can save our
+humanity" which literally opened my eyes to how powerful of an idol work has
+become. Kai-Fu is a world leading AI researcher. He dedicated his life to AI,
+working insane hours and priding himself on his work accomplishments.
+
+Until Lee was diagnosed with cancer, which led him to profound reflection around
+work. He researched death and specifically the regrets of the dying. He found
+that those dying regretted not spending enough time with their family and
+spreading love to others. Nobody regretted not working longer hours.
+
+Lee's cancer went into remission. Lee reprioritized his life and mindset toward
+work. He reduced his work hours and prioritizes family over work. He also
+realized that humans have something that AI doesn't - love and compassion. He
+concluded that AI has the potential to allow humans to focus on work serving
+others. Elderly care, teaching, mental health are all job growth areas.
+
+What Lee found is similar to what Keller discusses in his book. That the path to
+work fulfillment is thru serving others and working for something bigger than
+yourself. That in the end, meaningful life is about loving others.
+
+
 ## Final Thoughts
 
 For me, Every Good Endeavor put work into perspective. I struggled with work for
-years. I have fallen into the trap of working around the clock, taking on too
+20 years. I have fallen into the trap of working around the clock, taking on too
 many side projects, spending countless hours trying to learn every technology
 imaginable, worrying that I'm not keeping up with others, losing my job, not
 being able to support my family, you name it.
 
 But after years of iodolizing work, I'm starting to realize it needs to be put
-into perspective. Work has meaning and value, but it doesn't define me as a
-person. There is more to life than work. 
-
-As a Christian, I appreciated Keller's reminder that there is no need to worry.
-God is in control. I have the confidence and strength to face any trial that
-comes my way.
+into perspective. I'm not famous like Kai-Fu Lee, worked nearly as long or hard
+as he has, but I'm going thru a similar perspective shift that he did. I realize
+now that work has meaning and value, but it doesn't define me as a person. Time
+with family is more important than work. And serving others is more meaningful
+than serving ourselves.
 
 I also reevaluated my mindset, being much more grateful and content with what I
 have today, not what I could have if the current project I'm working on or
 company I'm building is successful.
 
+As a Christian, I appreciated Keller's reminder that there is no need to worry.
+God is in control. I have the confidence and strength to face any trial that
+comes my way.
+
 Does putting work into perspective mean I'm going to slow down? Not a chance.
 Setting boundaries on work allows me to clearly focus on work when I'm working,
-clearly focus on life when I'm not. I'm much less worried and much more
-productive both at work and at home. Which is good, because I have a lot of
-things to learn and a lot of code to write.
+clearly focus on life when I'm not. Boundaries around work are necessary and
+healthy. I'm much less worried and much more productive both at work and at
+home. Which is good, because I have a lot of things to learn and a lot of code
+to write.
 
 Hopefully this review prompts you to reflect on the role of work in your life.
 We spend so much time working, we owe it to ourselves to reflect, reset, adjust,
@@ -323,5 +377,44 @@ ultimately more rewarding.
 
 ## Bibliography
 
-* [A Lot of Americans Are More Anxious Than They Were Last Year, a New Poll Says](http://time.com/5269371/americans-anxiety-poll/)
-* [Understanding Anxiety](https://adaa.org/understanding-anxiety)
+[A Lot of Americans Are More Anxious Than They Were Last Year, a New Poll  Says](http://time.com/5269371/americans-anxiety-poll/)
+
+A very small (1000 person) survey from the American Psychiatric Associated which
+concluded 40% of Americans are more anxious today (2018) than last year. What is
+interesting is the "future of the nation" is one of the largest causes of stress
+and anxiety. Anxiety about work was not directly asked in the survey, but
+"paying my bills" was high on the list - definitely work related.
+
+[Understanding Anxiety](https://adaa.org/understanding-anxiety)
+
+Facts on statistics which reveal that 18% of Americans (40 million people)
+suffer an anxiety disorder in any given year.
+
+* [Work has me Crippled with Anxiety. Is it Time to Quit?](https://medium.com/the-mission/im-so-anxious-at-work-is-it-time-to-quit-82009f0d36b1)
+
+Explains how prevalent work related anxiety is and the irony of people who make
+more money are among the least happy, most anxious. Offers bland advice on how
+to not be anxious: talk with your boss, quit, or do nothing.
+
+The framing of anxiety and statistics around anxiety in this article is good.
+The guidance around how to address anxiety doesn't get to the heart of the
+problem - chaninging your mindset.
+
+
+[How AI can save our humanity](https://www.ted.com/talks/kai_fu_lee_how_ai_can_save_our_humanity?language=en#t-624930)
+
+An absolutely excellent talk from Kai-Fu Lee, a world leading AI researcher. Lee discusses
+how advances in AI are going to replace, auguemnt, and create jobs in different
+sectors.
+
+Lee was diagnosed with cancer, which led him to profound reflection around work.
+He realized how foolish it was to base his life around his work accomplishments.
+He reprioritized his life, putting his family first.
+
+He examined death and researched the regrets of the dying. Those dying retretted
+not spending enough time with their family and spreading love with others. 
+
+He concluded that AI has no love. AI will take away routine jobs, it will create
+jobs which show love and compassion to others. 
+
+Definitely watch this video if you are interested in work.
