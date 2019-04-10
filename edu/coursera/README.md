@@ -99,17 +99,3 @@ University of California San Diego
 * Analytics with Spark against a MongoDB store.
 * Introduction to Machine Learning models, evaluating models.
 * Graph analytics (Neo4j)
-
-### Data Science
-
-Johns Hopkins University
-
-* git, R
-* Reading data from a variety of text and DB formats, excel, json, MySQL,
-* A lot of time is spent on preparing results, graphing, and presentation of data.
-
-#### Dislikes
-
-* A complete 4 week course on "reproduceable research" seems like overkill. Publishing documents in markdown should not be part of a course.
-* A lot of time on data visualization, graphing, and preparing data for presentation.
-* 10 courses is long.
