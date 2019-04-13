@@ -947,7 +947,7 @@ In order to determine when to stop training a model, the model is executed again
   * True Positive (TP) : The actual label and predicted labels are true.
   * True Negative (TN) : The actual label and predicted labels are false.
   * False Positive (FP) : The actual label is false, the predicted label is true.
-  * False Negative (FN) : The actual label is true, the predicted labvel is false.
+  * False Negative (FN) : The actual label is true, the predicted label is false.
 
 * Accuracy Rate
   * # correct predictions / # total predictions

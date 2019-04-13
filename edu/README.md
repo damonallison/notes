@@ -1,77 +1,96 @@
 # Education
 
-## Goals
+## Goal
 
-* Strong understanding machine learning, AI, and deep learning.
+Fundamentally strong ML scientist and engineer.
 
-## Questions
+## History
 
-* What are the primary tools in the DS toolkit?
-  * Relational DB preferences?
+### 04/2019: Udacity: Introduction to Python Programming
 
-## TODO
+[Introduction to Python Programming | Udacity](https://www.udacity.com/course/introduction-to-python--ud1110)
 
-### Languages
+A very basic introduction to python programming. I used this class to get my
+feet wet, back into Python.
 
-* Python
-* SQL
+* Common python data structures, flow control, functions.
+* Packages and modules.
 
-### Libraries
+---
 
-* Pandas
-* Sklearn
-* matplotlib
-
-### Tools
-
-* PostreSQL
-* NoSQL : Mongo and/or Cassandra
-* Spark
-  * When to use it, when not to use it?
-  * Spark WebUI
-* Apache Airflow
-  * How to build data pipelines?
-
-### Math
-
-* Linear Algebra (matrix multiplication, manipulation)
-* Calculus (maximizing and minimizing algebraic equations)
-* OLAP vs. OLTP
-* Statistics
-
-* Relational DB Modeling
-  * Schema fundamentals - normalization and denormalized schemas (STAR and
-    Snowflake)
-  * Indexing
-  * Create OLAP cubes - Fact & Dimension tables
-
-* Document DB Modeling
-  * Primary key selection, clustering column selection.
-  * Mongo, Cassandra
+### 01/2018: Coursera Big Data Specialization (5 Course Specialization + Capstone)
+ 01/2018: Big Data Capstone
 
 
-## Programs
+#### 11/2017: Graph Analysis for Big Data
 
-### Udacity
+* Intro to graph / graph theory (traveling salesman)
+* Properties of graphs (vertices (nodes), edges)
+* Properties of graph analysis - walk, path, cycles, reachability, distance.
+* Connectivity analysis - indegree, outdegree, listeners, talkers
+* Community analysis, node centrality (influencers).
+* Hands on using Neo4j to build and query graphs.
+  * Shortest paths, distances between nodes,
 
-##### Data Engineering Nanodegree Program
 
-One 5 month term. Estimated salary $74-110k
 
-The focus of this class is working with databases, data sets, and data movement
-(pipelines). This class is more about collecting (ETL), storing, and moving
-data. It's not about analysis or algorithms to process the data.
+#### 09/2017: Machine Learning with Big Data
 
-* 110 hours, 5 months
-* Course 1: Data Modeling - Document & Relational DBs (OLAP vs. OLTP)
-* Course 2: Cloud Data Warehouses - running data in AWS
-* Course 3: Data Lakes w/ Spark
-* Course 4: Automate Data Pipelines (Apache Airflow)
+* A high level introduction to ML using Spark and KNIME.
+* Introduces ML models, categories of ML: classification, regression,
+  clustering, association analysis (diapers and beer).
+* Supervised vs. unsupervised.
+* Introduces types of plots (histogram, line, scatter, bar, box)
+* Feature selection, cleaning data to make it actionable.
+* Classification erxamples: kNN, Decision Tree, Naive Bayes.
+* Model evaluation: overfitting / underfitting.
+
+
+#### 08/2017: Big Data Integration and Processing
+
+* About acquiring (streaming, batch) and processing (transforming, querying).
+* Hands on introduction to Mongo and SQL, including basic queries.
+* Integrating data - a messy business w/ different data stores, formats, ids.
+* Hands on using Splunk to load / analyze data.
+* Introduction to ML analysis operations. Regression, clustering.
+* Brief hands on intro to spark, RDD, MLLib.
+
+
+#### 07/2017: Big Data Modeling and Management Systems
+
+* Modeling: understanding and structuring data for analysis.
+* Discusses data characteristics - data types, constraints, relationships.
+* Discusses the types of data - (semi-)structured, unstructured.
+* Discusses text processing (TD-IDF) - not quite sure why.
+* Introduces graph data models, and properties of graphs (distance, etc)
+* Discusses streaming data (windowing, )
+* Management systems
+  * Data lakes - no structure, all streams flow as-is into the lake.
+  * Relational DBMS vs. Unstructured (Mongo)
+  * Redis as a K/V store
+
+#### 07/2017: Intro to Big Data
+
+* Introduction to the exponentially growing data landscape.
+* The characteristics of data (volume, variety, veracity (quality), valence
+  (connectedness),
+* Introduces the high level process of data science:
+  * Acquire -> Prepare -> Analyze -> Report -> Act
+* Introduces BDMSs and Hadoop / HDFS, Yarn, MapReduce
+
+
+---
+
+## MOOC Research
+
+### Udacity Nanodegrees
 
 #### Data Science Nanodegree Program
 
 This class is much more technical and engineering based - more advanced than the
-Data Engineering Nanodegree. 7 months total over 2 terms. ($2000)
+Data Engineering Nanodegree.
+
+7 months total over 2 terms. ($2000)
 
 This is an ideal transition from engineer into data scientist. This is a
 difficult program. It also has a great two term setup - the first term is ML
@@ -101,12 +120,57 @@ It expects that you understand:
 * Visualization with matplotlib
 
 * Goals
-  * Use Python and SQL to analycs data from different sources.
+  * Use Python and SQL to analyze data from different sources.
   * Use statistics and probability to design and execute A/B tests and
     recommendation engines to make data driven decisions.
   * Build / tune ML models, compare model performance (accuracy).
   * Deploy DS solutions using a basic flask app.
   * Manipulate / analyze data at scale using Spark.
+
+Term 1: ML for Data Scientists
+
+* Supervised Learning
+  * Regression
+  * Classification
+  * Decision trees / SVMs / random forest / bayes
+
+* Deep learning
+  * Neural networks
+  * Gradient descent
+  * Keras / Pytorch
+
+* Unsupervised learning
+  * Clustering (k-means)
+
+Term 2: Applied DS
+
+* Solving problems w/ DS
+  * Visualization in Python
+* Software engineering
+  * Clean code, tests
+  * Flask / plotly / bootstrap
+* Data engineering
+  * Data pipelines
+  * Data prep - tokenization for ML / TD-IDF
+* Running experiments
+  * SMART goals
+* Capstone project
+
+
+##### Data Engineering Nanodegree Program
+
+One 5 month term. Estimated salary $74-110k
+
+The focus of this class is working with databases, data sets, and data movement
+(pipelines). This class is more about collecting (ETL), storing, and moving
+data. It's not about analysis or algorithms to process the data.
+
+* 110 hours, 5 months
+* Course 1: Data Modeling - Document & Relational DBs (OLAP vs. OLTP)
+* Course 2: Cloud Data Warehouses - running data in AWS
+* Course 3: Data Lakes w/ Spark
+* Course 4: Automate Data Pipelines (Apache Airflow)
+
 
 #### AI Programming With Python
 
@@ -114,8 +178,147 @@ AI programming with python includes learning about python, common DS libraries
 (NumPy, Pandas, Matplotlib, PyTorch) as well as foundational math - linear
 algebra and calculus.
 
+1 3 month term, $600
+
 * Intro to Python
 * Jupyter Notebooks, NumPy, Anaconda, Pandas, Matplotlib
 * Linear Algebra
 * Calculus Essentials
 * Neural Networks: NNs, deep learning, and PyTorch
+
+#### Machine Learning Engineer
+
+This program will teach you how to become a Machine Learning Engineer, build
+Machine Learning models and apply them to data sets in fields like finance,
+healthcare, education, and more
+
+The program is divided into two terms of 3 months each. We expect students to work
+10 hours/week on average. Estimated time commitment to complete both terms is
+200 hours.
+
+Prereqs: Python, knowledge of inferential statistics, probability, linear
+algebra and calculus.
+
+Term 1:
+
+* Model Evaluation and Building
+  * Understand model metrics.
+  * Load data w/ Pandas, train / test models w/ Scikit-learn.
+
+* Supervised learning
+  * Linear Regression vs. Classification.
+  * Neural networks, decision trees, naive bayes
+  * Support vector machine
+  * Ensemble of learners
+
+* Unsupervised learning
+  * Clustering
+  * Feature scaling, dimensionality reduction
+
+Term 2:
+
+* Deep learning
+  * Neural networks
+* Reinforcement learning
+  * CNNs
+
+
+#### AI Nanodegree
+
+Advanced nanodegree. ML recommended as a prereq.
+
+---
+
+### AI Programming with Python (Beginner)
+
+* 3 month program - $599
+
+* Foundational math and python skills and libraries for programming AI.
+* You will use a pre-built neural network and also build an image classifier.
+* Python Basics
+	* Anaconda
+	* Jupyter Notebooks
+	* Numpy - manipulate data for ML
+	* Pandas - load and process data for ML problems
+	* Matplotlib
+* Linear Algebra Essentials
+	* Vectors
+	* Linear transformations and matrices
+	* Linear Algebra in Neural Networks
+* Calculus Essentials
+	* Derivatives - why are they important to ML?
+
+
+### Machine Learning Engineer Nanodegree (Advanced)
+
+The goal of this Nanodegree is to build ML models and apply them to sample data sets.
+
+* Two 3 month terms. $999/term
+
+#### Term 1: Machine Learning Foundations
+
+* Model evaluation and Validation
+	* Load data with pandas, train and test models with scikit-learn.
+* Supervised Learning
+	* Regression vs. classification
+	* Neural networks, decision trees, naive Bayes, support vector machines.
+* Unsupervised learning
+	* Clustering, k-means.
+	* Density based clustering
+
+#### Term 2: Advanced Machine Learning
+* Deep learning
+	* Neural Networks, Convolutional Neural Network
+* Reinforcement Learning
+
+### Data structures and algorithms (Intermediate)
+
+
+### AI Nanodegree
+
+An advanced program.
+
+Suggests AI Programming with Python, Machine Learning Engineer, Deep Learning Nanodegrees as prerequisites.
+
+* Follows AIMA from Norvig / Russell
+
+Projects
+* Sudoku - Solver
+	* Uses constraint propagation and backtracking to only consider reasonable solution candidates and efficiently solves any sudoku puzzle.
+* Forward planning agent
+* Adversarial game playing agent
+* Speech Tagging
+
+---
+
+## Coursera
+
+### Specialization: Applied Data Science with Python
+
+* Course 1: (4 weeks) Intro to DS w/ Python
+  * Python intro, pandas.
+* Course 2: (4 weeks) Applied Plotting, Charting & Data Representation in Python
+  * Matplotlib
+  * Charting fundamentals
+* Course 3: (4 weeks) Applied Machine Learning in Python
+  * Fundamentals of ML. Scikit-learn.
+  * Supervised ML: kNN, Regression, Classification
+  * Naive Bayes, Random Forests, Neural Networks, Decision Trees, Clustering
+* Course 4: (4 weeks) Applied Text Mining in Python
+  * Basic NL processing.
+  * Text classifications: Naive Bayes, SVMs,
+  * Topic Modeling (?)
+* Course 5: (4 weeks) Applied Social Network Analysis in Python
+  * Network definitions
+  * Clustering coefficients, distance measures
+  * Centrality, node closeness / degree measurement
+  * Network evolution
+
+### Machine Learning Specialization (University of Washington)
+
+[Machine Learning | Coursera](https://www.coursera.org/specializations/machine-learning)
+
+* Starts off with a hands on case study approach looking at different examples of applying ML to real world problems.
+* Regression
+* Classification
+* Clustering & Retrieval

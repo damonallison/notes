@@ -666,7 +666,7 @@ What is the difference between a data format and a data model?
   * Declarative query languages
   * Data independence - isolates the users from physical storage.
   * Efficient data access.
-  * Data integrity and security.
+
     * ACID / failure recovery.
       * Atomic. All or nothing.
       * Consistent. All data written to the DBMS must be valid according to the defined constraints (data types, PKs, FKs).
@@ -792,7 +792,7 @@ What is the difference between a data format and a data model?
 * Data types
   * Scalars, lists, maps, geospatial, large objects.
 * AQL
-  * Similar to SQL to access key/value storage.
+j  * Similar to SQL to access key/value storage.
 * Transactions in Aerospike
   * ACID compliance.
     * Synchronous writes to replicas.

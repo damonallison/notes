@@ -37,7 +37,7 @@ Other "Vs" include"
 
 # Week 1
 
-The goals of this course are:
+The goals of this course is:
 
 * Describe the big data landscape using real world examples.
 * Understand the high level workflow of big data systems.
@@ -517,9 +517,11 @@ The goals of this course are:
 
 --------------------------------------------------------------------------------
 
-# Week 3 ; Foundations for Big Data Systems and Programming
+# Week 3 : Foundations for Big Data Systems and Programming
 
-> Big Data requires new programming frameworks and systems. For this course, we don't programming knowledge or experience -- but we do want to give you a grounding in some of the key concepts.
+> Big Data requires new programming frameworks and systems. For this course, we
+> don't programming knowledge or experience -- but we do want to give you a
+> grounding in some of the key concepts.
 
 ## Getting Started : Why do we worry about foundations?
 
@@ -558,7 +560,7 @@ The goals of this course are:
 
 * The programming model for big data provides programmability on top of your DFS.
 
-### Requirements for a big data programmming model
+### Requirements for a big data programming model
 
 * Support big data operations.
   * Split large volumes of data.
@@ -569,7 +571,7 @@ The goals of this course are:
   * Replicate data partitions.
   * Recover files when needed.
 
-* Scable
+* Scalable
   * Easily adding more capacity (scaling out)
 
 * Optimized for specific types of data

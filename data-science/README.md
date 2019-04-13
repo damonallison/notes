@@ -1,5 +1,71 @@
 # Data Science
 
+## Skills
+
+### Algorithms
+
+* Bayes
+* Linear regression
+* kNN
+* Random Forest
+
+### Languages
+* Python
+* SQL
+
+### Libraries
+
+* Pandas
+* Numpy
+* Sklearn
+* Matplotlib
+* Flask
+* Django
+* Pytest
+* matplotlib
+* d3.js (visualization tools)
+
+### Tools
+
+* Anaconda
+* Jupyter Notebooks
+* PostgreSQL
+* HBase
+* Kafka
+* Apache Airflow
+
+### Math
+
+* Linear Algebra (matrix multiplication, manipulation)
+* Calculus (maximizing and minimizing algebraic equations)
+
+### Statistics
+
+* Descriptive statistics
+* Probability
+* Inferential statistics - sampling distributions, probability testing.
+
+
+## Skills
+
+* Relational DB Modeling
+  * Schema fundamentals - normalization and denormalized schemas (STAR and
+    Snowflake)
+  * Indexing
+  * Create OLAP cubes - Fact & Dimension tables
+  * OLAP vs. OLTP
+
+* Document DB Modeling
+  * Primary key selection, clustering column selection.
+  * Mongo, Cassandra
+
+* Mindset
+  * Curiosity, discovery, innovation, passionate.
+
+
+---
+
+
 ## Kafka
 
 * A distributed streaming platform used for building real time pipelines.

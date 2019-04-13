@@ -50,7 +50,7 @@ Analyze game data. Game play / social behavior/ ad targeting.
 
 * Binoculars to spot mission specific flamingos.
 * Special flamingos which count for > 1 point.
-* Ice blocks to freeze a mission for 20 secionds.
+* Ice blocks to freeze a mission for 20 seconds.
 * Trading cards to transfer extra points between grid cells.
 
 ##### Game Completion
