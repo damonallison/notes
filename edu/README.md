@@ -1,8 +1,12 @@
 # Education
 
+---
+
 ## Goal
 
 Fundamentally strong ML scientist and engineer.
+
+---
 
 ## History
 
@@ -19,7 +23,15 @@ feet wet, back into Python.
 ---
 
 ### 01/2018: Coursera Big Data Specialization (5 Course Specialization + Capstone)
- 01/2018: Big Data Capstone
+
+####  01/2018: Big Data Capstone
+
+* Goal is to analyze player data from a game, determining how to make more
+  money.
+* Determined that a player's platform is the best metric to determine if a
+  player is a "high roller".
+* Analyzed chat data to determine that chatty users are not on chatty teams -
+  they are involved in many teams.
 
 
 #### 11/2017: Graph Analysis for Big Data
@@ -84,6 +96,39 @@ feet wet, back into Python.
 ## MOOC Research
 
 ### Udacity Nanodegrees
+
+Here is the recommended order for taking Udacity courses:
+
+* AI Programming with Python (pre-reqs)
+* Data Science Nanodegree (overlaps w/ ML) *or* the ML Nanodegree
+  * The DS nanodegree has a weak term 2, bit the DS curriculum is still strong.
+* AI
+
+#### AI Programming with Python (Beginner)
+
+AI programming with python includes learning about python, common DS libraries
+(NumPy, Pandas, Matplotlib, PyTorch) as well as foundational math - linear
+algebra and calculus.
+
+Labeled as beginner, but still pretty advanced.
+
+* 3 month program - $599
+
+* Foundational math and python skills and libraries for programming AI.
+* You will use a pre-built neural network and also build an image classifier.
+* Python Basics
+	* Anaconda
+	* Jupyter Notebooks
+	* Numpy - manipulate data for ML
+	* Pandas - load and process data for ML problems
+	* Matplotlib
+* Linear Algebra Essentials
+	* Vectors
+	* Linear transformations and matrices
+	* Linear Algebra in Neural Networks
+* Calculus Essentials
+	* Derivatives - why are they important to ML?
+
 
 #### Data Science Nanodegree Program
 
@@ -157,7 +202,7 @@ Term 2: Applied DS
 * Capstone project
 
 
-##### Data Engineering Nanodegree Program
+#### Data Engineering Nanodegree Program
 
 One 5 month term. Estimated salary $74-110k
 
@@ -171,20 +216,6 @@ data. It's not about analysis or algorithms to process the data.
 * Course 3: Data Lakes w/ Spark
 * Course 4: Automate Data Pipelines (Apache Airflow)
 
-
-#### AI Programming With Python
-
-AI programming with python includes learning about python, common DS libraries
-(NumPy, Pandas, Matplotlib, PyTorch) as well as foundational math - linear
-algebra and calculus.
-
-1 3 month term, $600
-
-* Intro to Python
-* Jupyter Notebooks, NumPy, Anaconda, Pandas, Matplotlib
-* Linear Algebra
-* Calculus Essentials
-* Neural Networks: NNs, deep learning, and PyTorch
 
 #### Machine Learning Engineer
 
@@ -222,61 +253,9 @@ Term 2:
 * Reinforcement learning
   * CNNs
 
-
 #### AI Nanodegree
 
-Advanced nanodegree. ML recommended as a prereq.
-
----
-
-### AI Programming with Python (Beginner)
-
-* 3 month program - $599
-
-* Foundational math and python skills and libraries for programming AI.
-* You will use a pre-built neural network and also build an image classifier.
-* Python Basics
-	* Anaconda
-	* Jupyter Notebooks
-	* Numpy - manipulate data for ML
-	* Pandas - load and process data for ML problems
-	* Matplotlib
-* Linear Algebra Essentials
-	* Vectors
-	* Linear transformations and matrices
-	* Linear Algebra in Neural Networks
-* Calculus Essentials
-	* Derivatives - why are they important to ML?
-
-
-### Machine Learning Engineer Nanodegree (Advanced)
-
-The goal of this Nanodegree is to build ML models and apply them to sample data sets.
-
-* Two 3 month terms. $999/term
-
-#### Term 1: Machine Learning Foundations
-
-* Model evaluation and Validation
-	* Load data with pandas, train and test models with scikit-learn.
-* Supervised Learning
-	* Regression vs. classification
-	* Neural networks, decision trees, naive Bayes, support vector machines.
-* Unsupervised learning
-	* Clustering, k-means.
-	* Density based clustering
-
-#### Term 2: Advanced Machine Learning
-* Deep learning
-	* Neural Networks, Convolutional Neural Network
-* Reinforcement Learning
-
-### Data structures and algorithms (Intermediate)
-
-
-### AI Nanodegree
-
-An advanced program.
+A really advanced program.
 
 Suggests AI Programming with Python, Machine Learning Engineer, Deep Learning Nanodegrees as prerequisites.
 
@@ -293,7 +272,7 @@ Projects
 
 ## Coursera
 
-### Specialization: Applied Data Science with Python
+### Specialization: Applied Data Science with Python (University of Michigan)
 
 * Course 1: (4 weeks) Intro to DS w/ Python
   * Python intro, pandas.
