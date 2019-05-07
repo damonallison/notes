@@ -75,7 +75,7 @@ $ dnf install emacs
 ```bash
 
 $ dnf list --installed
-$ dnf llsist --upgrades  [list upgrades available to the installed packages]
+$ dnf list --upgrades  [list upgrades available to the installed packages]
 $ dnf list --autoremove [list packages which will be removed by the `dnf autoremove` command]
 
 // List all repositories
