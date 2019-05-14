@@ -122,8 +122,7 @@ In the `Code Settings Sync` extension, enable `Auto Download` and `Auto Upload`.
 `Code Settings Sync` requires a token to use with github:
 
 ```
-Token:
-29bb03d68ddb3d9c0fa7fe42ac715390d105d9ad
+Token: (Token stored in Bear - not in github)
 ```
 
 ## Node
