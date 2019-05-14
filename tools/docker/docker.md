@@ -1,13 +1,6 @@
 # Docker
 
-* Source : [Wikipedia](https://en.wikipedia.org/wiki/Docker_(software)
-
 ## Questions
-
-* What operating system resources are exposed to the docker container?
-  * CPU / memory / I/O
-  * DNS
-  * Network interfaces (-p)
 
 * Docker command line completion?
 * Where are images stored?
@@ -19,7 +12,10 @@
 
 ## Introduction
 
-Docker containers wrap up software in a complete file system that contain everything the software needs to run : code, runtime, system tools, libraries. This guarantees the software will run the same, regardless of the host environment the container is running in.
+Docker containers wrap up software in a complete file system that contain
+everything the software needs to run : code, runtime, system tools,
+libraries. This guarantees the software will run the same, regardless of the
+host environment the container is running in.
 
 ### Why Docker?
 
@@ -36,7 +32,9 @@ Docker uses resource isolation features of the Linux kernel:
 
 * union-capable file system (such as OverlayFS)
 
-The overhead of a docker container is similar to a process. A single server or VM can run several containers simultaneously. A typical docker host can run 5-10 docker containers simultaneously.
+The overhead of a docker container is similar to a process. A single server or
+VM can run several containers simultaneously. A typical docker host can run 5-10
+docker containers simultaneously.
 
 Each container has it's own private view of the operating system - their own process ID, file system, network interfaces. Each container can be constrained to only use a defined amount of resources like CPU, I/O, and memory.
 
