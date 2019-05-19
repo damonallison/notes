@@ -8,7 +8,36 @@ Fundamentally strong ML scientist and engineer.
 
 ---
 
+## Options
+
+* University of Illinois: Masters of Computer Science in Data Science
+  * https://www.coursera.org/degrees/masters-in-computer-data-science
+
 ## History
+
+### 05/2019: MITx MicroMasters Program in Statistics and Data Science
+
+* https://micromasters.mit.edu/ds/
+
+* Taught by MIT faculty at a similar pace and rigor as on-campus courses.
+* Flexible pace.
+* Transferable (maybe)
+  * Does the MIT MicroMasters program transfer to MIT's masters program?
+
+* Meant for working professionals. Rigorous, doesn't compromise quality.
+  * Data Analysis / ML
+  * Probability
+  * Statistics
+
+### Courses
+
+#### Probability - The Science and Uncertainty of Data
+
+#### Data Analysis in Social Science—Assessing Your Knowledge
+#### Fundamentals of Statistics
+#### Machine Learning with Python: from Linear Models to Deep Learning
+#### Capstone Exam in Statistics and Data Science
+---
 
 ### 04/2019: Udacity: Introduction to Python Programming
 
