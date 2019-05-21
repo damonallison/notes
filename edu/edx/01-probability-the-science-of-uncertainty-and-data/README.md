@@ -129,10 +129,6 @@
 
 #### Sample Space
 
-* Two steps
-  * Describe possible outcomes
-  * Describe beliefs about likelihood of outcomes
-
 * A sample space is the set of possible outcomes (Omega).
   * Each element is mutually exclusive.
     * At the end of the experiment, there is only one possible outcome.
@@ -149,3 +145,50 @@
         * If you feel that weather impacts on time arrival, you want to include
           weather as well.
     * The set of variables you use in your experiment make up the sample space.
+
+* Discrete / finite sample space
+  * You have a fixed set of outcomes.
+  * Example: Two rolls of a 4 sided die. Your sample space is (4 x 4 == 16)
+
+* When you have an experiment with several stages, diagram it out as a tree.
+  * The root is where you start. The sample set is the set of leaves.
+
+* Infinite / continuous
+  * Outcomes are not fixed. You could have an infinite number of values.
+  * For example, measuring the length of a dart throw in millimeters.
+  * The probability of an individual point in an infinitely continuous sample
+    space is `0`.
+
+#### Probability Axioms
+
+* In an infinite sample space, the probability of an individual point occurring
+  is `0`.
+* When dealing with infinite sample spaces, you want to group a range of points
+  together.
+  * Example: What is the probability of hitting the top 1/2 of the sample space?
+* A subset of the sample space is called an `Event`.
+  * "Event A" is the top 1/2 of the sample space.
+
+* Ω Omega (Sample Space)
+* ∪ Union
+* ∩ Intersection
+
+* A ∪ B == Union == Elements that belong to A, B, or both.
+* A ∩ B == Intersection == Elements that belong in A *and* B.
+
+* Probability Axioms
+  * Non-negativity: P(A) >= 0
+  * Normalization: P(Ω) == 1
+  * (Finite) Additivity:
+    * If A ∩ B = ∅ (Empty Set - A and B are *disjoint*)
+    * Then P(A ∪ B) = P(A) + P(B)
+
+* Consequences of Axioms
+  * A
+
+
+
+
+
+
+
