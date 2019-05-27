@@ -166,26 +166,38 @@
 * When dealing with infinite sample spaces, you want to group a range of points
   together.
   * Example: What is the probability of hitting the top 1/2 of the sample space?
-* A subset of the sample space is called an `Event`.
-  * "Event A" is the top 1/2 of the sample space.
+  * A subset of the sample space is called an `Event`.
+    * "Event A" is the top 1/2 of the sample space.
+
+##### Notation
 
 * Ω Omega (Sample Space)
 * ∪ Union
 * ∩ Intersection
+* ∅ Empty Set
 
 * A ∪ B == Union == Elements that belong to A, B, or both.
 * A ∩ B == Intersection == Elements that belong in A *and* B.
 
-* Probability Axioms
-  * Non-negativity: P(A) >= 0
-  * Normalization: P(Ω) == 1
-  * (Finite) Additivity:
-    * If A ∩ B = ∅ (Empty Set - A and B are *disjoint*)
-    * Then P(A ∪ B) = P(A) + P(B)
+* If A ∩ B = ∅ (Empty Set - A and B are *disjoint*)
 
-* Consequences of Axioms
-  * A
+##### Probability Axioms
 
+There are very few axioms. However, from them other axioms can be proven.
+
+* Non-negativity
+  * P(A) >= 0
+* Normalization
+  * P(Ω) == 1
+* Additivity (for disjoint sets)
+  * P(A ∪ B) = P(A) + P(B)
+
+##### Derived Axioms
+
+While the probability axioms are few, other axioms can be derived.
+
+* P(∅) = 0
+* P(A ∪ B ∪ C) = P(A) + P(B) + P(C)
 
 
 

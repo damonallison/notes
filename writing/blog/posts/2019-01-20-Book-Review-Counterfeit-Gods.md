@@ -1,10 +1,27 @@
 # Book Review : Counterfeit Gods
 
-Everyone is driven by something. Some people are driven by money. Others,
-success. Some live for family, or for religion. Counterfeit Gods examines common
-outward (money, love, family) idols and inward idols (success, power, control)
-and concludes that all idols ultimately do not fulfill the true desires of your
-heart. Only Jesus Christ can you find true peace and fulfillment.
+## What drives you?
+
+Some people are driven by money. Others by success, family, religion, or a whole
+host of other noble and good things.
+
+But what *really* drives you? There are likely deeper, more foundational
+motivations behind the decisions you make, the image you portray on social
+media, and the trajectory you set your life to achieve.
+
+For example, many people want to have a lot of money. Why? What they are really
+after isn't a pile of green paper, it's the *control* it brings to live
+a life of comfort. To be in control of your financial situation.
+
+Others want
+To be happy? To have power over situations as a
+CEO has over a company? To be respected or adored by people?
+
+Counterfeit Gods examines common outward (money, love, family) idols and inward
+idols (success, power, control) and concludes that all these earthly idols do
+not fulfill the true desires of your heart. Only Jesus Christ can you find true
+peace and fulfillment.
+
 
 ## Introduction
 
