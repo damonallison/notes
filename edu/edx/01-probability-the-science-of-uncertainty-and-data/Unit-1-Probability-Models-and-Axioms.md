@@ -195,12 +195,9 @@ There are very few axioms. However, from them other axioms can be proven.
 ##### Derived Axioms
 
 While the probability axioms are few, other axioms can be derived.
-
+* P(A) <= 1
+* P(A) + P(Ac) = 1 (Probability of A and A's compliment)
 * P(∅) = 0
 * P(A ∪ B ∪ C) = P(A) + P(B) + P(C)
-
-
-
-
-
+* P({s1, s2, s3, ... sk}) = P({s1}) + P({s2}) + P({s3}) + ... + P({sk})
 
