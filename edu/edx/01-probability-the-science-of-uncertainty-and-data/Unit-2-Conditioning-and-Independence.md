@@ -63,7 +63,3 @@ The probability of M = 1 is 0. Given that we *know* the min of x, y = 2, we
 know that M = 1 can't occur.
 
 What is the probability of M = 3?
-
-```
-
-```
