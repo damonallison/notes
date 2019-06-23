@@ -9,18 +9,24 @@ But what *really* drives you? There are likely deeper, more foundational
 motivations behind the decisions you make, the image you portray on social
 media, and the trajectory you set your life to achieve.
 
-For example, many people want to have a lot of money. Why? What they are really
-after isn't a pile of green paper, it's the *control* it brings to live
-a life of comfort. To be in control of your financial situation.
-
-Others want
-To be happy? To have power over situations as a
-CEO has over a company? To be respected or adored by people?
+For example, many people want to have money. Why? What they are really after
+isn't a pile of green paper, it's the *control* it brings to live a life of
+comfort. To be in control of your financial situation.
 
 Counterfeit Gods examines common outward (money, love, family) idols and inward
 idols (success, power, control) and concludes that all these earthly idols do
 not fulfill the true desires of your heart. Only Jesus Christ can you find true
 peace and fulfillment.
+
+The truth is we all worship something. Something gets us out of bed in the
+morning, controls our inner voice, and pushes us to strive in life. Money, jobs,
+kids, hobbies, celebrities, comfort, happiness, and the list goes on. 
+
+Everyone is driven by something. Everyone has an idol.
+
+Counterfeit Gods is a book from Pastor Tim Keller on idols. Keller examines
+common worldly idols, concluding that the only true idol that matters is Jesus
+Christ.
 
 
 ## Introduction
@@ -37,10 +43,12 @@ It's important to understand the climate under which this book was written. In
 2009, the United States was in a rather deep recession. The financial markets
 were falling, the mortgage industry was being exposed for fraud, and the economy
 was in a recession. Keller was in the heart of that. Preaching to the very
-people who's lives were being devistated. What a great opportunity for this book
-to bring hope to those in despair. While this book's message is timeless, we
-can't ignore the circumastances or underestimate the need for hope during those
-challenging times.
+people on Wall Street and New York's financial district who's lives were being
+devastated.
+
+What a great opportunity for this book to bring hope to those in despair. While
+this book's message is timeless, we can't ignore the circumstances or
+underestimate the need for hope during those challenging times.
 
 ### Idols
 
@@ -52,8 +60,8 @@ Keller begins the book by defining idols. Keller defines an idol as:
 > imagniation more than God, anything you seek to give you what only God can
 > give.
 
-If we take Christianity out of it, an idol is the things or thoughts that drive
-your life. Everyone has an idol. Everyone worships *something*.
+If we take Christianity out of it, an idol is the thing that drives your life.
+Everyone has an idol. Everyone worships *something*.
 
 Idols can be outward facing. Like money, sex, or drugs. But idols take many
 other forms. "Inner" idols are extremely powerful thoughts and feelings we
@@ -89,21 +97,21 @@ successful.
 
 How do you recognize idols in your life? After all, everyone needs money. Isn't
 it natural that we work hard to become successful? The world is ultra
-competitive, isn't it not only good but *essential* to work hard and compete?
-Isn't spending time with family important? Of course.
+competitive, isn't it not only good but essential to work hard and compete?
+Isn't spending time with family and loving your kids important?
 
-Nothing in life - even the "bad" things like sex, money, or success is by iself
-an idol. They become idols when they control our lives. When we become depressed
-or paralyzed in fear thinking about losing them.
+Of course they are. But aren't they also common idols? So what makes something
+an idol?
 
+Things become idols when they control our lives. When we become depressed or paralyzed in fear thinking about losing them.
 What are you afraid of? What if the stock market crashed and your investments
-were worthless? Would your life be ruined if you lost your job?
+were worthless? Would your life be ruined if you lost your job? What if your
+wife left you? Idols lie at the heart of your deepest fears.
 
 Another way to tell if something has become an idol is to look at where you
 spend your resources. Where do you spend time and money? What do you think about
 when you have free time? Those areas of your life are where you start to realize
-your idols.
-
+your idols. Where your treasure is, your heart will be also.
 
 ## Idols
 
@@ -133,15 +141,24 @@ ruined their lives by idolizing each. Keller, thru his misistry, has powerful
 stories of people who have ruined their lives by placing these things at the
 center of their life's purpose:
 
-### Sex and Love
+### Sex
 
-Many to sex and romance to give them a sense of meaning. It's sad to say, but
-the porn industry is a $1 trillion, growing industry. Why? People idolize sex.
-Our culture promotes sex. Apps exist to foster one night stands.
+Sex is a very prominent idol. It's disheartening to say, but the porn industry
+is a $1 trillion, growing industry. Why? People idolize sex. Our culture
+promotes sex. Apps exist to foster one night stands. Sex itself is not evil.
+After all, it is a gift given to us by God himself. But when sex is idolized, it
+turns into sin.
 
-Love offers people a sense of belonging, of purpose. But even as great as love
-is, if love of someone is what defines your life, you will be crushed if that
-person ever wants to end the relationship.
+### Love
+
+It is natural for us to love others. For example, I love my children dearly. But
+what happens when we idolize our children? We watch over them, protect them. We
+don't want to see them fail, so we intervene in their lives and guard them from
+failure. We helicopter parent.
+
+What we don't realize, is our love for our children can ruin them. They become
+dependent on us. If they've never experienced failure as a child, they won't
+know how to handle it as an adult.
 
 ### Money
 
@@ -179,12 +196,12 @@ mindset and toolset for success.
 
 A close cousin to success is power. We want to be in control of our lives, to
 have power and influence. In the end, power gives you a false sense of security.
-Power is fleeting. One day you have it, the next you could lose it.
 
-What is interesting is that those in power tend to live in fear and anxiety
-about it. They have more to lose. As you make more money in a company, or have
-the power to influence large budgets or groups of people, you have a lot more
-focus on your decisions. If you let it, you could end up in fear.
+Power is fleeting. One day you have it, the next you could lose it. What is
+interesting is that those in power tend to live in fear and anxiety about it.
+They have more to lose. As you make more money in a company, or have the power
+to influence large budgets or groups of people, you have a lot more focus on
+your decisions. If you let it, you could end up in fear.
 
 Power is not just a personal idol. It's also a cultural idol. Nations strive for
 power. National pride can lead to prejudice. To believe you are "better" than
@@ -211,9 +228,9 @@ religion itself an idol.
 
 ## Replacing your idols
 
-You will always have an idol. I will always have an idol. We cannot expell
-idols, we must replace them. We have to live for something in our lives. The
-question is - what are we going to live for?
+We all idolize something. We cannot simply remove idols, we must replace them.
+We have to live for something in our lives. The question is - what are we going
+to live for?
 
 How do we identify our idols? Think about where you spend your time, money, and
 attention.
@@ -221,8 +238,7 @@ attention.
 * What occupies your mind when you have nothing to think about?
 * What do you habitually think about which gives you comfort, confidence, and strength?
 * Where do you spend your time and money?
-* How do you act when prayers go unanswered?
-* What are you the most afraid of? Your job? Losing others approval?
+* What are you the most afraid of?
 
 Keller concludes that true fulfillment can only come thru Jesus Christ. All
 earthly idols will ultimately disappoint. It is God's love for us that He sent
@@ -232,4 +248,6 @@ Keller tells us to set our hearts on Jesus. To put to death what belongs to your
 earthly nature - sexual impurity, lust, evil desires greed, and other earthly
 idols. When we truly set our hearts and minds on Jesus, we become free. Jesus
 paid the ultimate price for our sin and by loving and following Him, we have an
-eterminty in heaven. And that is the ultimate comfort and fulfillment for our lives.
+eterminty in heaven.
+
+And that is the ultimate comfort and fulfillment for our lives.
