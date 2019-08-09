@@ -40,7 +40,7 @@ $ sudo visudo
 
 ```
 $ brew cask install iterm2
-$ brew cask install spectacle
+$ brew cask install spectacle
 $ brew cask install sourcetree
 $ brew cask install dotnet-sdk
 $ brew cask install dotnet
@@ -52,6 +52,12 @@ $ brew install emacs
 $ brew install git
 $ brew install tree
 $ brew install python
+
+// gotop - a better version of top (written in go)
+$ brew tap cjbassi/gotop
+$ brew install gotop
+
+$ brew install mas
 
 # Adds alternate (beta) casks
 $ brew tap homebrew/cask-versions
