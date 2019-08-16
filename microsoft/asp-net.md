@@ -45,7 +45,6 @@
 * Jon Galloway (MSFT)
 * Phil Haack (github)
 * Brad Wilson (Ode to code)
-
 * Paul Irish (Author of Respond.js) - Developer Advocate @ Google.
 
 ## ASP.NET Core (a.k.a., ASP.NET MVC 6.0)
@@ -59,8 +58,7 @@ ASP.NET v6 is a rewrite of ASP.NET. This looks to be a container friendly versio
   * Apps can be self-hosted, in addition to running in IIS.
   * Built on .NET Execution Environment (DNX). Can run on the full .NET Framework or .NET Core.
   * Cross platform (Windows, Mac, Linux).
-  * All Nu-Get packaged.
-  * ASP.NET MVC 6 : unified web framework for UI and API.
+  * All NuGet packaged.
   * Roslyn dynamic compiler. Avoids a project rebuild for each file change. This will speed development.
   * DI built in.
 
