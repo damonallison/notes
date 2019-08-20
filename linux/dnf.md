@@ -1,6 +1,6 @@
 # dnf
 
-Dandified YUM. The success to `yum` for RPM based distributions.
+Dandified YUM. The successor to `yum` for RPM based distributions.
 
 ## Config
 
