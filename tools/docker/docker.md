@@ -3,7 +3,7 @@
 ## Questions
 
 * Docker command line completion?
-* Where are images stored?
+* Where on the FS are images stored?
 * How to ssh into a running container?
 * Look into linux control groups.
 * Docker uses `xhyve` on mac to virtualize the Docker Engine environment. What is `xhyve`?
