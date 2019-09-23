@@ -125,14 +125,19 @@ Bass allows you to run bash utilities in fish. It works by capturing environment
 * [GitHub - edc/bass: Make Bash utilities usable in Fish shell](https://github.com/edc/bass)
 
 ### Theme (bobthefish)
-```
+
+```shell
+
+$ omf update
 $ omf install bobthefish
 
 # bobthefish should be the new default theme. To ensure it is, run:
 $ omf theme bobthefish
+```
 
-# Download / install powerline compatible fonts.
-# Homebrew has a cask dedicated to fonts.
+## Fonts
+
+* Download / install powerline compatible fonts. Homebrew has a cask dedicated to fonts.
 
 $ brew tap homebrew/cask-fonts
 
@@ -144,7 +149,7 @@ $ brew cask install font-hack-nerd-font
 # In iTerm -> Preferences -> Profiles -> Text -> Set Font to "Hack Nerd Font"
 # In VS Code. Add "Hack Nerd Font" to the font string (JSON settings)
 
-```
+
 
 ## Visual Studio Code
 
