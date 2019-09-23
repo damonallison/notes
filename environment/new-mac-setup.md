@@ -65,6 +65,34 @@ $ brew tap homebrew/cask-versions
 $ brew cask install visual-studio-code-insiders
 ```
 
+## iTerm
+
+* Pastel color pallet (makes blues less dark)
+
+```shell
+Preferences -> Profiles -> Colors -> Color Presets -> Pastel (Dark Background)
+```
+
+* Setup option keys to act as meta (allows for full word delete)
+
+```shell
+Preferences -> Profiles -> Keys -> Left Option(⌥) Key -> Esc+
+Preferences -> Profiles -> Keys -> Right Option(⌥) Key -> Esc+
+```
+
+* Setup `Status Bar` (mini map)
+
+```shell
+Preferences -> Profiles -> Session -> Status bar enabled
+Configure status bar
+```
+
+* Change default font to `Hack Nerd Font Mono` or something else.
+
+```shell
+Preferences -> Profiles -> Text -> Font
+```
+
 ## Spectacle
 
 * `⌃⌥⌘F` - Full Screen (Editors override the default `⌥⌘F`)
