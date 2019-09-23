@@ -159,6 +159,13 @@ In the `Code Settings Sync` extension, enable `Auto Download` and `Auto Upload`.
 Token: (Token stored in Bear - not in github)
 ```
 
+## git
+
+```shell
+$ git config --global core.editor emacs
+$ git config --global core.name "Damon Allison"
+$ git config --global core.email "damon@damonallison.com"
+```
 ## Node
 
 * Follow node setup instructions at:
@@ -168,3 +175,4 @@ Token: (Token stored in Bear - not in github)
 
 * Follow Anaconda setup instructions at:
     * https://github.com/damonallison/python-examples/blob/master/documentation/anaconda.md
+
