@@ -29,6 +29,14 @@ $ sudo visudo
 * Enable iCloud in `System Preferences`.
 * Open `Messages` and `FaceTime`, disable iCloud.
 
+## Screenshots dir
+
+```shell
+# On Mohave or later
+
+Cmd-Shift-5
+
+```
 ## App Store
 
 * Bear (if logged in as `damon@damonallison.com`
@@ -45,7 +53,7 @@ $ brew cask install sourcetree
 $ brew cask install dotnet-sdk
 $ brew cask install dotnet
 $ brew cask install slack
-
+$ brew cask install postman
 
 $ brew install fish
 $ brew install emacs
@@ -120,10 +128,15 @@ $ chsh -s /usr/local/bin/fish
 
 ###  Bass
 
+NOTE: You *may* not need this.
+
 Bass allows you to run bash utilities in fish. It works by capturing environment variables modified by the bash utility and replaying the changes in fish.
 
 * [GitHub - edc/bass: Make Bash utilities usable in Fish shell](https://github.com/edc/bass)
 
+```shell
+$ omf install bass
+```
 ### Theme (bobthefish)
 
 ```shell
@@ -139,6 +152,7 @@ $ omf theme bobthefish
 
 * Download / install powerline compatible fonts. Homebrew has a cask dedicated to fonts.
 
+```shell
 $ brew tap homebrew/cask-fonts
 
 # Search for fonts
@@ -148,6 +162,7 @@ $ brew cask install font-hack-nerd-font
 
 # In iTerm -> Preferences -> Profiles -> Text -> Set Font to "Hack Nerd Font"
 # In VS Code. Add "Hack Nerd Font" to the font string (JSON settings)
+```
 
 
 
