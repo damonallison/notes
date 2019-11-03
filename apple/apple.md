@@ -8,47 +8,13 @@
 ~/Library/iTunes/iPhone Software Update
 	* Only images download / installed through iTunes.
 
-## Apple Suggestions ##
-
-* Open up iCloud outside of iOS. Make it a generic data sync layer (does the daemon process
-  architecture prevent an app-level sync solution?).
-
-* Why does iOS only offer static libraries - so you can't update | load the .dylib without going
-  through Apple?
-
-* What are the standard library and interface directories?
-
-# iOS App Programming Guide #
-
-* App lifecycle discussion | backgrounding | long running background tasks (location / voip).
-* Main run loop : UIApplication receives run loop events first, could be used to intercept / track
-  events.
-* Most events (in controls) are packaged into action messages (raw events aren't dealt with).
-
-# iOS Technology Overview #
-
-* Storyboards preferred over nib. (Xcode 4 user's guide for info on storyboards (UIStoryboard).
-* Game kit for establishing P2P connectivity.
-
-* SystemConfiguration.framework : Reachability | current network status | ability to reach a server,
-  etc.
-
-## Application Sandbox ##
-
-(See File System Programming Guide) /App/MyApp.app /Documents /Library /tmp
-
-* Exception handling (try / catch in objc - really for programmer errors only?
-
-
-## Core Data Programming Guide ##
+## Core Data Programming Guide
 
 You can use multiple MOC's in an app. Each MOC can have a copy of an object. Inconsistencies during save can result. Just use 1 MOC in an app unless you *really* need multiple.
 
 How to use CD with GCD? What is CD's multi-threading story?
 
 * Don't use > 1 model / persistent store / managed object context (unless r/rw)
-
-* What are the data stores (memory / SQLite / XML).
 
 * Do you use a single managed object context? Or one context for read-only,
   another for change tracking?
@@ -93,11 +59,6 @@ Persistence Stack
 
 * Fetched properties : weak, one-way relationships ("recent customers") - customers don't have a
   corresponding "recent" relationship.
-
-### Managed Objects ###
-
-
-
 
 ## Data
 

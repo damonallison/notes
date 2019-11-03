@@ -1,13 +1,5 @@
 # iBeacon
 
-## TODO
-
-* Determine if we consistently receive CB events while in the background.
-* What is this? `[CoreBluetooth] XPC connection interrupted, resetting`
-
----------------
-
-
 iBeacon has two basic interaction models:
 
 1. **Region monitoring**: Actions triggered on BLE region enter/exit. Works in the foreground, background, and even when the app is killed.
