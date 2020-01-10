@@ -1,12 +1,11 @@
 # Azure
 
-* Docker / ACS / AKS / Azure Functions / helm
+* Docker / AKS / Azure Functions / helm
 * Azure SQL / Cosmos DB (w/ Mongo DB drivers)
 * Key vault
 * DevOps (TFS / work tracking)
 
 * Networking / firewall / dns / vpn / traffic manager
-
 
 
 * Terraform - infrastructure as code
@@ -40,7 +39,6 @@
 
 * Helm
     * Packages multiple k8s objects into a single chart
-    *
 
 * Docker / ACR
 * CosmosDB (Mongo)
@@ -86,33 +84,10 @@ $ dotnet add package MongoDB.Driver
   * User definition, RBAC.
   * Use tags for billing?
 
-## TODO
-
-* A common subscription all vision developers have full access to. Personal dev accounts won't scale.
-
-* API running in `App Service`. Difference between App Service and hosting via AKS or Service Fabric?
-  * Look into using Docker images on App Service.
-* Run an Azure function. Put rules engine into Azure Functions?
-* Service Fabric: .NET Core and Java only?
-
-## Vision
-
-* How to partition by customer? What to share between tenants?
-  * MongoDB - by tenant. Metadata - across tenants.
 
 ## Getting started
 
 * [Azure Developer Guide](https://docs.microsoft.com/en-us/azure/guides/developer/azure-developer-guide)
-
-### App hosting
-
-```plain
-
-VM -> Service Fabric -> App Service -> Functions (Code Only)
-
--- IaaS --------- PaaS -------------------- Serverless ------->
-
-```
 
 #### App Service
 
@@ -142,7 +117,6 @@ New Apps in app service can be of type:
 
 * Docker provides efficient, predictable deployment. The unit of deployment is
   the coarse grained container, not individual files or executables.
-* Azure Container Service allows you to manage / configure a cluster of VMs.
 
 ### Authentication
 
@@ -153,14 +127,6 @@ New Apps in app service can be of type:
 
 * Application Insights
 * Azure Monitoring (graphing)
-
-### Azure Management
-
-* Azure CLI
-* Azure Powershell
-* Azure Portal : web based interface
-* REST APIs
-* Azure SDKs
 
 ## CosmosDB
 
@@ -178,3 +144,12 @@ New Apps in app service can be of type:
         * cron schedule
         * Azure queues / service bus messages
         * HTTP (web hook listener)
+
+## Key Vault
+
+* Securely store secrets. Access from app via a versioned URI.
+* Each application can have access to it's own vault.
+* To access a key vault from an application:
+    * Create a service principal (clientId / clientSecret).
+    * Give the service principal access to the key vault.
+    * Use the service principal from the client library.

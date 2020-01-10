@@ -1,4 +1,10 @@
-# Kubernetes
+# Kubernetes / Minikube / Helm
+
+* Kubernetes is a container management platform
+* Minikube is a local k8s cluster
+* Helm is a set of pre-packaged "charts" which install / configure software in
+  k8s
+
 
 * Roles / access
 * Master replication strategy
@@ -23,7 +29,7 @@ Kubernetes manages container deployments.
 ### Master Components
 
 Responsible for keeping the cluster's current state in sync with the desired
-state. The control plane includes:
+state (spec state). The control plane includes:
 
 * Processes running on master:
   * kube-apiserver
@@ -71,17 +77,54 @@ access them.
 
 ## minikube
 
+### Tutorial
+
 ```bash
 
-# Create a new (local) cluster as a VM in your hypervisor
+# Start minikube
 $ minikube start
 
-# Get a list of services
-$ kubectl get service
+# Create a deployment
+$ kubectl create deployment hello-node --image=gcr.io/hello-minikube-zero-install/hello-node
 
-# Opens the service URL in Chrome
-$ minikube service hello-minikube
+# View the deployment / pods
+$ kubectl get deployments
+$ kubectl get pods
+$ kubectl get all
 
+# View cluster events
+$ kubectl get events
+
+# Ciew `kubectl` configuration
+$ kubectl config view
+
+# Create a service (exposes the pod outside the k8s cluster)
+$ kubectl expose deploymnent hello-node --type=LoadBalancer --port=8080
+
+# On Minikube, `LoadBalancer` makes the service available thru the `minikube service` command
+$ minikube service hello-node
+
+# List minikube addons
+$ minikube addons list
+
+# Delete resources
+$ kubectl delete service hello-node
+$ kubectl delete deployment hello-node
+
+# Stop minikube
+$ minikube stop
+
+# Delete the Minikube VM
+$ minikube delete
+
+```
+
+
+### minikube commands
+
+NOTE: Minikube requires VirtualBox to be installed.
+
+```bash
 # Start the k8s dashboard
 $ minikube dashboard
 ```
@@ -191,5 +234,21 @@ $ kubectl rollout history deployments/hello-node
 # Undoing a rollout
 $ kubectl rollout undo deployments/hello-node
 
+
+```
+
+
+
+## Helm
+
+```bash
+
+$ heml repo add stable https://kubernetes-charts.storage.googleapis.com/
+$ heml repo update
+
+$ helm install stable/mysql --generate-name
+
+# See
+$ helm ls
 
 ```
