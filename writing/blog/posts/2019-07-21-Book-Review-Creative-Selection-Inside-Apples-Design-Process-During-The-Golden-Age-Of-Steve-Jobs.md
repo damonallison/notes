@@ -1,0 +1,131 @@
+# Book Review: Creative Selection: Inside Apple's Design Process During the Golden Age of Steve Jobs
+
+"A small group of passionate, talented, imaginative, ingenious, ever-curious people built a work culture based on applying their inspiration and collaboration with diligence, craft, decisiveness, taste, and empathy and, through a lengthy progression of demo-feedback sessions, repeatedly tuned and optimized heuristics and algorithms, persisted through doubts and setbacks, selected the most promising bits of progress at every step, all with the goal of creating the best products possible." - Ken Kocienda
+
+---
+
+Overview
+
+Creative Selection, written by former Apple software engineer Ken Kocienda, describes Apple's culture and development process under the aptly titled "golden age" of Steve Jobs during the 2000s.
+This was definitely one, if not the, most successful periods in corporate history for any single company. The late 90's and 2000s saw Apple roll out an astonishing series of product successes including the iMac, iPod, iPhone, iPad (technically released in 2010), as well as software hits like Safari, iOS, and extensive macOS improvements.
+Creative Selection follow's Ken's career from Eazel software in 1999, to Apple during 2001–2017, where he worked as a software engineer on Safari and the "Purple" project - what ultimately became known to the world as iPhone OS and what we know today as iOS.
+The main story line of the book paints the picture of Apple's "Creative Selection" culture thru the lens of Ken's projects. He discusses technical hurdles they faced, what it was like to work with Steve Jobs, and a few behind the scenes stories of how they prepared for product unveilings and celebrated the iPhone launch.
+Ken's stories about iOS and Safari are excellent. However the real focus of the book, and what ultimately made Apple successful, is Apple's culture. It's widely known that Steve Jobs was a perfectionist. He was demanding and could be difficult to work with. How, then, did the Apple culture not only function but thrive under his leadership? What was it like to work with him on the original iPhone team?
+So transport your mind back to 1999 - Google was just founded, Y2K was eminent, Microsoft Windows 95 and 98 were the dominant operating systems, Internet Explorer had 75% of the browser market and growing fast over rival Netscape, cell phones needed to be flipped open to use, and a dying software company called Apple Computer and it's interim CEO Steve Jobs were fighting for survival.
+Let's dive into Creative Selection.
+
+Background
+
+Kocienda's credibility around Apple product culture comes from his deep history of working with and around Apple and Apple employees. In 1999, Bud Tribble, Andy Hertzfeld, and many other original members of Apple's Mac team started Eazel Software to build productivity tools for desktop Linux. Ken worked for Eazel, along with others who would ultimately land at Apple to build Safari.
+While technically talented, the company failed just a few years later (2001) due to the many challenges developing Linux desktop especially during this era.
+The tiny Linux desktop market, wide variety of Linux desktop environments, Microsoft's monopoly over desktop computing and hostile tactics towards Linux and open source software, and the Linux community's cultural opposition toward corporate involvement were key reasons why Eazel failed. It is difficult to make money writing Linux desktop software even today - let alone in the hostile late 90's technology landscape.
+After Eazel, Ken was hired by Apple to work on Safari with Don Melton - another Eazel employee. Ken and Don were the first two Safari engineers at Apple. After Safari, Ken went to work on the "Purple" project - the iPhone project codename - where he wrote the original iPhone keyboard, gestures, and other core iOS features.
+In all, Ken worked within Apple's culture from 1999 at Eazel until he left Apple in 2017. While he has 18+ years of experience with Apple, true to the book's title he focuses almost exclusively on the "golden age" - starting in 2001 with Safari and ending in 2007 with the iPhone release.
+Creative Selection
+Creative Selection is Ken's term to describe Apple's product culture. While Apple obviously creates technical products, this is not a technology book. It's a playbook describing the values, and mindset behind one, if not the, world's most successful product companies. Creative Selection is entirely about culture.
+If you read this blog often, you already know where I stand when it comes to company culture. Culture is the single most important asset or liability a company has. Steve knew that making great products was the sole focus of Apple and he built a mindset of "insanely great", customer focused product culture at Apple that became the heart and soul of Apple's DNA.
+Interestingly, after Steve Jobs died, Tim Cook claimed that Jobs' greatest product, his greatest gift to humanity, was Apple itself. The culture. It's that cultural DNA which Ken termed Creative Selection.
+So, what exactly is Creative Selection?
+Like Darwinian Natural Selection, Apple's Creative Selection is the continual refinement and application of Apple's core values and cultural philosophies which work together to both build great new products and consistently improve existing products.
+Kocienda describes Creative Selection as the interplay between several core Apple values. Apple's core values include:
+Inspiration - Thinking big ideas and imagining about what might be possible.
+Craft - Aiming for high quality results and always striving to do better.
+Collaboration - Work well with others, compliment each other.
+Diligence - Never settle or cut corners.
+Decisiveness - Make tough choices and don't procrastinate.
+Taste - A refined sense of judgement.
+Empathy - See the world from other's perspective.
+
+Opening - Apple's Demo Culture
+
+The book opens with a story about Ken demoing the upcoming iPad keyboard to Steve Jobs, Scott Forstall, and a few other software leaders in 2009 - before the iPad launch. It's here that he first describes Apple's "demo culture".
+Demos were the key to Apple product development. They provided a natural goal and focus, as well as settled technical decisions. The focus on demos was pervasive in the book. In all the products Ken worked as well as simply proving new technology, demos were consistently the main focal point.
+He used the iPad keyboard demo to highlight Apple's demanding drive for perfection, mindset towards excellence, and serious attention to detail. Steve Jobs was exacting. It was hard to work with and please Steve.
+The way Apple runs meetings is something all of us can learn from. Each meeting had a decider. Meetings were kept efficient, minimal, and focused. You could tell they were pragmatic and didn't waste time with a bunch of powerpoint, fake demos or clutter. You couldn't pull the wool over Steve's eyes by doing "demo tricks" - like spending all your time on one version of your software, then throwing in a bunch of half-assed "alternatives" which make him want to choose your one true attempt. He saw through that nonsense.
+Decisions during demos were made around Apple's core values. Steve pushed for simplicity and making tech simple for people to use. Apple has always been known for making technology approachable - Ken's inside stories reinforce how core those beliefs are enforced down to the meeting level.
+I feel a lot of meetings at large companies are a waste of time. As my friend Dave Payne would say - a lot of companies have "margin" to make mistakes or be inefficient without it being detrimental to the company. You quickly realize when reading about Apple that they were efficient and no-nonsense - especially when Steve was involved.
+I liked Apple's approach to meetings - a goal, a decider, a demo, and decisive decision making. While you're not going to make all the right decisions (including Steve), making a decision moves projects along. Demos provide an excellent forcing function for achieving higher productivity. They force you to produce.
+
+Safari
+
+After the initial attention grabbing demo chapter, we are brought back to the history of Ken's involvement with Eazel and ultimately Apple and Safari. This is where the book settles into its main story line - following Apple thru the "golden age".
+Ken was brought into Apple to build Safari. They initially tried to base it on Mozilla, since Don Melton worked for Mozilla, but they couldn't pull it off. The Mozilla codebase was too complex.
+Richard Williamson was hired and quickly stood up a working version of KHTML running on the Mac, which ended up being their basis for Safari. As part of the background to KHTML, he described Richard Stallman, the FSF, and Apple's new found involvement with the GPL by virtue of using KHTML, which was under the GPL license.
+The decision to base Safari on KHTML was pragmatic and somewhat of a necessity to get to market. However it had a very interesting side effect - it required Apple, a notoriously private, secret, and proprietary company to refine their strategy towards open source software.
+I found Apple's attitude toward OSS very telling. The KHTML decision showed that Apple was willing to make pragmatic decisions and bend their own rules. Up until this point they had not worked much with the OSS community. They had experience with OSS software with their BSD / Mach based OS (Darwin), but their culture had a very closed mindset (which I feel mostly holds true today, but improving with projects like Swift - more on this later). They wanted to make Safari as closed as possible but still complying with the GPL.
+Getting Safari started was a difficult effort. It was tedious. Ken compared his work on Safari, and Apple for that matter, to Edison. Edison paid attention to small details and drew from the work of others - as does Apple. Products often require 1% inspiration, 99% perspiration and Safari was one of them.
+I feel that while Apple's products are generally done well out of the gate (iPhone, Apple Watch, Air Pods, iOS), they do an excellent job of year on year refinement. While new products are hard, consistent improvement over time is also very hard - it's the "99% perspiration" part. Apple iterates well and Ken captured that when taking about Safari.
+
+Jobs' Leadership
+
+After describing the origins of Safari, Ken described Steve's singular goal, his "single rule" for the Safari team: speed. It's here where you see Steve's ability to inspire and drive teams, as well as his perfectionism.
+Ken compared Jobs focus on perfection to Vince Lombardi. Lombardi would focus on a single play for 8 hours. Painstaking detail to the point of exacting perfection. That was pure Jobs - as echoed in his Walter Isaacson biography and other folklore from those who knew him.
+I really feel this type of leadership and focus on excellence is missing in leadership today. The mainstream engineering culture today is "quick, cheap, good enough". I feel this level of perfection, while demanding, ultimately inspires people. Call it Steve's "Reality Distortion Field" or simply pursuit of perfection, but I feel it inspires people to do great work. Steve drove people, and Apple, to do their best work. We need more of that in software today.
+
+iPhone
+
+Ken was the "Directly Responsible Individual" (DRI) for the iOS keyboard. We take on screen keyboards for granted today, however during the mid-2000's their success was far from certain. Old school Blackberry keyboards with physical buttons were the industry standard. There was an overarching skepticism toward accuracy and overall usability of virtual keyboards. After all, nobody knew how they would work.
+The iOS keyboard was critical to get right - and Ken was directly responsible.
+Like his discussion of Safari, the keyboard project was a vehicle for Ken to illustrate Apple's culture with concrete examples. Keyboard software can get very technical. Consider autocorrect. Autocorrect is more than simply pattern matching to a list of dictionary words. They had to help autocorrect with a catalog of contemporary life (people, places, and things), avoiding racial slurs, etc.
+Typing on a keyboard is also tricky - users are not going to hit every key perfect. So balancing the user's intent versus the actual keypress is an interesting problem they used somewhat advanced algorithms to solve.
+The twists and turns of the iPhone keyboard were interesting. While starting out with alternate, non-qwerty designs, they ultimately realized that the familiarity of qwerty was critical and ultimately shipped a touch optimized version with the original iPhone.
+Still, the vast majority of the iOS keyboard story was about the Apple culture and process. The culture of perfection, being customer and product driven, using demos as a focal point, and constantly iterating.
+demo -> feedback -> collaboration -> iteration-> demo -> feedback -> …
+
+Technology and Liberal Arts
+
+The book finishes describing Apple's focus on combining technology and liberal arts. It's here where we start to see the various pieces of the internal Apple culture Creative Selection describes blend with the public corporate image we see at keynotes and read directly from Apple PR.
+It's well known that Apple's goal is to make complex technology simple. To combine technology with liberal arts. To make the advanced accessible. Apple has consistently reminded us of this thru marketing and during keynotes.
+There were many nods to Apple's combination of tech and art scattered in the book. It's definitely embedded into the fabric of Apple's culture. It's not lip service.
+There are many examples to pull from the book which highlight combining technology with liberal arts. I'll take the one I feel has been a long time competitive differentiator for iOS - animation and inertial scrolling.
+When building the iPhone, Apple realized that using your finger is different than a mouse or keyboard. The screen has to be directly responsive and feel natural. Apple's inertial scrolling, deep animation frameworks, and smooth direct manipulation are perfect examples of Apple applying high technology with intuitive "art" of feeling right to the user.
+And it shows. Even to this day, iOS has maintained an industry leading user experience. iOS, and in particular animations, have always felt natural, intuitive, and fast. Everything from the speed of inertial scrolling, the rubber banding and bounce effects, and overall responsiveness have given iOS an overall very polished user experience.
+Ken summed up Apple's culture (and the entire book's thesis) well in this chapter by re-defining Creative Selection as:
+A small group of passionate, talented, imaginative, ingenious, ever-curious people built a work culture based on applying their inspiration and collaboration with diligence, craft, decisiveness, taste, and empathy and, through a lengthy progression of demo-feedback sessions, repeatedly tuned and optimized heuristics and algorithms, persisted through doubts and setbacks, selected the most promising bits of progress at every step, all with the goal of creating the best products possible.
+This paragraph perfectly summarizes the entire book. It's almost like Ken, after writing the entire book and now hitting the finish, crystalized the Creative Selection vision he set out to write about. It's an amazingly accurate summary of the entire book.
+
+My Thoughts
+
+Overall, I would give the book a 7 out of 10. I thought the technical stories were tied back to the overall "Creative Selection" theme very well. I enjoyed the opening scene - the vivid description of what it was like demoing to Steve Jobs. I could feel the pre-meeting tensions, the panic of not knowing how a demo will go, the satisfaction of a demo gone well, and the frustration of a failed demo.
+If you have ever been responsible for shipping something that's never been done well before (like an on-screen virtual keyboard), you'll appreciate Ken's stories about the early Safari and iOS teams. In both cases - getting a web browser running on macOS and building a virtual keyboard - they had no idea if or how they could get them to work. It's a true emotional roller coaster. If anything, the book probably downplays just how hard his teams worked.
+Ken did a great job of explaining the highs and lows that came with those projects. He certainly painted Apple under a mostly positive light. He didn't try to make Steve or Apple out to be perfect, but the tone felt a little overly positive towards the company, people, and process.
+I have to imagine that the burnout and pain that went on during the development of the iPhone was real. It had to have been a demanding and brutal place to be at times. While there was some of that discussed in the book, I'm guessing reality was more harsh than what was mentioned in the book.
+It would have been interesting to have him address the effects of Steve's and Apple's demanding side directly - both the positive and negative effects.
+At times, the technical descriptions were long winded. He also spent much of the book reiterating how important demos were to Apple's culture. I felt the book could have been cut in half without losing any meat.
+In all, the book does a great job with it's "behind the scenes" look into Apple's product culture. The book does its title justice. Ken was in the trenches. Not working on some small side projects or internal tooling, but actually part of the initial, small core team that shipped products ultimately used by billions of people.
+If you want an insider perspective into Apple or want ideas on how to build a successful product culture, this book is for you!
+
+Tidbits for Hardcore Apple Enthusiasts
+
+If you are a die-hard Apple fan, most of this book will be reinforcing themes about Apple folklore you're familiar with. I found a few interesting gems in the book around key areas I feel are important for Apple now in 2019 and going forward.
+
+Open Source
+
+This book was a reminder that Apple was, and still is, a very closed, secretive, proprietary company. Apple built Safari to control the web on Mac platforms - not to make a great open source browser - to replace Internet Explorer and control web browsing on OS X.
+Apple has consistently and publicly advertised how being closed and proprietary is both their strategy and competitive advantage. From silicon to software to proprietary ports - Apple wants to own and control all core technologies in their products.
+Safari is interesting because it was based on KHTML, which was GPL'd. It forced Apple to make a decision: build on top of open source software and comply with the license or write a browser from scratch. Here is how Creative Selection summed up 2000's Apple's attitude toward open source:
+Also, since Konqueror was free software, we had to comply with the Stallman-esque license the original authors had attached to it. Our management was willing to publish some software as open source, but it was keen to keep most code closed source and proprietary. The reason was simple. Mac OS X was a revenue producer for Apple. In the iPhone era, Apple took to publishing software updates for no charge, but back then, the company sold its Mac operating system in the United States for $129 per computer. When we were developing our web browser strategy, the guidance from our executives was less a matter of "free as in freedom" or "free as in beer" and more "closed source as in money."
+The truth is they would not have used KHTML to build Safari if they could have avoided it. Nor would WebKit have been open sourced. I feel like that 1999 mindset is a microcosm of Apple's attitude toward OSS even today. Namely, that it's a necessary evil. They must use OSS and contribute some OSS projects for publicity reasons, but their true intention is to keep everything closed. Even now that iOS and macOS updates are "free", I feel Apple's mindset toward open source hasn't changed dramatically.
+I can hear your mind turning right now. What about Swift? What about LLVM? What about WebKit? What about Darwin? Clearly they represent the best of (and majority of) OSS at Apple. Let's look at Swift/LLVM and Webkit since they are newer and hopefully reflect Apple's current thinking toward OSS.
+First, WebKit. WebKit started off as a hugely popular piece of software, powering Chrome and many other browsers. Today, WebKit (the rendering engine) and JavascriptCore (the Javascript engine) has mostly been replaced replaced with Chromium (blink / v8). That doesn't make WebKit bad technology by any means, but it does make it less relevant in the industry.
+Google certainly needs Chrome to succeed more than Apple needs Safari. So they have a vested interest in making Chrome the standard. And it's working. Chrome is dominating the web. Other companies who are basing their web products to Chromium, most notably Microsoft but others like Node, Electron, etc, feel Chromium is better than WebKit.
+Next, let's take a look at LLVM and Swift. I love both of these projects. I feel like LLVM was really "bought" by Apple when they hired Lattner. They've certainly dedicated time and money to the project, however I feel like it isn't something that Apple can really claim they created - like Google could claim with Kubernetes, Tensorflow, Chromium, or Go - or Facebook could claim with React, PyTorch, or GraphQL. It feels like Apple went shopping and bought it - it didn't come from Apple's culture.
+Swift is truly Apple's shining OSS star. The Swift ecosystem makes up the vast majority of code on their public Github profile. The cynical person would say that it wasn't really Apple's OSS culture that fostered the creation of Swift, it was Lattner's dedication. That part I believe: that Swift wouldn't have come out of Apple unless someone like Lattner pushed it. Apple did, however, support Lattner when he wanted to both work on it full time and open source the code.
+Apple could have kept Swift closed. It would have been a massive mistake in my opinion, given how literally all other languages are open source, however they could have. Instead, they dedicated the Swift core team to it and are publicly behind Swift being OSS.
+Judging by what I hear about the Swift Evolution Process and the general nature of the way things work, it sounds like Apple is overall happy with their decision to open source Swift. The community is vibrant, passionate, and strong. I still feel, however, that a leopard doesn't change its spots very easily. Apple at its core remains a closed, proprietary company.
+I sincerely hope reality within Apple is different than how I feel about it. I have filed bugs against Swift and was extremely impressed with the Swift community. That said, I still feel like OSS at Apple is mostly self-serving and that Apple isn't very sincere in it's OSS efforts. I wish I didn't feel that way - I feel Apple's values and business practices are much more ethical than Facebook, Amazon, or Google and would love to see them as leaders in OSS. I just feel open drastically contradicts Apple's strong, proprietary culture.
+In many respects, and even with Swift, Safari, and LLVM, Apple's approach to OSS hasn't changed. This still feels like it rings true.
+Our management was willing to publish some software as open source, but it was keen to keep most code closed source and proprietary.
+I really hope I'm wrong. I would love to see Apple give back more to the OSS
+movement - especially around their latest frameworks and tools like the Combine Framework and Swift's push to run on Linux.
+
+Culture Change
+
+In the epilogue, Ken acknowledges Apple's culture changed after Steve died:
+"After Steve died, the Apple software development culture started to change. As time passed and other coworkers came and went, the culture changed more. By my last day at Apple in 2017, few of the people I've mentioned in this book remained at the company, and more than anything, I missed collaborating with them as we had in the stories I've told. As I write, I still feel a strong bond to Apple, its products, and the people I worked with in more recent years, but it was time for me to move on."
+Uh oh. I feel like Ken was really choosing his words carefully. He doesn't say the culture changed for the better or worse, but if it changed for the better he certainly would not have moved on. Add to that the obvious truth that Tim Cook is not a product person, or Jony Ive's similar thoughts towards Apple's lack of product direction, and you get the sense that Apple's product focus is moving to an operational focus.
+It's been widely rumored (and known) that Apple's culture has changed since Steve died. Steve was a builder, a product visionary. Tim Cook is an operations wizard. Tim is smart. He realizes that building great products must remain Apple's north star, however operations are very different than product development.
+You need a strong product visionary at the top making key product decisions. I don't feel Apple has that today. I don't know how culture has changed since Steve died, what Ken really thinks about the culture change, or where Apple's culture is headed. I would love to see a more open Apple culture especially in terms of platform support and open source.
+Perhaps the transition to services will push Apple to broaden support for Android, the web, other platforms, as well as expand their open source efforts. As an Apple shareholder, I would love to see Apple open up their ecosystem to other platforms the way they opened up iTunes to Windows to grow iPod over 15 years ago.
+Services need scale and reach. Even with the most lucrative 15% of the global market, I don't feel Apple services will be nearly as successful as they would if they had access to the broader market. I don't feel people will switch ecosystems for TV shows, "better" news, or exclusive games. Apple has Music on Android and iTunes on Windows, so it wouldn't be unprecedented if other services went multi-platform.
+It will also be interesting to see if and how the move to services changes Apple's culture.
