@@ -1,6 +1,5 @@
 # Kubernetes
 
-* k8s cluster information (sandbox, non-prod, prod)
 * Roles / access
 * Master replication strategy
 * Namespacing / environment strategy
@@ -9,10 +8,19 @@
 * Autoscaling strategy (min 1, max ?)
 * Rolling update / rollback strategy (password rotations?)
 
+## Kubernetes Introduction
 
-## Core Objects
+Kubernetes manages container deployments.
 
-## Control Plane
+* Auto-scaling / failover / load balancing
+* Storage mounting
+* Efficiently distributes containers to nodes to make the best use of node
+  resources
+*
+
+## Components
+
+### Master Components
 
 Responsible for keeping the cluster's current state in sync with the desired
 state. The control plane includes:
@@ -49,10 +57,8 @@ Shared resources include:
 A service is an abstraction which defines a logical set of Pods and a policy to
 access them.
 
-
-
-
 ### Volume
+
 ### Namespace
 
 ## High(er) level abstractions
@@ -71,7 +77,7 @@ access them.
 $ minikube start
 
 # Get a list of services
-# $ kubectl get service
+$ kubectl get service
 
 # Opens the service URL in Chrome
 $ minikube service hello-minikube

@@ -1,8 +1,52 @@
 # Azure
 
-## Credentials
+* Docker / ACS / AKS / Azure Functions / helm
+* Azure SQL / Cosmos DB (w/ Mongo DB drivers)
+* Key vault
+* DevOps (TFS / work tracking)
 
-AzureDemo12~%9
+* Networking / firewall / dns / vpn / traffic manager
+
+
+
+* Terraform - infrastructure as code
+
+* Microservices architecture
+    * Docker -> ACR -> AKS -> Azure SQL / Cosmos / Elastic
+    * API gateway (ingress)
+
+    * Key Vault
+    * Helm
+
+* Data
+    * Do *not* store w/ container
+    * Azure SQL / Cosmos DB
+    * Azure Disks / Files (Files if the same volume needs to be shared by multiple pods
+
+
+* AKS
+    * k8s managed service
+        * Load balancing
+    * Horizontal Pod Autoscaler (HPA) - autoscales nodes based on pod specs
+    * Warning: You can't change the VM size after you build the cluster
+    * Availability
+        * Readiness probes: ready?
+        * Liveness probes: working?
+
+* CI/CD
+    * Define tag standards: tag naming conventions, versioning strategy
+    * Quality gates @ each stage
+    * Containerized builds - allows dev to run builds on machine
+
+* Helm
+    * Packages multiple k8s objects into a single chart
+    *
+
+* Docker / ACR
+* CosmosDB (Mongo)
+* Azure SQL
+* Terraform
+
 
 ## Command Line
 
@@ -118,8 +162,6 @@ New Apps in app service can be of type:
 * REST APIs
 * Azure SDKs
 
----
-
 ## CosmosDB
 
 * The next generation of Azure DocumentDB.
@@ -128,3 +170,11 @@ New Apps in app service can be of type:
 * Access the data using NoSQL APIs of your choice.
   * MongoDB (document)
   * Azure Table Storage (key value)
+
+## Azure Functions
+
+* Event driven, on demand
+    * Triggers
+        * cron schedule
+        * Azure queues / service bus messages
+        * HTTP (web hook listener)
