@@ -1,27 +1,29 @@
 # Azure
 
-* Docker / AKS / Azure Functions / helm
-* Azure SQL / Cosmos DB (w/ Mongo DB drivers)
-* Key vault
-* DevOps (TFS / work tracking)
+* C# API (CRUD + Search)
+    * Docker / AKS / Scaling
+    * Cosmos (using Mongo)
+    * Security
+    * Logging / Monitoring
 
-* Networking / firewall / dns / vpn / traffic manager
+## Done
 
+* KeyVault
+* Functions
+* Docker ACR / AKS
 
-* Terraform - infrastructure as code
+## Plan
 
-* Microservices architecture
-    * Docker -> ACR -> AKS -> Azure SQL / Cosmos / Elastic
-    * API gateway (ingress)
-
-    * Key Vault
-    * Helm
+* Compute
+    * Docker
+    * Kubernetes
+    * Functions
 
 * Data
     * Do *not* store w/ container
-    * Azure SQL / Cosmos DB
+    * Azure SQL
+    * Cosmos DB (MongoDB drivers)
     * Azure Disks / Files (Files if the same volume needs to be shared by multiple pods
-
 
 * AKS
     * k8s managed service
@@ -36,54 +38,28 @@
     * Define tag standards: tag naming conventions, versioning strategy
     * Quality gates @ each stage
     * Containerized builds - allows dev to run builds on machine
+    * Helm
+        * Packages multiple k8s objects into a single chart. Deploy charts.
 
-* Helm
-    * Packages multiple k8s objects into a single chart
+* Infrastructure
+    * Terraform - infrastructure as code
+    * Networking / firewall / dns / vpn / traffic manager
 
-* Docker / ACR
-* CosmosDB (Mongo)
-* Azure SQL
-* Terraform
+* Security
+    * Key Vault
+    * IAM / RBAC
+    * SSO / OAuth
 
+## Principles
 
-## Command Line
+* Infrastructure as code
+* Loose coupling / message passing
+* Use NoSQL / documents if you don't need complex joins / transactions
+* Health checks / auto failover
+* Failover: multi-region / availability zones w/in region
+* Security: defense in depth. Network / SSO / MFA / RBAC
 
-### .NET
-
-```bash
-
-# Local version information
-$ dotnet info
-
-# List of available templates
-$ dotnet new --list
-
-# Create a new console application.
-$ dotnet new console --name [project-name]
-
-# Add a nuget package
-$ dotnet add package MongoDB.Driver
-```
-
-## Needs
-
-* Security - Auth0 OK?
-* Networking / VPN
-* Application hosting model. Containers vs. PaaS
-* Storage
-  * MongoDB (Cosmos)
-  * Elastic (Azure Search)
-  * File System (Azure Blob Storage?)
-  * SQL (Azure SQL)
-* Monitoring: App Insights / Azure Monitor (portal? logs?)
-* CI / CD
-* DR / multi-region (Azure Traffic Manager)
-* `az` CLI
-* Billing : How to partition into `Resource Groups`? (Azure Resource Manager)
-  * Provision `Resource Groups` via JSON (infra as code)
-  * User definition, RBAC.
-  * Use tags for billing?
-
+---
 
 ## Getting started
 
@@ -101,17 +77,6 @@ New Apps in app service can be of type:
 * Web Apps : sites / web apps
 * Mobile Apps : Web Apps w/ extra support for authentications and push notifications.
 * API Apps : for API hosting (w/ swagger metadata)
-
-#### Service Fabric
-
-* Infrastructure for hosting, scaling, deploying, versioning, managing microservices.
-* Supports WebAPI / OWIN / ASP.NET Core
-
-### Azure Services
-
-* Azure SQL Database
-* Azure Storage - blob
-* Azure DocumentDB - non-relational NoSQL (json documents). SQL queries over object data.
 
 ### Docker Support
 
@@ -139,11 +104,16 @@ New Apps in app service can be of type:
 
 ## Azure Functions
 
+* Use functions for simple APIs / responding to events / cron
+
 * Event driven, on demand
     * Triggers
         * cron schedule
         * Azure queues / service bus messages
         * HTTP (web hook listener)
+
+* Service integrations can trigger a function or serve as input / output
+    * Cosmos / Service Bus (Queues)
 
 ## Key Vault
 
@@ -152,4 +122,50 @@ New Apps in app service can be of type:
 * To access a key vault from an application:
     * Create a service principal (clientId / clientSecret).
     * Give the service principal access to the key vault.
-    * Use the service principal from the client library.
+    * Use the service principal from code to obtain secrets.
+
+---
+```shell
+
+#
+# Resource naming: alphanumeric + hypen. Be descriptive, include entity (rg == resource group)
+#
+# damonallison-prod-rg
+#
+# Azure hierarchy
+#
+# Subscription
+#  Resource Groups
+#    Resources
+
+az account --list-locations -o table
+az group create --name damon-rg --location eastus
+
+# damon.azurecr.io
+az acr create -g damon-rg --name damon --sku Basic
+az acr login --name
+
+# Tag image for ACR
+docker tag azure-vote-front damon.azurecr.io/azure-vote-front:v1
+docker push damon.azurecr.io/azure-vote-front:v1
+
+# View images in ACR
+az acr repository list --name damon
+
+# See tags for image (v1)
+az acr repository show-tags --name damon --repository azure-vote-front --output table
+
+#
+# Adds AKS credentials to local kubectl config
+#
+az aks get-credentials -g damon-rg --name damon-aks
+
+# Verify kubectl is hooked up correctly
+kubectl get nodes
+
+# Watch a service for changes (external ip)
+kubectl get service azure-vote-front --watch
+
+# Provision pods / services in AKS
+
+```

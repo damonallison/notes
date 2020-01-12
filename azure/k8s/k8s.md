@@ -5,16 +5,7 @@
 * Helm is a set of pre-packaged "charts" which install / configure software in
   k8s
 
-
-* Roles / access
-* Master replication strategy
-* Namespacing / environment strategy
-* Cross region (DR) strategy
-* Ingress / traffic routing strategy
-* Autoscaling strategy (min 1, max ?)
-* Rolling update / rollback strategy (password rotations?)
-
-## Kubernetes Introduction
+## Introduction
 
 Kubernetes manages container deployments.
 
@@ -22,7 +13,6 @@ Kubernetes manages container deployments.
 * Storage mounting
 * Efficiently distributes containers to nodes to make the best use of node
   resources
-*
 
 ## Components
 
@@ -111,22 +101,15 @@ $ minikube addons list
 $ kubectl delete service hello-node
 $ kubectl delete deployment hello-node
 
+# Start the k8s dashboard
+$ minikube dashboard
+
 # Stop minikube
 $ minikube stop
 
 # Delete the Minikube VM
 $ minikube delete
 
-```
-
-
-### minikube commands
-
-NOTE: Minikube requires VirtualBox to be installed.
-
-```bash
-# Start the k8s dashboard
-$ minikube dashboard
 ```
 
 ## kubectl Commands
@@ -240,6 +223,8 @@ $ kubectl rollout undo deployments/hello-node
 
 
 ## Helm
+
+Helm provides prepackaged "charts" for installing software
 
 ```bash
 
