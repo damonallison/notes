@@ -52,7 +52,7 @@
 
 ## Principles
 
-* Infrastructure as code
+* Immutable infrastructure as code
 * Loose coupling / message passing
 * Use NoSQL / documents if you don't need complex joins / transactions
 * Health checks / auto failover
@@ -60,38 +60,6 @@
 * Security: defense in depth. Network / SSO / MFA / RBAC
 
 ---
-
-## Getting started
-
-* [Azure Developer Guide](https://docs.microsoft.com/en-us/azure/guides/developer/azure-developer-guide)
-
-#### App Service
-
-* App / API hosting.
-* Auto-scaling.
-* Quick to develop.
-* Continuous, container based deployments.
-
-New Apps in app service can be of type:
-
-* Web Apps : sites / web apps
-* Mobile Apps : Web Apps w/ extra support for authentications and push notifications.
-* API Apps : for API hosting (w/ swagger metadata)
-
-### Docker Support
-
-* Docker provides efficient, predictable deployment. The unit of deployment is
-  the coarse grained container, not individual files or executables.
-
-### Authentication
-
-* Azure AD
-* App Service hosts get built-in support for Azure AD, Twitter, Facebook.
-
-### Monitoring
-
-* Application Insights
-* Azure Monitoring (graphing)
 
 ## CosmosDB
 
@@ -115,6 +83,17 @@ New Apps in app service can be of type:
 * Service integrations can trigger a function or serve as input / output
     * Cosmos / Service Bus (Queues)
 
+## Azure Pipelines
+
+* Stages (Build / Test / Deploy) -> Jobs (Build, PushToRegistry) -> Steps ->
+  Tasks
+* Jobs are the smallest unit of work that gets distributed to an agent
+* Approvals: Reources (environments) can require approvals
+* Gates: Requirements that must be met before / after deployment (i.e., no
+  incidents reported before promoting the release))
+* Deployment rings: Ability to control (via approvals) to a larger group of users
+* Full API for controlling Azure DevOps
+
 ## Key Vault
 
 * Securely store secrets. Access from app via a versioned URI.
@@ -124,13 +103,49 @@ New Apps in app service can be of type:
     * Give the service principal access to the key vault.
     * Use the service principal from code to obtain secrets.
 
+
+## C#
+
+### 7.0
+
+### 8.0
+
+* Nullable reference types
+* Records
+* Default reference implementation
+
 ---
 ```shell
 
+# Build the application
+dotnet publish -c Release
+
+# Build a docker image
+docker build -t customer-api:v1 .
+
+# Run a docker container
+# Exposes container port 80 on the host's port 5000.
+# http://localhost:5000/customer
+docker run -it --rm -p 5000:80 customer-api:v1
+
+# Tag/push the container to Azure Container Registry (ACR)
+docker tag customer-api:v1 damon.azurecr.io/customer-api:v1
+docker push damon.azurecr.io/customer-api:v1
+
+# Apply k8s manifest (deploy)
+kubectl apply -f customer-api-k8s.yaml
+
+# View k8s resources
+kubectl get all
+
+
+---
+
 #
-# Resource naming: alphanumeric + hypen. Be descriptive, include entity (rg == resource group)
+# Resource naming: alphanumeric + hypen.
+# Be descriptive, include entity (rg == resource group)
 #
-# damonallison-prod-rg
+# damon-prod-rg
 #
 # Azure hierarchy
 #
@@ -143,11 +158,9 @@ az group create --name damon-rg --location eastus
 
 # damon.azurecr.io
 az acr create -g damon-rg --name damon --sku Basic
-az acr login --name
+az acr login --name damon
 
 # Tag image for ACR
-docker tag azure-vote-front damon.azurecr.io/azure-vote-front:v1
-docker push damon.azurecr.io/azure-vote-front:v1
 
 # View images in ACR
 az acr repository list --name damon
@@ -169,3 +182,7 @@ kubectl get service azure-vote-front --watch
 # Provision pods / services in AKS
 
 ```
+
+## Links
+
+* [Azure Developer Guide](https://docs.microsoft.com/en-us/azure/guides/developer/azure-developer-guide)
