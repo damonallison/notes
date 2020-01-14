@@ -114,7 +114,19 @@
 * Records
 * Default reference implementation
 
----
+
+## .NET
+
+* TPL
+    * `Parallel.For`: Simple concurrency
+    * Tasks can have continuations (`ContinueWith`)
+    * Tasks can have children (`AttachedToParent`)
+    * Convenience functions
+        * `WhenAll` - execute a `Task` when all tasks are complete
+        * `WhenAny` - execute a `Task` when *one* of many tasks complete
+        * `Delay` - task that returns after a delay
+        * `FromResult` - returns a task from a known value
+---     *
 ```shell
 
 # Build the application
