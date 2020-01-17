@@ -85,9 +85,29 @@
 
 ## Azure Pipelines
 
-* Stages (Build / Test / Deploy) -> Jobs (Build, PushToRegistry) -> Steps ->
-  Tasks
-* Jobs are the smallest unit of work that gets distributed to an agent
+* Free for public projects
+
+* CI/CD Pipeline
+    * CI (Jenkins Pipeline)
+        * SCM Trigger
+        * Build (Build Number) -> Jenkins
+        * Unit Test -> MSTest
+        * Code Quality -> Sonarqube
+        * Package -> Artifactory
+    * CD (Octopus)
+        * Token replacement
+        * Deploy (Passive)
+        * Integration Tests
+        * Deploy (Blue / Green)
+
+* Define your pipeline in a `azure-pipelines.yaml`
+
+* Pipelines are defined as
+    * Stages (Build / Test / Deploy)
+        * Jobs (Build, PushToRegistry)
+            * Steps
+                * Tasks
+
 * Approvals: Reources (environments) can require approvals
 * Gates: Requirements that must be met before / after deployment (i.e., no
   incidents reported before promoting the release))
@@ -102,6 +122,18 @@
     * Create a service principal (clientId / clientSecret).
     * Give the service principal access to the key vault.
     * Use the service principal from code to obtain secrets.
+
+## Angular
+
+* Modules / Components / styles / html
+    * Template syntax `<li *ngFor"let hero of heroes">`
+* Component lifecycle hooks (`ngOnInit()`)
+* Services
+    * Stateful
+* 2 way binding / event binding
+* Pipes (| uppercase)
+* RxJS (Observables)
+* Routing
 
 
 ## C#
@@ -192,6 +224,18 @@ kubectl get nodes
 kubectl get service azure-vote-front --watch
 
 # Provision pods / services in AKS
+
+#
+# Working w/ Azure DevOps
+#
+
+az extension add --name azure-devops
+
+# Confirm installation
+az extension show --name azure-devops
+
+# Set the default org/project
+az devops configure --defaults organization=https://dev.azure.com/damon0269 project=customer-api
 
 ```
 
