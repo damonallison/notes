@@ -1,29 +1,13 @@
 # Auth0
 
-## Token Retrieval
-
-* [Dev](https://test-sso.chrobinson.com/oauth/token)
-* [Int](https://test-sso-int.chrobinson.com/oauth/token)
-* [Trn](https://app-training-auth.chrobinson.com/oauth/token)
-* [Prod](https://app-auth.chrobinson.com/oauth/token)
-
-## Auth0 Management
-
-* [Non-prod](https://test-auth0-manage.chrobinson.com/#/)
-* [Prod](https://manage-auth.chrobinson.com/#/)
-
-## Auth0 Tenants
-
-* test-sso = development
-* test-sso-int = integration
-* app-training-auth = training
-* app-auth = prod
-
 ## Auth0
 
 ### Clients
 
-Each client represents an application. Each client type specifies a different workflow.
+* Each client represents an application.
+* Each client type specifies a different workflow.
+  * Web
+  * Client credentials
 
 #### Client Settings
 
@@ -73,7 +57,7 @@ Any new Auth0 features, examples and documentation moving forward will target on
   // Issued at time.
   "iat": 1497973948
 }
-```  
+```
 
 ### Auth0 Endpoints
 
@@ -84,7 +68,7 @@ Any new Auth0 features, examples and documentation moving forward will target on
     * `response_type=id_token token` : Returns access *and* `id_token`.
 
 * `Token` endpoint.
-  * Used by the clidnt to get an access token or refresh token.
+  * Used by the client to get an access token or refresh token.
 
 ### Refresh
 
@@ -116,8 +100,3 @@ Any new Auth0 features, examples and documentation moving forward will target on
   * Claims. A set of name/value pairs.
 
 * JTWs are smaller and less complex than SAML
-
-
-# iOS
-
-com.chrobinson.auth0sample://test-sso.chrobinson.com/ios/com.chrobinson.auth0sample/callback
