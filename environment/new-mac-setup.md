@@ -7,10 +7,20 @@
 * Users & Groups
 	* `Allow this user to administer this computer`.
 	* Set avatar
-* Keyboard -> Use `F1`, `F2`… keys as standard function keys.
-* Keyboard -> Shortcuts -> Mission Control
-	* Disable “Show Desktop” (F11)
-	* Disable “Show Dashboard” (F12)
+
+#### Function Keys
+
+If you are on a Mac w/o a touch bar:
+* Keyboard -> Use `F1`, `F2` keys as standard function keys.
+
+If you are on a Mac w/ a touch bar:
+* Keyboard -> `Touch Bar shows: F1, F2, etc. Keys`
+
+* Keyboard -> Shortcuts
+
+* Mission Control - Disable all shortcuts mapped to Fn keys
+  * Disable “Show Desktop” (F11)
+  * Disable “Show Dashboard” (F12)
 
 ## Setup sudo
 
@@ -29,18 +39,19 @@ $ sudo visudo
 * Enable iCloud in `System Preferences`.
 * Open `Messages` and `FaceTime`, disable iCloud.
 
-## Screenshots dir
+## Set screenshots dir to /tmp
 
 ```shell
 # On Mohave or later
 
-Cmd-Shift-5
-
+Cmd-Shift-5 -> Options -> Save to -> Other Location -> /tmp
 ```
+
 ## App Store
 
 * Bear (if logged in as `damon@damonallison.com`
 * Xcode
+* Microsoft To Do
 
 ## Homebrew
 
@@ -60,19 +71,35 @@ $ brew install emacs
 $ brew install git
 $ brew install tree
 $ brew install python
+$ brew install htop
 
 // gotop - a better version of top (written in go)
 $ brew tap cjbassi/gotop
 $ brew install gotop
 
+// mas - a command line tool for interating with the Mac App Store
 $ brew install mas
 
 # Adds alternate (beta) casks
 $ brew tap homebrew/cask-versions
 
-$ brew cask install visual-studio-code-insiders
+$ brew cask install visual-studio-code
 ```
 
+## Configuration
+
+Download the `config` repository from https://github.com/damonallison/config
+
+```shell
+# Symlink configuration files (assuming config was downloaded to ~/ateam)
+
+ln -s ~/ateam/config/.ssh ~/.ssh
+chmod 400 ~/.ssh/id_rsa ~/.ssh/id_rsa.pub
+
+ln -s ~/ateam/config/.bash_profile .bash_profile
+ln -s ~/ateam/config/.bashrc .bashrc
+ln -s ~/ateam/config/.emacs .emacs
+```
 ## iTerm
 
 * Pastel color pallet (makes blues less dark)
@@ -101,6 +128,12 @@ Configure status bar
 Preferences -> Profiles -> Text -> Font
 ```
 
+* Open new windows with a larger default size
+
+```shell
+Preferences -> Profiles -> Window -> Settings for New Windows: 140x80 (16" mbp)
+```
+
 ## Spectacle
 
 * `⌃⌥⌘F` - Full Screen (Editors override the default `⌥⌘F`)
@@ -109,6 +142,28 @@ Preferences -> Profiles -> Text -> Font
 * `⌃⌥⌘←` - Left Half
 * `⌃⌥⌘↑` - Top Half
 * `⌃⌥⌘↓` - Bottom Half
+
+## RVM
+
+```shell
+
+# install gpg
+$ brew install gpg
+
+# install RVM - follow directions on https://rvm.io/
+
+$ rvm list known
+
+# install the latest major version
+$ rvm install ruby-2.6
+$ rvm list # to see what version you have installed
+
+# create a gemset
+$ rvm --create 2.6.3@damon
+
+# make the gemset the default
+$ rvm use ruby-2.6.3@damon --default
+```
 
 ## Fish
 ```
@@ -163,9 +218,6 @@ $ brew cask install font-hack-nerd-font
 # In iTerm -> Preferences -> Profiles -> Text -> Set Font to "Hack Nerd Font"
 # In VS Code. Add "Hack Nerd Font" to the font string (JSON settings)
 ```
-
-
-
 ## Visual Studio Code
 
 Settings are saved to [gist.github.com] using the [Settings Sync](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync)
