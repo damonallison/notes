@@ -53,6 +53,7 @@ $ dnf autoremove -v
 ## Updating
 
 ```bash
+
 # Checks if updates are available
 $ dnf check-update [<package-specs>...]
 
