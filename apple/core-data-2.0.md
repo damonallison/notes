@@ -108,7 +108,7 @@ performBlock && performBlockAndWait will execute the block on the MOC's thread.
 * ManagedObjectModels have a "versionIdentifiers" property. For humans only.
 
 
-* Compatiblity  
+* Compatiblity
   * Entity : name, parent, isAbstract, properties (className, userInfo *not* compared)
   * Property : name, isOptional, isTransient, isReadOnly
     Attributes: attributeType
