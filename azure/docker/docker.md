@@ -40,10 +40,14 @@ Each container has it's own private view of the operating system - their own pro
 
 ## Example Commands
 
-// View all containers on machine (-a == all)
+```shell
+# View all containers on machine (-a == all)
 $ docker ps -a
 
-// View all images
+# Delete *all* containers
+$ docker rm $(docker -a -q)
+
+# View all images
 $ docker images
 
 // Create a container from the "ubuntu:latest" image.
@@ -66,6 +70,8 @@ $ docker top <container_id>
 
 // Full status information on a container
 $ docker inspect <container_id>
+
+```
 
 
 ## Creating a docker image.
@@ -107,6 +113,6 @@ $ docker inspect <container_id>
 
   // push your local image to docker hub
   $ docker push damonallison/docker-whale:latest
-
 # Pull and run from your docker hub repository.
+
 $ docker run damonallison/docker-whale

@@ -6,7 +6,7 @@
 * Manually compare `Rebuild` to `Allison`: How?
 * Manually compare `Rebuild` to `Google Photos`
 * Make `final` iCloud library?
-cod
+
 ## Launch Options
 
 * Holding down ⌥ when launching Photos.app allows you to select a photo library.
