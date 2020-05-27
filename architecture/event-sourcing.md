@@ -42,8 +42,3 @@ Kreps:
 	* Local KTables are shared.
 
 > Adopting event streaming requires a mindset shift. It requires an asynchronous, functional mindset rather than procedural / REST mindset.
-
-
-
-
-#tech/event-sourcing

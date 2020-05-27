@@ -8,10 +8,7 @@ are newer, use threads more efficiently, and are much less error prone.
 You cannot create or manage NSRunLoop(s). Each thread has an `NSRunLoop`
 automatically created for it as needed.
 
-NSRunLoop is *not* thread safe. You should only access the current thread's
-NSRunLoop.
-
-
+NSRunLoop is *not* thread safe. You should only access the current thread's NSRunLoop.
 
 * Is there a always single run loop per thread?
 
@@ -36,17 +33,9 @@ A run loop is an event processing loop that is associated with a thread.
 * Modes allow you to filter out events that were associated for a different mode.
 * You might want to use a "modal" mode to keep non-modal events firing while the modal actions pile up.
 
-
-
-
-*****
-
-
-
+---
 
 # Concurrency Programming Guide #
-
-
 
 * Don't attempt to roll-your-own threding. Threading is best left to the OS -
   it's in a better position to create and manage threads effectively. Use GCD or
