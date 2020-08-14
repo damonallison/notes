@@ -218,18 +218,6 @@ $ brew cask install font-hack-nerd-font
 # In iTerm -> Preferences -> Profiles -> Text -> Set Font to "Hack Nerd Font"
 # In VS Code. Add "Hack Nerd Font" to the font string (JSON settings)
 ```
-## Visual Studio Code
-
-Settings are saved to [gist.github.com] using the [Settings Sync](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync)
-plugin.
-
-In the `Code Settings Sync` extension, enable `Auto Download` and `Auto Upload`.
-
-`Code Settings Sync` requires a token to use with github:
-
-```
-Token: (Token stored in Bear - not in github)
-```
 
 ## git
 
@@ -237,6 +225,9 @@ Token: (Token stored in Bear - not in github)
 $ git config --global core.editor emacs
 $ git config --global core.name "Damon Allison"
 $ git config --global core.email "damon@damonallison.com"
+
+# Use FileMerge.app as the default merge tool
+$ git config --global merge.tool opendiff
 ```
 ## Node
 
