@@ -12,16 +12,16 @@
 
 ## Introduction
 
-Docker containers wrap up software in a complete file system that contain
-everything the software needs to run : code, runtime, system tools,
-libraries. This guarantees the software will run the same, regardless of the
-host environment the container is running in.
+A docker container is a single process with encapsulation features which isolate
+it from other containers. A docker image wraps up software in a complete file
+system that contain everything the software needs to run : code, runtime, system
+tools, libraries. This guarantees the software will run the same, regardless of
+the host environment the container is running in.
 
 ### Why Docker?
 
 * Lighter weight than a full VM.
 * Guaranteed, predictable execution environment.
-
 
 Docker uses resource isolation features of the Linux kernel:
 
@@ -36,7 +36,9 @@ The overhead of a docker container is similar to a process. A single server or
 VM can run several containers simultaneously. A typical docker host can run 5-10
 docker containers simultaneously.
 
-Each container has it's own private view of the operating system - their own process ID, file system, network interfaces. Each container can be constrained to only use a defined amount of resources like CPU, I/O, and memory.
+Each container has it's own private view of the operating system - their own
+process ID, file system, network interfaces. Each container can be constrained
+to only use a defined amount of resources like CPU, I/O, and memory.
 
 ## Example Commands
 
@@ -50,14 +52,15 @@ $ docker rm $(docker -a -q)
 # View all images
 $ docker images
 
-// Create a container from the "ubuntu:latest" image.
+# Create a container from the "ubuntu:latest" image.
+# -t : assigns a pseudo-tty inside the new container.
+# -i : interactive connection by grabbing the standard input
+# -d : run the container in the background
+# -P : map any required ports inside the container to your host
+# -p 80:5000 : forward traffic from host port 80 to container port 5000
+
 $ docker run -t -i ubuntu /bin/bash
 
--t : assigns a pseudo-tty inside the new container.
--i : interactive connection by grabbing the standard input
--d : run the container in the background
--P : map any required ports inside the container to your host
--p 80:5000 : maps the container port 5000 to host port 80
 
 // Create a daemon container, running the given command in the container.
 $ docker run -d ubuntu /bin/sh -c "while true; do echo hello world; sleep 1; done"
