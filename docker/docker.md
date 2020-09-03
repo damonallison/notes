@@ -53,6 +53,7 @@ $ docker rm $(docker -a -q)
 $ docker images
 
 # Create a container from the "ubuntu:latest" image.
+# --name : the container name
 # -t : assigns a pseudo-tty inside the new container.
 # -i : interactive connection by grabbing the standard input
 # -d : run the container in the background
