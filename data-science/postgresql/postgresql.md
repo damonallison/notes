@@ -3,6 +3,12 @@
 * Data types / type aliases
 * Working with dates
 * Aggregate functions
+* Arrays
+* `IF / THEN / ELSE`
+
+* `IMMUTABLE` functions
+    > Functions and operators marked as `IMMUTABLE` can be evaluated when the query
+    > is planned rather than when it is executed.
 
 ## Docker
 
@@ -25,4 +31,5 @@ $ createdb -h localhost -p 5432 -U postgres -w damon2
 
 # dropdb - a command line tool for dropping a database
 $ dropdb -h localhost -p 5432 -U postgres -w damon2 
+
 ```
