@@ -10,6 +10,9 @@
     > Functions and operators marked as `IMMUTABLE` can be evaluated when the query
     > is planned rather than when it is executed.
 
+* Inheritance
+* Triggers
+
 ## Docker
 
 ```shell
