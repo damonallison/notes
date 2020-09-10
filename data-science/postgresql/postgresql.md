@@ -1,6 +1,9 @@
 # postgresql
 
-* Data types / type aliases
+* Data types / type aliases / domains
+* Triggers / rewrite rules
+* Views
+* Functions
 * Working with dates
 * Aggregate functions
 * Arrays
@@ -9,9 +12,6 @@
 * `IMMUTABLE` functions
     > Functions and operators marked as `IMMUTABLE` can be evaluated when the query
     > is planned rather than when it is executed.
-
-* Inheritance
-* Triggers
 
 ## Docker
 

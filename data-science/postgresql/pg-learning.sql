@@ -15,6 +15,18 @@
 create database damon;
 
 -- NOTE: `DROP TABLE IF EXISTS` is *not* standard SQL
+--
+-- CASCADE recursively drops dependencies. However, it will *NOT* drop user defined functions that depend
+-- on the object being dropped. These functions will break.
+--
+-- `DROP TABLE my_colors CASCADE` will *NOT* drop the get_color() function
+--
+-- CREATE FUNCTION get_color(val) RETURNS text AS
+--  'SELECT name FROM my_colors WHERE id = val'
+--  LANGUAGE SQL
+--
+-- For safety, drop dependencies manually from the bottom up.
+--
 DROP TABLE IF EXISTS people CASCADE;
 DROP TABLE IF EXISTS children CASCADE;
 DROP TABLE IF EXISTS scores CASCADE;
@@ -568,27 +580,40 @@ SELECT * FROM ONLY cities;
 -- 2. Create partitions. Inserting data into the parent table that does *not* map to one of the existing partitions
 --    will case an error. An appropriate partition must be added manually.
 --
+--
+-- If a table is partitioned, INSERTs will *fail* if the inserting row would not fall into a partition. The
+-- partitioned table itself does *not* hold any data. All data is contained in partitions.
+--
 CREATE TABLE log_items (
     id SERIAL,
     severity INT NOT NULL,
     key text NOT NULL,
     val text NOT NULL,
     created_at timestamp DEFAULT current_timestamp
-
+x
 ) PARTITION BY RANGE (created_at);
 
 --
--- Creating indices on the partitioned table will automatically create one index on each partition (and all partitions
--- you create later).
+-- Creating indices on the partitioned table will automatically create one index on each partition
+-- (and all partitions you create later).
 --
 CREATE INDEX ON log_items (created_at);
 CREATE INDEX ON log_items (key);
 
-CREATE TABLE log_items_y2020m09 PARTITION OF log_items FOR VALUES FROM ('2020-09-01') TO ('2020-10-01');
-CREATE TABLE log_items_y2021m01 PARTITION OF log_items FOR VALUES FROM ('2021-01-01') TO ('2021-02-01');
-CREATE TABLE log_items_recent PARTITION OF log_items FOR VALUES FROM ('2020-10-01') TO ('2030-01-01');
+CREATE TABLE IF NOT EXISTS log_items_y2020m09 PARTITION OF log_items FOR VALUES FROM ('2020-09-01') TO ('2020-10-01');
+CREATE TABLE IF NOT EXISTS log_items_y2020m10 PARTITION OF log_items FOR VALUES FROM ('2020-10-01') TO ('2020-11-01');
+CREATE TABLE IF NOT EXISTS log_items_y2020m11 PARTITION OF log_items FOR VALUES FROM ('2020-11-01') TO ('2020-12-01');
+CREATE TABLE IF NOT EXISTS log_items_recent PARTITION OF log_items FOR VALUES FROM ('2020-12-01') TO ('2030-01-01');
+
+ALTER TABLE log_items DETACH PARTITION log_items_recent;
+ALTER TABLE log_items ATTACH PARTITION log_items_recent FOR VALUES FROM ('2020-12-01') TO ('2030-01-01');
 
 INSERT INTO log_items (severity, key, val) values (1, 'test', 'event');
-INSERT INTO log_items (severity, key, val, created_at) values (1, 'test', 'event', '2021-01-01');
+INSERT INTO log_items (severity, key, val, created_at) values (1, 'test', 'event', '2020-11-15');
+INSERT INTO log_items (severity, key, val, created_at) values (1, 'test', 'event', '2020-11-15');
 
-SELECT * FROM log_items;
+
+SELECT * FROM log_items_recent;
+EXPLAIN SELECT * FROM log_items WHERE created_at > '2020-10-01';
+DROP TABLE log_items_recent;
+
