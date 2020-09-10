@@ -475,11 +475,11 @@ SELECT * FROM ch5_2;
 -- pg_catalog is the first schema in the search path. Don't prefix your objects with `pg_` - which will conflict
 -- with system tables.
 --
-SHOW search_path;
-SET search_path to ch5;
 
 DROP SCHEMA IF EXISTS ch5 CASCADE;
 CREATE SCHEMA IF NOT EXISTS ch5;
+SHOW search_path;
+SET search_path to ch5;
 
 DROP TABLE IF EXISTS section3;
 DROP TABLE IF EXISTS section3_2;
@@ -516,10 +516,10 @@ DELETE FROM section3_2 WHERE id = 2;
 SELECT * FROM section3;
 SELECT * FROM section3_2;
 
+-- Describing a table
 SELECT * FROM information_schema.tables where table_schema = 'ch5' AND table_name = 'section3';
 SELECT * FROM information_schema.columns WHERE table_schema = 'ch5' AND table_name = 'section3';
 SELECT * FROM information_schema.table_constraints where table_schema = 'ch5' AND table_name = 'section3';
---
 SELECT * FROM pg_indexes WHERE tablename = 'ch5_3';
 
 --
@@ -616,4 +616,52 @@ INSERT INTO log_items (severity, key, val, created_at) values (1, 'test', 'event
 SELECT * FROM log_items_recent;
 EXPLAIN SELECT * FROM log_items WHERE created_at > '2020-10-01';
 DROP TABLE log_items_recent;
+
+--
+-- Chapter 6 - Data Manipulation
+--
+
+DROP SCHEMA IF EXISTS ch6;
+CREATE SCHEMA IF NOT EXISTS ch6;
+SELECT * FROM information_schema.schemata;
+
+SET search_path to ch6;
+SHOW search_path;
+
+DROP TABLE IF EXISTS products;
+
+CREATE TABLE IF NOT EXISTS products
+(
+    id    SERIAL,
+    name  text NOT NULL DEFAULT '',
+    price numeric NOT NULL
+);
+INSERT INTO products (name, price)
+VALUES
+    ('test', 10.0),
+    ('test2', 20.0)
+
+-- Bulk insert with INSERT INTO SELECT
+INSERT INTO products (name, price)
+SELECT name, price FROM products WHERE price > 10.0;
+
+SELECT * FROM products;
+
+--
+-- INSERT, UPDATE, and DELETE have a RETURNING clause, allowing you to return columns from modified rows.
+--
+-- Note that RETURNING will return the rows *after* triggers have been executed. This allows you to receive
+-- the *final* values as they exist in the DB (after computed by triggers).
+--
+-- Returns the new id value (primary key) for the rows being inserted
+INSERT INTO products (name, price) VALUES ('damon', 30.0), ('kari', 30.0) RETURNING id;
+
+-- Returns the entire rows that are being deleted
+DELETE FROM products WHERE name IN ('damon', 'kari') RETURNING *;
+
+
+SELECT * FROM information_schema.tables where table_schema = 'ch6' AND table_name = 'products';
+SELECT * FROM information_schema.columns WHERE table_schema = 'ch6' AND table_name = 'products';
+SELECT * FROM information_schema.table_constraints where table_schema = 'ch6' AND table_name = 'products';
+SELECT * FROM pg_indexes WHERE tablename = 'products';
 
