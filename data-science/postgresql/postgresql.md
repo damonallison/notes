@@ -7,6 +7,7 @@
 * Working with dates
 * Aggregate functions
 * Arrays
+
 * `IF / THEN / ELSE`
 
 * `IMMUTABLE` functions

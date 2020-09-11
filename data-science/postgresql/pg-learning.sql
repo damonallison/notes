@@ -665,3 +665,168 @@ SELECT * FROM information_schema.columns WHERE table_schema = 'ch6' AND table_na
 SELECT * FROM information_schema.table_constraints where table_schema = 'ch6' AND table_name = 'products';
 SELECT * FROM pg_indexes WHERE tablename = 'products';
 
+--
+-- Chapter 7 - Queries
+--
+
+-- You can select *any* value or run any function with select. You don't need to specify a table or view to select
+-- data from.
+SELECT round((random() * 100));
+
+DROP SCHEMA IF EXISTS ch7;
+CREATE SCHEMA IF NOT EXISTS ch7;
+SET search_path to ch7;
+SHOW search_path;
+
+DROP TABLE IF EXISTS scores;
+DROP TABLE IF EXISTS students;
+CREATE TABLE IF NOT EXISTS students (
+    id SERIAL,
+    fname text NOT NULL,
+    lname text NOT NULL,
+    CONSTRAINT pk_students_id PRIMARY KEY (id),
+    CONSTRAINT unq_students_fname_lname UNIQUE (fname, lname)
+);
+
+CREATE TABLE IF NOT EXISTS scores (
+    id SERIAL,
+    student_id integer,
+    score integer,
+    CONSTRAINT pk_scores_id PRIMARY KEY (id),
+    CONSTRAINT fk_scores_student_id_students_id FOREIGN KEY (student_id) REFERENCES students (id),
+    CONSTRAINT score_range CHECK (score >= 0 AND score <= 100)
+);
+
+INSERT INTO students (fname, lname) VALUES ('grace', 'allison'), ('lily', 'allison'), ('cole', 'allison'), ('roxie', 'allison');
+
+DELETE FROM scores;
+INSERT INTO scores (student_id, score) SELECT id, 50 FROM students where fname = 'grace' and lname = 'allison';
+INSERT INTO scores (student_id, score) SELECT id, 50 FROM students where fname = 'grace' and lname = 'allison';
+INSERT INTO scores (student_id, score) SELECT id, 80 FROM students where fname = 'lily' and lname = 'allison';
+INSERT INTO scores (student_id, score) SELECT id, 80 FROM students where fname = 'lily' and lname = 'allison';
+INSERT INTO scores (student_id, score) SELECT id, 100 FROM students where fname = 'cole' and lname = 'allison';
+
+--
+-- FROM actually executes first in a query, building up a virtual table for the query to operate on.
+--
+-- If multiple tables are returned, the virtual table is a cartesian product of the multiple tables.
+-- This is the same as a cross join.
+--
+SELECT * FROM students, scores;
+SELECT * FROM students CROSS JOIN scores;
+
+--
+-- JOINs join two tables together based on an a join condition.
+--
+-- INNER JOIN is the default
+--
+SELECT s.id AS student_id, sc.id AS score_id , s.lname, s.fname
+FROM students AS S INNER JOIN scores AS sc ON s.id = sc.student_id;
+
+--
+-- USING
+--
+-- USING is a short hand that applies when columns on both sides of the join are the same.
+--
+-- `A JOIN B USING (c1, c2)` is the same as `A JOIN B on A.c1 = B.c1 AND A.c2 = B.c2`
+--
+-- When tables are JOINed with USING, only *one* value of the USING columns are returned (since they are both the same).
+-- When joined with ON, both of the join columns are returned.
+--
+-- This query makes no sense for the given table layout, but it does show USING.
+--
+SELECT * FROM students JOIN scores USING (id);
+
+-- LEFT OUTER JOIN will return all rows from the left regardless if there are matching rows on the right.
+-- RIGHT OUTER JOIN will return all rows from the right regardless if there are matching rows on the left.
+-- FULL OUTER JOIN will return all rows from both tables, nulls if there are no corresponding match from the other side.
+-- NULL values are returned for columns in which do not match.
+
+-- Example: Finds all students without scores using a LEFT OUTER JOIN and the fact that NULLs are returned
+-- when no matching rows exists in the right table.
+SELECT * FROM students AS s LEFT OUTER JOIN scores AS sc ON s.id = sc.student_id WHERE sc.student_id IS NULL;
+
+--
+-- Subqueries
+--
+-- A subquery can be used as a table reference. The table reference returned in the subquery must be aliased.
+--
+SELECT s.*, scores.* FROM (SELECT student_id, score FROM scores) AS s INNER JOIN scores ON s.student_id = scores.student_id;
+
+--
+-- Table Functions
+--
+-- Table functions are functions that produce a set of rows. They are used like a table, view, or subquery in the FROM
+-- clause of a query.
+--
+DROP FUNCTION IF EXISTS get_students_by_last_name;
+CREATE FUNCTION get_students_by_last_name(text) RETURNS SETOF students AS
+$$
+    SELECT * FROM students where lname = $1;
+$$ LANGUAGE sql;
+
+SELECT s.* FROM get_students_by_last_name('allison') AS s;
+
+--
+-- LATERAL
+--
+-- Subqueries preceeded with the keyword `LATERAL` allow the subquery to reference columns provided by preceeding FROM
+-- items. Without LATERAL, subqueries cannot reference any other FROM item.
+--
+-- NOTE: This is horribly inefficient as the subquery needs to be evaluated for *EACH* row in the FROM item providing
+--       the cross-referenced columns (in this case (`s`).
+--
+-- JOIN is **MUCH** faster given it uses set operations.
+--
+-- There are some cases where LATERAL is useful. For example, providing an argument to a function that returns a table.
+
+SELECT * FROM students as s, LATERAL (SELECT get_students_by_last_name(s.lname)) AS s2;
+
+
+--
+-- WHERE
+--
+-- After FROM builds the virtual table, WHERE is evaluated for each row. If WHERE is true (not false or NULL), it is
+-- kept in the virtual table.
+--
+
+SELECT * FROM scores WHERE student_id IN (select id from get_students_by_last_name('allison'));
+SELECT * FROM scores WHERE student_id IN (SELECT id from students where fname = 'grace');
+--
+-- Subqueries can reference the *entire* virtual table of the FROM clause.
+-- Remember, WHERE is executed for EACH ROW of the virtual table.
+--
+-- Here, we show using `s` within a WHERE subquery.
+--
+-- Where you can, prefer to use JOINs to shrink the virtual table. This will reduce the input set that
+-- WHERE is evaluated against.
+SELECT * FROM scores AS s WHERE s.student_id IN (SELECT id FROM students WHERE id = s.student_id);
+
+--
+-- GROUP BY
+--
+-- GROUP BY groups rows in a table that have the same values in all the columns listed. This combines each set of rows
+-- having common values into one row that represents all rows in the group.
+--
+-- If a table is grouped, columns *NOT* listed in the GROUP BY clause cannot be referenced except in aggregate expressions.
+-- For example, score is referenced in the aggregate expression SUM ().
+SELECT COUNT(*) as CT, SUM(score) as total, student_id FROM scores GROUP BY student_id;
+
+--
+-- Select Lists
+--
+-- After the FROM, WHERE, GROUP BY, and HAVING clauses are performed, the SELECT list is selects the columns from the
+-- result that should be returned.
+--
+-- If the select list contains a value expression example: (a * 1.5), new "virtual" the column is given a default name,
+-- typically matching the function that was performed. In almost all cases, you'll want to give the column an alias.
+
+--
+-- DISTINCT eliminates duplicate rows. You can give DISTINCT a list of columns you want it to consider as distinct.
+--
+-- NOTE: `DISTINCT ON` is *NOT* part of the SQL standard - it's a PG extension.
+--       You'll typically want to use GROUP BY in your queries to avoid the need to use DISTINCT ON.
+--
+-- `DISTINCT` *is* part of the SQL standard, so it can be used cross platform.
+SELECT DISTINCT ON (student_id) student_id,  CONCAT('your score is ', SUM(score)) as d FROM scores GROUP BY student_id;
+
