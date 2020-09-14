@@ -818,9 +818,9 @@ SELECT COUNT(*) as CT, SUM(score) as total, student_id FROM scores GROUP BY stud
 -- After the FROM, WHERE, GROUP BY, and HAVING clauses are performed, the SELECT list is selects the columns from the
 -- result that should be returned.
 --
--- If the select list contains a value expression example: (a * 1.5), new "virtual" the column is given a default name,
--- typically matching the function that was performed. In almost all cases, you'll want to give the column an alias.
-
+-- If the select list contains a value expression example: (a * 1.5), the column is given an alias,
+-- typically matching the function that was performed. In almost all cases, you'll want to give the
+-- column an alias.
 --
 -- DISTINCT eliminates duplicate rows. You can give DISTINCT a list of columns you want it to consider as distinct.
 --
@@ -828,5 +828,53 @@ SELECT COUNT(*) as CT, SUM(score) as total, student_id FROM scores GROUP BY stud
 --       You'll typically want to use GROUP BY in your queries to avoid the need to use DISTINCT ON.
 --
 -- `DISTINCT` *is* part of the SQL standard, so it can be used cross platform.
-SELECT DISTINCT ON (student_id) student_id,  CONCAT('your score is ', SUM(score)) as d FROM scores GROUP BY student_id;
+SELECT DISTINCT ON (student_id) student_id,  CONCAT('your score is ', SUM(score)) AS d FROM scores GROUP BY student_id;
+
+
+--
+-- Combining Queries
+--
+-- Queries can be combined using UNION, INTERSECT, and EXCEPT.
+--
+-- The queries must be "union compatible", which means they have the same number of columns and each corresponding
+-- column have compatible data types.
+--
+-- UNION will combine queries, limiting duplicate rows unless UNION ALL is used
+-- INTERSECT will return all rows are in both queries. Duplicates are eliminated unless `ALL` is used
+-- EXCEPT will return all rows in query1 but *not* in query2. Duplicates are eliminated unless `ALL` is used
+--
+SELECT 'hello' as greeting
+UNION ALL -- ALL will include duplicates
+SELECT 'hello' as greeting;
+
+SELECT 'hello' as greeting
+INTERSECT
+SELECT 'hello' as greeting;
+
+SELECT 'hello' as greeting
+EXCEPT
+SELECT 'there' as greeting;
+
+--
+-- ORDER BY
+--
+-- After the SELECT list has been produced, the output table can be sorted with "ORDER BY"
+--
+-- The `ORDER BY` expression can be any expression that would be valid in the query's SELECT list.
+-- When more than one sort expression is used, subsequent expressions are used to sort rows that are
+-- equal according to previous sort expressions.
+--
+-- ASC (ascending) is the default.
+--
+-- A "NULLS FIRST" or "NULLS LAST" will sort NULLs either first or last respectively. By default, NULLs last
+-- is the default for ASC. NULLS FIRST is the default for DESC.
+--
+-- ORDER BY can use the column aliases defined in the SELECT list.
+--
+-- ORDER BY can order using any column name as defined in the virtual table. You do *not* need to order by
+-- a column in the SELECT list.
+--
+-- ORDER BY can be applied to the result of a UNION, INTERSECT, or EXCEPT query. If so, ORDER BY can only
+-- use the columns returned by the SELECT list.
+SELECT id as sid from scores ORDER BY score /* ASC */, sid DESC;
 
