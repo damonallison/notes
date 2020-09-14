@@ -843,17 +843,29 @@ SELECT DISTINCT ON (student_id) student_id,  CONCAT('your score is ', SUM(score)
 -- INTERSECT will return all rows are in both queries. Duplicates are eliminated unless `ALL` is used
 -- EXCEPT will return all rows in query1 but *not* in query2. Duplicates are eliminated unless `ALL` is used
 --
-SELECT 'hello' as greeting
+SELECT greeting FROM (VALUES ('hello'), ('world')) AS d (greeting)
+UNION
+SELECT 'hello' as greeting;
+
+SELECT greeting FROM (VALUES ('hello'), ('world')) AS d (greeting)
 UNION ALL -- ALL will include duplicates
 SELECT 'hello' as greeting;
 
-SELECT 'hello' as greeting
+SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world')) AS d (greeting)
 INTERSECT
-SELECT 'hello' as greeting;
+SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world'), ('there')) AS d (greeting)
 
-SELECT 'hello' as greeting
+SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world')) AS d (greeting)
+INTERSECT ALL -- ALL will include duplicates
+SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world'), ('there')) AS d (greeting)
+
+SELECT greeting FROM (VALUES ('hello'), ('world'), ('world')) AS d (greeting)
 EXCEPT
-SELECT 'there' as greeting;
+SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world')) AS d (greeting)
+
+SELECT greeting FROM (VALUES ('hello'), ('world'), ('world')) AS d (greeting)
+EXCEPT ALL -- ALL will *not* eliminate duplicates
+SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world')) AS d (greeting)
 
 --
 -- ORDER BY
@@ -877,4 +889,143 @@ SELECT 'there' as greeting;
 -- ORDER BY can be applied to the result of a UNION, INTERSECT, or EXCEPT query. If so, ORDER BY can only
 -- use the columns returned by the SELECT list.
 SELECT id as sid from scores ORDER BY score /* ASC */, sid DESC;
+
+--
+-- LIMIT and OFFSET
+--
+-- LIMIT and OFFSET allow you to retrieve a portion of the results.
+--
+-- If both LIMIT *and* OFFSET appear, OFFSET rows are skipped before starting to count LIMIT
+--
+-- When using LIMIT, make sure you ORDER BY the query to ensure the query has an order. The query optimizer
+-- will attempt to optimize LIMIT queries, potentially returning different rows unless the query is ORDERed.
+SELECT * FROM scores ORDER BY score desc LIMIT 1 OFFSET 0;
+
+
+--
+-- VALUES
+--
+-- VALUES provides a way to generate a "constant table" that can be used in a query without having to actually create
+-- and populate a table on disk.
+--
+-- Aliases can *and should* be given to both the "table" and columns within the table.
+SELECT name, greeting from (VALUES ('damon', 'hello'), ('kari', 'hi')) AS greetings (name, greeting) ORDER BY name DESC;
+
+--
+-- WITH Queries (Common Table Expressions)
+--
+-- CTEs can be thought of as temporary tables that exist for just one query.
+--
+-- CTEs allow you to break down complex queries into simpler parts. Many times, CTEs can replace
+-- nested sub-expressions.
+--
+-- CTEs are evaluated only once. Therefore, expressions that are used multiple times can be sped up by turning
+-- them into CTEs.
+
+WITH student_ids AS (
+    SELECT id from students
+)
+SELECT * FROM scores AS s JOIN student_ids AS ids ON s.student_id = ids.id;
+
+
+
+--
+-- Chapter 8: Data Types
+--
+
+-- Data Types
+--
+-- Postgres includes ANSI SQL types, as well as custom types (geometric, network addresses, etc).
+-- Here are the traditional "SQL" types and a few custom types that are *not* part of the SQL standard,
+-- but would be useful to generic programs (like JSON or money).
+--
+-- bigint (int8)                             64 bit integer
+-- bigserial (serial8)                       autoincrementing 8 byte integer
+-- boolean
+-- character(n)                              fixed length character string
+-- character varying [n] (varchar(n))        variable length character string
+-- date                                      calendar date (year, month, day)
+-- double precision                          64 bit floating point
+-- integer                                   32 bit integer
+-- json                                      textual JSON
+-- jsonb                                     binary JSON data, decomposed
+-- money                                     currency amount
+-- numeric(p, s) (decimal(p, s))             exact numeric of selectible precision
+-- real (float4)                             32 bit floating point
+-- smallint                                  16 bit integer
+-- text                                      variable length character string
+-- timestamp (p) [without time zone]         date and time
+-- timestamp (p) [with time zone]            date and time including time zone
+-- uuid                                      universally unique identifier
+
+-- Floating point (real, double precision) are IEEE Standard 754 for Binary Floating Point Arithmetic) types. They
+-- are inexact, variable precision numeric types. Inexact means that they must be stored as approximations (1/3).
+--
+-- Rules on when to use each floating point value:
+--
+-- * If you require *exact* storage, use numeric.
+-- * Comparing two floating point values for equality will *not* always work as expected.
+--
+
+DROP SCHEMA IF EXISTS ch8;
+CREATE SCHEMA IF NOT EXISTS ch8;
+SET search_path to ch8;
+SHOW search_path;
+
+DROP TABLE IF EXISTS ch8;
+
+CREATE TABLE IF NOT EXISTS ch8 (
+    name varchar NOT NULL,
+    description text NOT NULL,
+    -- numeric(precision, scale)
+    -- Where precision is the total count of significant digits of the entire number (both sides of decimal)
+    -- Scale is the coune of digits in the fractional part. 23.4141 has a precision of 6 and scale of 4.
+    quantity numeric(4,1) NOT NULL
+);
+
+SELECT * FROM information_schema.columns WHERE table_name = 'ch8';
+
+INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 100.2);
+-- quantity will be rounded to the nearest .1
+INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 100.24);
+INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 100.25);
+INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 100.26);
+INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 101.24);
+INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 101.25);
+INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 101.26);
+-- Zeros will be included to fill out the scale.
+INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 100);
+
+SELECT * from ch8;
+
+--
+-- SERIAL "types"
+--
+-- SERIAL types are *NOT* types. They are a notational convenience for creating unique identifier columns.
+--
+-- Note that it is technically possible for "holes" to exist in the sequence values. For example, if someone
+-- calls `nextval` on the sequence but doesn't use the returned value, a number will be burned.
+
+DROP TABLE IF EXISTS ch8_serial_1;
+CREATE TABLE ch8_serial_1 (
+    id SERIAL,  -- serial(4) : 32 bit. Use `bigserial` if you are going to have > 2^31 values (2,147,483,648) ~ 2.1 billion
+    name TEXT,
+    CONSTRAINT pk_ch8_serial_1 PRIMARY KEY (id)
+);
+
+-- ^ is the same as ...
+CREATE SEQUENCE ch8_serial_2_id_seq AS integer;
+--DROP SEQUENCE IF EXISTS ch8_serial_2_id_seq;
+DROP TABLE IF EXISTS ch8_serial_2;
+CREATE TABLE ch8_serial_2 (
+    id integer NOT NULL DEFAULT nextval('ch8_serial_2_id_seq'),
+    name text,
+    CONSTRAINT pk_ch8_serial_2_id PRIMARY KEY (id)
+);
+-- When the sequence is owned by the table, it will be dropped when
+-- it's owning table is dropped.
+ALTER SEQUENCE ch8_serial_2_id_seq OWNED BY ch8_serial_2.id;
+
+-- Returns the auto-generated id
+INSERT INTO ch8_serial_2 (name) VALUES ('DAMON') RETURNING id;
 

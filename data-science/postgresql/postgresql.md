@@ -7,6 +7,10 @@
 * Working with dates
 * Aggregate functions
 * Arrays
+* Identity best practices (SERIAL vs. UUID)
+* JSON
+* `text` vs. `varchar`
+
 
 * `IF / THEN / ELSE`
 
