@@ -955,7 +955,9 @@ SELECT * FROM scores AS s JOIN student_ids AS ids ON s.student_id = ids.id;
 -- smallint                                  16 bit integer
 -- text                                      variable length character string
 -- timestamp (p) [without time zone]         date and time
--- timestamp (p) [with time zone]            date and time including time zone
+-- timestamp (p) with time zone              date and time including time zone
+-- time (p] [without time zone]              time of day (no date) 00:00:00 - 24:00:00
+-- time (p) with time zone                   time of day (no date) with time zone 00:00:00:1559 24:00:00-1559
 -- uuid                                      universally unique identifier
 
 -- Floating point (real, double precision) are IEEE Standard 754 for Binary Floating Point Arithmetic) types. They
@@ -964,6 +966,7 @@ SELECT * FROM scores AS s JOIN student_ids AS ids ON s.student_id = ids.id;
 -- Rules on when to use each floating point value:
 --
 -- * If you require *exact* storage, use numeric.
+-- * If you are storing money values, use numeric (or money, if you know what you are doing)
 -- * Comparing two floating point values for equality will *not* always work as expected.
 --
 
@@ -1029,3 +1032,184 @@ ALTER SEQUENCE ch8_serial_2_id_seq OWNED BY ch8_serial_2.id;
 -- Returns the auto-generated id
 INSERT INTO ch8_serial_2 (name) VALUES ('DAMON') RETURNING id;
 
+
+--
+-- Character types
+--
+-- character varying (n), varchar(n)   variable-length with limit
+-- character(n) char(n)                fixed-length, blank padded
+-- text                                variable unlimited length
+--
+-- When you need to store long strings, use `text` or `character varying` without specifying a length.
+--
+-- There is *NO* performance difference between the different character types. In most situations, `text`
+-- or `character varying` should be used.
+--
+DROP TABLE IF EXISTS ch8_types;
+CREATE TABLE IF NOT EXISTS ch8_types (
+    id SERIAL PRIMARY KEY,
+    fname character varying (100),
+    lname text,
+    bytes bytea,
+    created_at timestamp without time zone DEFAULT current_timestamp,
+    updated_at timestamp with time zone DEFAULT current_timestamp
+);
+
+
+-- WARNING:
+--
+-- When dealing with `character`, trailing spaces are insignificant when used
+-- in comparison functions.
+SELECT CAST('test ' AS character(10)) = CAST('test' AS character(10));
+
+-- Variable characters do not have this problem
+SELECT CAST('test ' AS character varying) = CAST('test' AS character varying);
+
+--
+-- Binary Types
+--
+-- Character strings do not allow values that are *not* strings.
+--
+-- Store strings as text, binary data as bytea
+--
+INSERT INTO ch8_types (id, fname, lname, bytes) VALUES (1, 'damon', 'allison', '\xDEADBEEF');
+UPDATE ch8_types SET updated_at = '2020-01-01T10:11:13.234987-07:00'; -- Assumed to be in UTC
+
+-- Converts a timezone value to UTC in ISO-8601 format
+SELECT to_char(updated_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'), * FROM ch8_types;
+
+
+--
+-- Date/ Time Types
+--
+--
+-- date                                      calendar date (year, month, day)
+-- interval [ fields ] [ (p) ]               time interval
+-- timestamp (p) [without time zone]         date and time
+-- timestamp (p) with time zone              date and time including time zone
+-- time (p] [without time zone]              time of day (no date) 00:00:00 - 24:00:00
+-- time (p) with time zone                   time of day (no date) with time zone 00:00:00:1559 24:00:00-1559
+
+-- The time types accept a precision value (p) which specifies the number of fractional digits (0 - 6) retained
+-- in the seconds field.
+--
+-- date, time, timestamp with time zone, timestamp without time zone should be the only date fields you need.
+--
+-- time (p) with time zone is pretty much useless. Time zones are pretty much useless. Use UTC.
+--
+-- Use ISO-8601 for formatting date / time values: YYYY-MM-DDTHH:MM:SS.sssZ
+--
+-- Timezone Rules
+--
+-- * DON'T USE THEM!
+--   * Store everything as UTC in DATETIME WTIHOUT TIME ZONE types. Let UIs deal with timezone conversion.
+-- * Internally, dates are stored as UTC.
+-- * When parsing time zone input, if no time zone is started in the input string, it is assumed to be in the system's time zone.
+-- * When returning time zone output, values are returned in the system time zone.
+-- * To return a value in a specific time zone, use `AT TIME ZONE 'UTC``
+--
+-- An example of taking a local time, converting it to UTC, and returning it in ISO-8601
+--
+--   SELECT to_char (now()::timestamp at timezone 'UTC', 'YYYY-MM-DDTHH24:MI:SSZ'
+
+-- Set the TimeZone to something other than UTC to illustrate how local time zones are handled.
+SHOW TimeZone;
+SET TimeZone='America/Chicago';
+
+-- Will return the value in -06:00 (or -05:00 if we are on daylight savings time)
+-- And return the corresponding timestamp in UTC + formatted in RFC3339 / ISO8601
+SELECT CAST('2020-10-10T10:00:00' AS timestamp with time zone),
+       CAST('2020-10-10T10:00:00' AS timestamp with time zone) AT TIME ZONE 'UTC',
+       to_char(CAST('2020-10-10T10:00:00' AS timestamp with time zone) AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"');
+
+
+-- Timestamp is simply dropped when converting a string to a timestamp without time zone
+SELECT CAST('2020-10-10T10:00:00' AS timestamp without time zone);
+
+-- Converts a timestamp in the local time to UTC
+SELECT to_char('2020-01-01T03:04:05'::TIMESTAMP AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS""Z"');
+
+-- To convert a local timestamp into UTC and format it in ISO-8601
+SELECT to_char(CAST('2020-01-01 03:04:05' AS TIMESTAMP WITH TIME ZONE) AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS""Z"');
+
+
+-- Intervals
+SELECT updated_at, updated_at - interval '2 hours' from ch8_types;
+
+
+--
+-- JSON
+--
+-- The json / jsonb data types store well formatted JSON values. Postgres includes functions and operators for working
+-- with json values. USE JSONB.
+--
+-- json stores exact copies of JSON (with all whitespace and original key ordering, and duplicate keys are kept)
+--
+-- jsonb is stored in a decomposed binary format. Slightly slower to INSERT, much faster to query. jsonb also supports indexing.
+--
+-- With jsonb, whitespace, ordering, and duplicate keys are *not* preserved (last key wins).
+
+DROP TABLE IF EXISTS ch8_json;
+CREATE TABLE IF NOT EXISTS ch8_json (
+    id serial,
+    val jsonb
+);
+
+INSERT INTO ch8_json (val) VALUES (CAST('5' AS jsonb));
+INSERT INTO ch8_json (val) VALUES (CAST('"test"' AS jsonb));
+INSERT INTO ch8_json (val) VALUES (CAST('{"fname": "damon", "lname": "allison"}' AS JSONB));
+INSERT INTO ch8_json (val) VALUES (CAST('{"fname": "damon", "lname": "allison", "scores": [100, 50, 75]}' AS JSONB));
+INSERT INTO ch8_json (val) VALUES (CAST('{"fname": "kari", "lname": "allison", "scores": [200, 80, 80]}' AS JSONB));
+INSERT INTO ch8_json (val) VALUES (CAST('{"fname": "damon", "lname": "allison", "scores": [100, 50, 75], "children": [{"fname": "cole"}]}' AS JSONB));
+INSERT INTO ch8_json (val) VALUES (CAST('{"fname": "kari", "lname": "allison", "scores": [200, 80, 80], "children": [{"fname": "grace"}, {"fname": "lily"}, {"fname": "cole"}]}' AS JSONB));
+
+
+-- Queries
+
+-- JSON Containment Operator (%>)
+--
+-- The containment operator tests that one JSON document is contained within another.
+--
+-- %> determines if the value on the RHS is contained in the LHS JSON document
+SELECT * FROM ch8_json WHERE val @> CAST('{"fname": "damon"}' AS JSONB);
+
+-- Finds all documents for anyone who has a child named "cole".
+SELECT * FROM ch8_json WHERE val @> CAST('{"children": [{"fname": "cole"}]}' AS JSONB);
+
+-- Here we start the containment check from the children node rather than the document root
+SELECT * FROM ch8_json WHERE val->'children' @> CAST('[{"fname": "cole"}]' AS JSONB);
+
+--
+-- JSON Functions and Operators
+--
+-- '->'    Get JSON field or array index as JSON / JSONB
+-- '->>'   Get JSON field or array index as TEXT
+-- '#>'    Get JSON object at specified path as JSON / JSONB
+-- '#>>'   Get JSON object at specified path as TEXT
+
+-- Finds all documents that are missing an element
+SELECT * FROM ch8_json WHERE val->'children' IS NULL;
+
+-- Gets just the first child (remember, JSONB array ordering is *NOT* guaranteed.
+SELECT val->'children' FROM ch8_json WHERE val->'children' IS NOT NULL;
+
+-- Get JSON object at the {"children"} path. This could be useful to the query above for longer paths (potentially)
+-- '{"org", "address", "location"}'
+SELECT val#>'{"children"}' FROM ch8_json WHERE val->'children' IS NOT NULL;
+
+
+CREATE TYPE name_type AS (fname text);
+SELECT * FROM json_populate_recordset(null::name_type, '[{"fname": "damon"}, {"fname": "kari"}]');
+
+-- Exercise: Parse a JSON array field into a table.
+SELECT id, fname FROM ch8_json NATURAL JOIN jsonb_to_recordset(ch8_json.val->'children') AS (fname text);
+
+-- SQL:2016 included JSON support into the language.
+--
+-- With Postgres 12, the SQL standard JSON path query functionality is supported by Postgres. Note that Postgres has been
+-- supporting JSON for a long time. The new SQL path operators are *not*
+
+-- jsonpath implements support for the SQL/JSON path language in PostgreSQL to efficiently query JSON data. It provides
+-- a binary representation of the parsed SQL/JSON path expression.
+
+SELECT val->'children' FROM ch8_json WHERE jsonb_path_exists(val, '$.children[*] ? (@.fname == "cole")');
