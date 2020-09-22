@@ -1421,3 +1421,152 @@ SELECT children[:] FROM ch8_array WHERE children[1] @> CAST('{"fname": "damon"}'
 --
 -- Composite types
 --
+-- Composite types represent the structure of a row. It's a list of field names and data types.
+--
+-- Creating a type is very similar to CREATE TABLE, however no constraints can be included.
+--
+--
+CREATE TYPE full_name AS (
+    fname text,
+    lname text
+);
+
+--
+-- All tables have a composite type of the same name automatically created, with the same name as the table,
+-- to represent the table's row type.
+CREATE TABLE IF NOT EXISTS ch8_composite (
+    name full_name,
+    iq integer
+);
+
+DELETE FROM ch8_composite;
+--
+-- Constructing a composite type
+--
+-- Literal syntax - use "" for strings.
+--
+-- IMPORTANT: Whitespace in type literals is significant. Whitespace is considered part of the field value.
+-- If the field type is text, the space *will* be added to the column, which is a problem.
+--
+-- In general, AVOID THE LITERAL SYNTAX. Use ROW()
+--
+-- '(field1,field2,"field3",...)
+--
+INSERT INTO ch8_composite VALUES ('("damon","allison")', 100);
+--
+-- The ROW() syntax can also be used. This is much simplier than quoting.
+--
+INSERT INTO ch8_composite VALUES (ROW('cole', 'allison'), 100);
+--
+-- The ROW() keyword is optional as long as you have more than one field in the expression.
+--
+INSERT INTO ch8_composite VALUES (('kari', 'allison'), 100);
+
+--
+-- To access a field of a composite value, use ".".
+--
+-- In many cases, the parser gets confused. You must use (). () tells the parser to treat it as a referenced item,
+-- not a table name.
+--
+SELECT (name).*, (name).fname as fname, (name).lname as lname FROM ch8_composite;
+
+SELECT * from ch8_composite ORDER BY (name).fname;
+
+
+--
+-- Modifying composite values
+--
+INSERT INTO ch8_composite (name, iq) VALUES (ROW('lily', 'allison'), 101);
+--
+-- Updating an individual field of a composite value
+--
+-- Notice we cannot put () around (name) right after SET, but we do need () when referencing the
+-- same column in the expression to the right.
+--
+-- Err on the side of using (), omitting them when there are errors.
+UPDATE ch8_composite SET name.fname = 'grace' WHERE (name).fname = 'lily';
+
+
+--
+-- Range Types
+--
+-- Range types allow you to specify a range of values in a single value. Useful for integer types or date types.
+--
+--
+-- int4range   - `integer` range
+-- numrange    - `numeric` range
+-- tsrange     - 'timestamp without time zone` range
+
+CREATE TABLE timeslots (
+    id int,
+    slot tsrange
+);
+
+--
+-- [  == boundary is included in range (inclusive)
+-- )  == boundary is *not* included in range (exclusive)
+--
+-- The lower and upper bounds can be omitted.
+--
+-- Like composite type literals, WHITESPACE IS MEANINGFUL in range values.
+-- Each range type has a constructor to create range values of that type. USE THE CONSTRUCTOR.
+INSERT INTO timeslots VALUES (1, '[2020-01-01 10:00:00,2020-01-01 11:00:00)');
+
+-- Range type constructors use [inclusive, exclusive) by default.
+-- Use the 3rd parameter specify inclusiveness.
+INSERT INTO timeslots VALUES (2, tsrange('2020-01-01 11:00:00', '2020-01-01 12:00:00', '[)'));
+
+SELECT * FROM timeslots;
+
+--
+-- Domain types
+--
+-- Domain types are user defined data types that are based on an underlying type. Domain types can have constraints.
+-- For example, limiting the types values to only positive integers
+
+CREATE DOMAIN posint AS INTEGER CHECK (VALUE > 0);
+DROP DOMAIN posint CASCADE;
+DROP TABLE IF EXISTS ch8_domain;
+CREATE TABLE IF NOT EXISTS ch8_domain (
+    name text,
+    iq posint
+);
+
+INSERT INTO ch8_domain VALUES ('damon', 100);
+SELECT * FROM ch8_domain;
+-- This would violate posint's check constraint
+-- INSERT INTO ch8_domain VALUES ('damon', -1);
+
+
+--
+--
+--
+--
+-- Chapter 9: Functions and Operators
+--
+--
+--
+--
+
+DROP SCHEMA IF EXISTS ch9 CASCADE;
+CREATE SCHEMA IF NOT EXISTS ch9;
+SET search_path to ch9;
+SHOW search_path;
+
+CREATE TABLE IF NOT EXISTS ch9_operators (
+    name text,
+    iq integer,
+    created_at timestamp without time zone DEFAULT current_timestamp,
+    updated_at timestamp without time zone DEFAULT current_timestamp
+);
+
+INSERT INTO ch9_operators VALUES ('damon', 100);
+INSERT INTO ch9_operators VALUES ('kari', 150);
+
+SELECT * FROM ch9_operators;
+
+-- Comparison functions and operators
+--
+-- Not equals is '<>' in SQL. '!=' is an alias.
+--
+SELECT * FROM ch9_operators WHERE iq <> 100;
