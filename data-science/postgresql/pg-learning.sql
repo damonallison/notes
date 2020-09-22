@@ -384,7 +384,7 @@ CREATE TABLE IF NOT EXISTS ch5(
     name text,
     price numeric DEFAULT 9.99,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP
-)
+)7
 INSERT INTO ch5 (name, price) VALUES ('test', 78.20);
 
 SELECT * FROM ch5;
@@ -1138,17 +1138,30 @@ SELECT updated_at, updated_at - interval '2 hours' from ch8_types;
 
 
 --
--- JSON
+-- 8.14: JSON Types (json & jsonb)
 --
 -- The json / jsonb data types store well formatted JSON values. Postgres includes functions and operators for working
--- with json values. USE JSONB.
+-- with json values.
 --
--- json stores exact copies of JSON (with all whitespace and original key ordering, and duplicate keys are kept)
+-- json stores exact copies of JSON (with all whitespace and original key ordering, and duplicate keys are kept).
 --
--- jsonb is stored in a decomposed binary format. Slightly slower to INSERT, much faster to query. jsonb also supports indexing.
+-- jsonb is stored in a decomposed binary format. Slightly slower to INSERT, much faster to query.
+-- jsonb also supports indexing (GIN indexes).
 --
--- With jsonb, whitespace, ordering, and duplicate keys are *not* preserved (last key wins).
-
+-- With jsonb, whitespace, ordering, and duplicate keys are *not* preserved (last key wins). When a jsonb value is parsed,
+-- it is converted to native postgres data types:
+--
+-- | JSON Type | PostgreSQL Type | Notes
+-- | string    | text            | Any unicode character that is *not* available in the databse encoding is not allowed
+-- | number    | numeric         | NaN and infinity are not allowed
+-- | boolean   | boolean         | Only lowercase `true` and `false` spellings are allowed
+-- | null      | (none)          | SQL NULL is a different concept
+--
+-- In general, use jsonb. jsonb supports more operators, including jsonpath for querying JSON documents using an XPath like
+-- syntax. It's also much more efficient, as the JSON is parsed on insert only, not on the fly for each query.
+--
+-- Note if you need *exact* storage of JSON - i.e. supporting whitespace, duplicate keys, and key ordering, use JSON.
+--
 DROP TABLE IF EXISTS ch8_json;
 CREATE TABLE IF NOT EXISTS ch8_json (
     id serial,
@@ -1164,21 +1177,6 @@ INSERT INTO ch8_json (val) VALUES (CAST('{"fname": "damon", "lname": "allison", 
 INSERT INTO ch8_json (val) VALUES (CAST('{"fname": "kari", "lname": "allison", "scores": [200, 80, 80], "children": [{"fname": "grace"}, {"fname": "lily"}, {"fname": "cole"}]}' AS JSONB));
 
 
--- Queries
-
--- JSON Containment Operator (%>)
---
--- The containment operator tests that one JSON document is contained within another.
---
--- %> determines if the value on the RHS is contained in the LHS JSON document
-SELECT * FROM ch8_json WHERE val @> CAST('{"fname": "damon"}' AS JSONB);
-
--- Finds all documents for anyone who has a child named "cole".
-SELECT * FROM ch8_json WHERE val @> CAST('{"children": [{"fname": "cole"}]}' AS JSONB);
-
--- Here we start the containment check from the children node rather than the document root
-SELECT * FROM ch8_json WHERE val->'children' @> CAST('[{"fname": "cole"}]' AS JSONB);
-
 --
 -- JSON Functions and Operators
 --
@@ -1187,29 +1185,239 @@ SELECT * FROM ch8_json WHERE val->'children' @> CAST('[{"fname": "cole"}]' AS JS
 -- '#>'    Get JSON object at specified path as JSON / JSONB
 -- '#>>'   Get JSON object at specified path as TEXT
 
+--
+-- Simple field selection
+--
+SELECT
+    val->'fname',
+    pg_typeof(val->'fname'),
+    val->>'fname',
+    pg_typeof(val->>'fname'),
+    val->'scores'->0,
+    pg_typeof(val->'scores'->0),
+    val->'scores'->0,
+    pg_typeof(val->'scores'->0),
+    val->'children'->0->>'fname',
+    pg_typeof(val->'children'->0->>'fname')
+FROM
+    ch8_json;
+
+
 -- Finds all documents that are missing an element
 SELECT * FROM ch8_json WHERE val->'children' IS NULL;
 
 -- Gets just the first child (remember, JSONB array ordering is *NOT* guaranteed.
-SELECT val->'children' FROM ch8_json WHERE val->'children' IS NOT NULL;
+SELECT
+    val->'children',
+    val->'children'->0,
+    val->'children'->0->'fname',
+    val->'children'->0->>'fname',
+    --
+    -- #> and #>> Retrieves objects by path. They are functionally the same as -> and ->>
+    -- Perhaps these operators are useful if you are building up queries in code - i.e.,
+    -- serializing a path as a list.
+    val #>'{"children", 0, "fname"}',
+    val #>>'{"children", 0, "fname"}'
+FROM
+    ch8_json
+WHERE val->'children' IS NOT NULL
+AND val @> CAST('{"children": [{"fname": "grace"}]}' AS JSONB);
 
--- Get JSON object at the {"children"} path. This could be useful to the query above for longer paths (potentially)
--- '{"org", "address", "location"}'
-SELECT val#>'{"children"}' FROM ch8_json WHERE val->'children' IS NOT NULL;
+--
+-- jsonb operators
+--
+-- jsonb @> jsonb -> boolean
+-- jsonb <@ jsonb -> boolean
+-- jsonb ? text -> boolean
+--
+-- @> and <@ are JSON containment operators
+--
+-- The containment operator tests that one JSON document is contained within another.
+--
+-- %> determines if the value on the RHS is contained in the LHS JSON document
+--
+SELECT * FROM ch8_json WHERE val @> CAST('{"fname": "damon"}' AS JSONB);
+--
+-- Finds all documents for anyone who has a child named "cole".
+--
+SELECT * FROM ch8_json WHERE val @> CAST('{"children": [{"fname": "cole"}]}' AS JSONB);
+--
+-- Here we start the containment check from the children node rather than the document root
+--
+SELECT * FROM ch8_json WHERE val->'children' @> CAST('[{"fname": "cole"}]' AS JSONB);
 
+--
+-- ? : Determines if a key exists at the top level
+--
 
-CREATE TYPE name_type AS (fname text);
-SELECT * FROM json_populate_recordset(null::name_type, '[{"fname": "damon"}, {"fname": "kari"}]');
+--
+-- Returns all rows which have scores
+--
+SELECT * FROM ch8_json WHERE val ? 'scores';
 
--- Exercise: Parse a JSON array field into a table.
-SELECT id, fname FROM ch8_json NATURAL JOIN jsonb_to_recordset(ch8_json.val->'children') AS (fname text);
+--
+-- Returns all rows which do *not* have scores
+--
+SELECT * FROM ch8_json WHERE NOT val ? 'scores';
 
+--
+-- @? : Returns items matching a jsonpath
+--
+SELECT val->'children' FROM ch8_json WHERE val @? '$.children[*] ? (@.fname == "cole")';
+--
+-- @@ : Returns the results of a JSON path predicate check.
+--
+-- Finds all records who have one ore more scores >= 200
+--
+SELECT * FROM ch8_json WHERE val @@ '$.scores[*] >= 200';
+
+--
+-- JSON Processing Functions
+--
+-- jsonb_array_elements(jsonb) : Expands the top level JSON array into a set of JSON values.
+--
+SELECT id, jsonb_array_elements(val->'children')->>'fname' as child FROM ch8_json;
+--
+-- jsonb_array_length(jsonb)
+--
+SELECT * FROM ch8_json WHERE jsonb_array_length(val->'children') > 0;
+--
+-- jsonb_populate_record(base anyelement, from_json) -> anyelement
+--
+-- Expands the top-level JSON object to a row having the composite type of the `base` element.
+-- In typical use, the value of `base` is NULL, which means that any output columns that do not match
+-- any object field will be filled with NULLs. If `base` isn't NULL, then the values it contains will
+-- be used for unmatched columns.
+--
+DROP TYPE IF EXISTS name_type;
+CREATE TYPE name_type AS (fname TEXT, lname TEXT);
+SELECT fname FROM json_populate_recordset(null::name_type, '[{"fname": "damon"}, {"fname": "kari"}]');
+
+--
+-- Expands the top-level JSON array into a set of rows using a composite type defined in an alias
+--
+SELECT * FROM ch8_json, jsonb_to_recordset(val->'children') AS children(fname text);
+
+--
 -- SQL:2016 included JSON support into the language.
 --
--- With Postgres 12, the SQL standard JSON path query functionality is supported by Postgres. Note that Postgres has been
--- supporting JSON for a long time. The new SQL path operators are *not*
+-- With Postgres 12, the SQL standard JSON path query language is supported by Postgres. The JSON path language
+-- is to JSON what XPath is to XML.
+--
+-- The JSON Path Langauge
+--
+-- '$'   : the "context item" - the item being queried
+-- .key  : accesses a particular key
+-- []    : accesses an array
+--
+-- ? (condition) : a filter expression. Within the () expression, @ is the item being evaluated
 
--- jsonpath implements support for the SQL/JSON path language in PostgreSQL to efficiently query JSON data. It provides
--- a binary representation of the parsed SQL/JSON path expression.
 
+--
+-- jsonb_path_exists(target, jsonpath) : returns any item matching `jsonpath`.
+--
+-- This is nearly identical to the `@?` operator, but allows for additional options.
+--
 SELECT val->'children' FROM ch8_json WHERE jsonb_path_exists(val, '$.children[*] ? (@.fname == "cole")');
+
+-- Finds all records who have a child starting with '[Ll]'. Note the use of flag "i" for a case-insensitive regex match
+SELECT val->'children' FROM ch8_json WHERE val @? '$.children[*] ? (@.fname like_regex "^L.*$" flag "i")';
+
+--
+-- Converts an array into a table of numeric values
+SELECT
+    a.id,
+    scores.v,
+    pg_typeof(scores.v)
+FROM
+    ch8_json AS A CROSS JOIN LATERAL (
+        SELECT CAST(v AS numeric) FROM jsonb_array_elements_text(val -> 'scores') AS scores(v)
+    ) AS scores
+ORDER BY a.id ASC;
+
+--
+-- Arrays
+--
+
+DROP TABLE IF EXISTS ch8_array;
+CREATE TABLE ch8_array (
+    id SERIAL,
+    ints integer[],
+    children JSONB[]
+);
+
+--
+-- Array constants are defined like '{elt1, elt2, elt3}' rather than `[elt1, elt2, elt3]`.
+--
+INSERT INTO ch8_array (ints) VALUES ('{1, 2}');
+INSERT INTO ch8_array (ints) VALUES ('{1, 2, 3}');
+INSERT INTO ch8_array (ints) VALUES ('{{1}, {2}, {3}}');
+INSERT INTO ch8_array (ints) VALUES ('{{1, 2}, {2, 3}, {3, 4}}');
+
+--
+-- Multidimensional arrays must have matching extents for each dimension.
+--
+-- INSERT INTO ch8_array (ints) VALUES('{{1}, {1, 2}}');
+
+--
+-- Accessing arrays
+--
+-- Postgres arrays are 1 based (by default)
+--
+SELECT * FROM ch8_array;
+SELECT * FROM ch8_array where ints[1] = 1;
+
+-- NULL is returned (not an error) when trying to access an element that does not exist.
+SELECT ints[10] FROM ch8_array;
+
+-- Determining an array's dimensions
+SELECT array_dims(ints) from ch8_array;
+
+--
+-- Slicing
+--
+
+-- Select the second and subsequent
+SELECT ints[2:] FROM ch8_array;
+
+-- Start with the beginning, stopping after element one (takes the first element)
+SELECT ints[:1] FROM ch8_array;
+
+-- Take element 2 -> end
+SELECT ints[2:] FROM ch8_array;
+
+-- You can use array_length() to return the upper bound of an array dimension
+SELECT array_upper(ints, 1) AS dim1,
+       array_upper(ints, 2) as dim2 FROM ch8_array;
+
+
+-- Appending an element to the end of an array.
+SELECT ints || '{4}' FROM ch8_array where ints[1] = 1;
+UPDATE ch8_array SET ints = ints || '{4}' WHERE ints[1] = 1;
+UPDATE ch8_array SET ints = array_append(ints, 4) WHERE ints[1] = 1;
+
+--
+-- Searching in Arrays
+--
+
+--
+-- ANY finds all rows whose array field contains a value
+--
+SELECT * FROM ch8_array WHERE 4 = ANY (ints);
+
+-- You can also search using &&, which checks whether the LHS overlaps with the RHS
+SELECT * FROM ch8_array WHERE ints && '{4}';
+
+
+--
+-- Examples of JSONB[]
+--
+INSERT INTO ch8_array (children) VALUES ('{"{\"fname\": \"damon\"}", "{\"fname\": \"kari\"}"}');
+INSERT INTO ch8_array (children) VALUES ('{"{\"fname\": \"grace\", \"scores\":[50, 75, 90]}", "{\"fname\": \"lily\", \"scores\": [75, 100, 125]}"}');
+
+SELECT children[:] FROM ch8_array WHERE children[1] @> CAST('{"fname": "damon"}' AS JSONB)
+
+
+--
+-- Composite types
+--
