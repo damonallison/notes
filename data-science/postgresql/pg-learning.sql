@@ -384,7 +384,7 @@ CREATE TABLE IF NOT EXISTS ch5(
     name text,
     price numeric DEFAULT 9.99,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP
-)7
+);
 INSERT INTO ch5 (name, price) VALUES ('test', 78.20);
 
 SELECT * FROM ch5;
@@ -590,7 +590,6 @@ CREATE TABLE log_items (
     key text NOT NULL,
     val text NOT NULL,
     created_at timestamp DEFAULT current_timestamp
-x
 ) PARTITION BY RANGE (created_at);
 
 --
@@ -1364,7 +1363,7 @@ INSERT INTO ch8_array (ints) VALUES ('{{1, 2}, {2, 3}, {3, 4}}');
 --
 -- Postgres arrays are 1 based (by default)
 --
-SELECT * FROM ch8_array;
+SELECT *, array_length(ints) FROM ch8_array;
 SELECT * FROM ch8_array where ints[1] = 1;
 
 -- NULL is returned (not an error) when trying to access an element that does not exist.
@@ -1546,7 +1545,6 @@ SELECT * FROM ch8_domain;
 --
 --
 --
---
 
 DROP SCHEMA IF EXISTS ch9 CASCADE;
 CREATE SCHEMA IF NOT EXISTS ch9;
@@ -1562,11 +1560,174 @@ CREATE TABLE IF NOT EXISTS ch9_operators (
 
 INSERT INTO ch9_operators VALUES ('damon', 100);
 INSERT INTO ch9_operators VALUES ('kari', 150);
+INSERT INTO ch9_operators VALUES (null, null);
 
 SELECT * FROM ch9_operators;
+
+--
+-- NULL
+--
+-- SQL uses a three-valued logic system with true, false, and null (unknown).
+--
+-- true AND null  == null
+-- false AND null == null
+-- false OR null  == null
+--
+--
 
 -- Comparison functions and operators
 --
 -- Not equals is '<>' in SQL. '!=' is an alias.
 --
-SELECT * FROM ch9_operators WHERE iq <> 100;
+SELECT * FROM ch9_operators WHERE iq <> 0;
+-- BETWEEN (inclusive)
+SELECT * FROM ch9_operators WHERE iq BETWEEN 0 AND 100;
+-- BETWEEN SEMETRIC will order the operands low to high to prevent empty ranges
+SELECT * FROM ch9_operators WHERE iq BETWEEN SYMMETRIC 100 AND 0;
+
+-- IS NULL
+SELECT * FROM ch9_operators WHERE iq IS NULL;
+-- IS UNKNOWN tests whether the expression yields unknown (NULL)
+SELECT * FROM ch9_operators WHERE iq <> 0 IS UNKNOWN;
+
+--
+-- Mathematical Functions and Operators
+--
+-- Each operator returns the same data type as it's arguments
+--
+
+-- For integral types, division is rounded towards zero
+SELECT 4 / 3 = 1 AS division, 2 ^ 3 = 8 as exponentation;
+SELECT -4 / 3 = 1;
+
+-- Mathematical functions
+SELECT ABS(-4) = 4;
+-- ROUND() rounds to nearest integer
+SELECT ROUND(-4.5) = -5, ROUND(-5.5) = -6;
+-- ROUND() to nearest decimal place
+SELECT ROUND(-4.505, 2) = -4.51;
+-- CEIL and FLOOR return nearest integer greater or less than the argument
+SELECT CEIL(42.3) = 43, FLOOR(42.3) = 42;
+
+
+--
+-- String Functions
+--
+SELECT char_length(name), length(name) FROM ch9_operators;
+-- position finds the first position of a substring, or 0 if it does not exist
+SELECT position('d' IN name) FROM ch9_operators;
+-- regular expression match
+SELECT * from ch9_operators WHERE name ~* '^[dk]a.*$';
+
+-- substring selects a substring (1 based)
+SELECT substring(name FROM 1 FOR 1) FROM ch9_operators;
+-- trims a string (defaults to trimming spaces).
+SELECT trim(both name) FROM ch9_operators;
+-- length
+SELECT length(name) from ch9_operators;
+-- starts_with
+SELECT * from ch9_operators WHERE starts_with(name, 'd');
+
+-- String formatting
+SELECT format('Hello, %s', name) FROM ch9_operators WHERE name IS NOT NULL;
+
+--
+-- Pattern Matching
+--
+-- _ matches a single character, % matches zero or more characters
+--
+-- NOTE: ILIKE (case insensitive search) is a PostgreSQL extension.
+--
+SELECT * FROM ch9_operators WHERE name ILIKE '_a%';
+
+-- Posix regular expressions
+--
+-- text ~ regex -> boolean : Matches regex, case sensitive
+-- text ~* regex -> boolean : Matches regex, case insensitive
+-- text !* regex -> boolean : Does not match regex, case sensitive
+-- text ~!* regex -> boolean : Does not match regex, case insensitive
+SELECT * FROM ch9_operators where name ~* '^[dk]a.*$';
+
+--
+-- Data Type Formatting
+--
+SELECT to_timestamp('2020-12-05 10:00:00', 'YYYY-MM-DD HH24:MI:SS.sss');
+
+-- The to_char() function converts numerics and timestamps to strings.
+-- The syntax is rather primitive for numeric values, as you're required to enter the exact format
+-- you want the numeric to be printed as (using 9 for digit, for example)
+SELECT to_char(100, '999');
+
+--
+-- Date/Time Functions and Operators
+--
+
+SELECT CAST('2020-02-02 10:00:00' AS timestamp) + interval '1 day';
+
+-- date_trunc
+SELECT date_trunc('hour', current_timestamp);
+
+
+-- Generate a random UUID
+SELECT gen_random_uuid();
+
+
+--
+-- Conditional Expressions
+--
+-- "If your needs go beyond the capabilities of these conditional expressions, you might want
+--  to consider writing a server-side function in a more expressive programming language"
+--
+-- PostgresSQL documentation:
+-- https://www.postgresql.org/docs/13/functions-conditional.html
+--
+
+--
+-- CASE
+--
+-- CASE can be used for avoiding a division by zero error
+-- SELECT ... WHERE CASE WHEN x <> 0 THEN y/x > 1.5 ELSE 0 END;
+SELECT
+    CASE
+        WHEN name ILIKE '%damon%' THEN 'DAMON ALLISON'
+        WHEN name ILIKE '%kari%' THEN 'KARI ALLISON'
+        ELSE 'OTHER'
+    END
+FROM ch9_operators;
+
+-- COALESCE returns the first non-null argument. Useful for giving NULL a value
+SELECT COALESCE(name, 'someone') FROM ch9_operators;
+
+--
+-- Aggregate Functions
+--
+SELECT avg(iq), sum(iq), max(iq), min(iq) FROM ch9_operators;
+
+--
+-- Subquery Expressions
+--
+
+--
+-- [NOT] EXISTS
+--
+-- The EXISTS subquery is evaluated for each row, returning TRUE if 1 or more rows are returned.
+--
+-- EXISTS can reference variables from the surrounding query, as shown here with `OP`.
+--
+-- EXISTS will only execute long enough to determine if one row exists.
+--
+-- Return values are typically not important in EXISTS subqueries, so a common pattern
+-- is to use (SELECT 1 FROM ...)
+SELECT * FROM ch9_operators as OP WHERE EXISTS (SELECT 1 FROM ch9_operators WHERE char_length(OP.name) >=4);
+
+--
+-- IN
+--
+-- The subquery must return exactly one column.
+SELECT * FROM ch9_operators AS OP WHERE name IN (SELECT name from ch9_operators where char_length(OP.name) >= 4);
+
+-- This form of `IN` will match multiple columns. The IN subquery must return as many columns as contained in ROW()
+--
+-- This is useful when matching multiple values in the current row to a subquery.
+SELECT * FROM ch9_operators AS OP WHERE ROW(name, iq) IN (SELECT 'damon', 100);
+
