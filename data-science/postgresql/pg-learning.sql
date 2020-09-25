@@ -302,6 +302,7 @@ SELECT ARRAY [[1, 2], [3, 4]];
 -- It's possible to construct an ARRAY from the results of a subquery
 SELECT ARRAY(SELECT score from scores);
 
+
 --
 -- CASE
 --
@@ -949,7 +950,7 @@ SELECT * FROM scores AS s JOIN student_ids AS ids ON s.student_id = ids.id;
 -- json                                      textual JSON
 -- jsonb                                     binary JSON data, decomposed
 -- money                                     currency amount
--- numeric(p, s) (decimal(p, s))             exact numeric of selectible precision
+-- numeric(p, s) (decimal(p, s))             exact numeric of selectable precision
 -- real (float4)                             32 bit floating point
 -- smallint                                  16 bit integer
 -- text                                      variable length character string
@@ -958,7 +959,11 @@ SELECT * FROM scores AS s JOIN student_ids AS ids ON s.student_id = ids.id;
 -- time (p] [without time zone]              time of day (no date) 00:00:00 - 24:00:00
 -- time (p) with time zone                   time of day (no date) with time zone 00:00:00:1559 24:00:00-1559
 -- uuid                                      universally unique identifier
-
+--
+-- `numeric` can store numbers with up to 1000 digits and perform calculations exactly. It is recommended when
+-- storing monetary amounts or other quantities where exactness is required. numeric is slow when compared to
+-- integer or floating types.
+--
 -- Floating point (real, double precision) are IEEE Standard 754 for Binary Floating Point Arithmetic) types. They
 -- are inexact, variable precision numeric types. Inexact means that they must be stored as approximations (1/3).
 --
@@ -997,6 +1002,9 @@ INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 101.25);
 INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 101.26);
 -- Zeros will be included to fill out the scale.
 INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 100);
+
+-- Will fail, overflows precision (4,1)
+--INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 1000.9);
 
 SELECT * from ch8;
 
@@ -1554,13 +1562,14 @@ SHOW search_path;
 CREATE TABLE IF NOT EXISTS ch9_operators (
     name text,
     iq integer,
+    children text[],
     created_at timestamp without time zone DEFAULT current_timestamp,
     updated_at timestamp without time zone DEFAULT current_timestamp
 );
 
-INSERT INTO ch9_operators VALUES ('damon', 100);
-INSERT INTO ch9_operators VALUES ('kari', 150);
-INSERT INTO ch9_operators VALUES (null, null);
+INSERT INTO ch9_operators (name, iq, children) VALUES ('damon', 100, ARRAY['cole']);
+INSERT INTO ch9_operators (name, iq, children) VALUES ('kari', 150, ARRAY['grace', 'lily']);
+INSERT INTO ch9_operators (name, iq, children) VALUES (null, null, null);
 
 SELECT * FROM ch9_operators;
 
@@ -1569,11 +1578,17 @@ SELECT * FROM ch9_operators;
 --
 -- SQL uses a three-valued logic system with true, false, and null (unknown).
 --
--- true AND null  == null
--- false AND null == null
--- false OR null  == null
 --
+-- Logical Operators
 --
+-- a     | b       | a AND b   | a OR b
+-- -----------------------------------
+-- TRUE  | TRUE    | TRUE      | TRUE
+-- TRUE  | FALSE   | FALSE     | TRUE
+-- TRUE  | NULL    | NULL      | TRUE
+-- FALSE | FALSE   | FALSE     | FALSE
+-- FALSE | NULL    | FALSE     | NULL
+-- NULL  | NULL    | NULL      | NULL
 
 -- Comparison functions and operators
 --
@@ -1723,7 +1738,15 @@ SELECT * FROM ch9_operators as OP WHERE EXISTS (SELECT 1 FROM ch9_operators WHER
 --
 -- IN
 --
+-- IN compares the current row to each row returned by the subquery. IN returns true if *any* matching
+-- subquery row is found.
+--
+-- Two rows are considered equal if all of their corresponding rows are non-null and unequal. Otherwise
+-- the result of that row comparison is unknown (null). If *all* the per-row results are unequal or NULL,
+-- with at least one null, the result of IN is null
+--
 -- The subquery must return exactly one column.
+--
 SELECT * FROM ch9_operators AS OP WHERE name IN (SELECT name from ch9_operators where char_length(OP.name) >= 4);
 
 -- This form of `IN` will match multiple columns. The IN subquery must return as many columns as contained in ROW()
@@ -1731,3 +1754,230 @@ SELECT * FROM ch9_operators AS OP WHERE name IN (SELECT name from ch9_operators 
 -- This is useful when matching multiple values in the current row to a subquery.
 SELECT * FROM ch9_operators AS OP WHERE ROW(name, iq) IN (SELECT 'damon', 100);
 
+--
+-- ANY (SOME)
+--
+-- ANY allows you to provide a boolean expression to compare the current row to a subquery.
+--
+-- ANY and SOME are synonyms. (Use ANY)
+
+-- This is the same query as:
+-- SELECT * FROM ch9_operators AS OP WHERE name IS NOT NULL AND iq IS NOT NULL;
+--
+SELECT * FROM ch9_operators AS OP WHERE iq >= ANY (SELECT iq FROM ch9_operators WHERE name = OP.name);
+
+--
+-- ARRAY operators
+--
+--
+-- @>     Does the first array contain the second?
+-- <@     Does the second array contain the first?
+-- &&     Do the arrays overlap (have any elements in common?
+-- ||     Concatenate the arrays or elements onto an array
+--
+
+SELECT * FROM ch9_operators WHERE children @> ARRAY['cole'];
+SELECT * FROM ch9_operators WHERE ARRAY['grace'] <@ children;
+SELECT * FROM ch9_operators WHERE children && ARRAY['lily'];
+SELECT children || ARRAY['another'] from ch9_operators;
+
+--
+-- unnest expands an array into a set of rows
+--
+-- NOTE: It's much cleaner (and probably more efficient)
+-- to use the array containment operators (children @> ARRAY['cole'])
+SELECT
+       name, child FROM (SELECT name, unnest(children) as child from ch9_operators) AS children
+WHERE
+      children.child = 'cole';
+
+--
+-- Row and Array comparisons
+--
+-- Row and array comparisons compare groups of values.
+--
+SELECT * FROM ch9_operators WHERE name in ('damon', 'kari');
+
+--
+-- Comparing rows
+--
+
+-- Omits nulls (since = omits nulls)
+SELECT * FROM ch9_operators WHERE ROW(name, children) = ROW(name, children);
+
+-- To include rows which have equal NULL values
+SELECT * FROM ch9_operators WHERE ROW(name, children) IS NOT DISTINCT FROM ROW(name, children);
+
+
+--
+-- Sets
+--
+-- generate_series() allows you to create a series of rows
+SELECT * FROM generate_series(0, 9) as ser;
+
+SELECT name, generate_subscripts(children, 1) from ch9_operators;
+
+SELECT
+    children, pos, children[pos] as value
+FROM
+    (SELECT generate_subscripts(children, 1) AS pos, children FROM ch9_operators) as foo;
+
+--
+-- When a function in the FROM clause is suffixed by WITH ORDINALITY, a bigint column is appended
+-- to the function's output columns.
+--
+SELECT * FROM ch9_operators AS ops CROSS JOIN unnest(ops.children) WITH ORDINALITY;
+
+
+--
+-- System Information (Environment) Functions and Operators
+--
+SELECT
+    version(),
+    session_user,             -- in unix, this is the "real user"
+    current_user,             -- in unix, this is the "effective user"
+    current_database(),       -- alias current_query
+    current_query(),
+    current_schema(),
+    current_schemas(true);
+
+-- Access Privilege Inquiry Information
+
+SELECT
+    has_database_privilege('damon', 'connect'),           -- CREATE, CONNECT, TEMPORARY
+    has_table_privilege('ch9_operators', 'select'),       -- SELECT, INSERT, UPDATE, DELETE, REFERENCES
+    pg_has_role('postgres', 'member');
+
+--
+--
+--
+-- Chapter 10: Type Conversion
+--
+--
+--
+DROP SCHEMA IF EXISTS ch10 CASCADE;
+CREATE SCHEMA IF NOT EXISTS ch10;
+SET search_path to ch10;
+SHOW search_path;
+
+DROP TABLE IF EXISTS ch10_types;
+CREATE TABLE IF NOT EXISTS ch10_types (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    iq numeric (5,2), -- (precision, scale) - precision is the maximum length of the entire number (whole and fractional). scale is after the decimal
+    f float
+);
+
+INSERT INTO ch10_types (name, iq, f) VALUES ('damon', 100.0, 5.5);
+
+-- Postgres will implicitly cast values. Use CAST(value AS type) to explicitly cast values.
+-- Here, text is implicitly converted to numeric(5,2) and float
+INSERT INTO ch10_types (name, iq, f) VALUES ('damon', '200.0', '05.50');
+
+SELECT * FROM ch10_types;
+
+SELECT
+    5 / 4,
+    pg_typeof(5 / 4),
+    1.0 / 3.0,
+    pg_typeof(1.0 / 3.0);
+
+--
+--
+--
+-- Chapter 11: Indexes
+--
+--
+-- Indexes improve query performance by avoiding table scans. They incur write and storage costs to maintain the index, but
+-- provide much faster query access. Analytic databases (high read, low write) will benefit from judicious use of
+-- indices.
+
+DROP SCHEMA IF EXISTS ch11 CASCADE;
+CREATE SCHEMA IF NOT EXISTS ch11;
+SET search_path to ch11;
+SHOW search_path;
+
+DROP TABLE IF EXISTS ch11_indexes;
+CREATE TABLE IF NOT EXISTS ch11_indexes (
+    id SERIAL,
+    content text,
+    j JSONB,
+);
+
+--
+-- Creating an index on a large table is expensive. By default, PostgreSQL allows SELECT
+-- statements to happen while indexing is in progress. Writes are blocked until the index
+-- is created.
+--
+CREATE INDEX IF NOT EXISTS idx_ch11_indexes_id ON ch11_indexes (id);
+
+-- Multicolumn indexes should be used sparingly. In most situations, an index on a single column is sufficient
+-- and saves space and time. Indexes with more than three columns are unlikely to be helpful unless the table
+-- is extremely stylized.
+--
+-- Consider creating indexes on both `id` and `content` individually and let the query
+-- planner use both indexes. This would allow you to write indexed queries that just use `id` or
+-- `content` individually.
+CREATE INDEX IF NOT EXISTS idx_ch11_indexes_id_content ON ch11_indexes (id, content);
+
+DROP INDEX IF EXISTS idx_ch11_indexes_id;
+
+INSERT INTO ch11_indexes (content, j) VALUES ('test', '{"fname": "damon", "children": ["grace", "lily", "cole"]}');
+
+SELECT * FROM ch11_indexes;
+
+EXPLAIN SELECT * FROM ch11_indexes WHERE id < 10 OR content = 'test';
+
+--
+-- Unique Indexes
+--
+-- A UNIQUE INDEX enforces uniqueness on a column's value or the uniqueness of the combined values
+-- of multiple columns. UNIQUE indexes are *not* used when querying data.
+--
+-- UNIQUE indices are automatically created when a UNIQUE constraint or primary key is defined on a table.
+--
+CREATE UNIQUE INDEX IF NOT EXISTS idx_unq_ch11_indices_id ON ch11_indexes (id);
+DROP INDEX IF EXISTS idx_unq_ch11_indices_id;
+
+--
+-- Determining what indexes are on a table using the pg_indexes view
+--
+SELECT * FROM pg_indexes WHERE tablename ilike 'ch11%';
+
+--
+-- Indexes on Expressions
+--
+-- Expression indexes allow you to index columns based on the results of an expression.
+--
+-- For example, if you frequently query a value using lower(), it would speed up performance to index
+-- the lower() common value.
+-- SELECT * FROM ch11_indexes WHERE lower(content) = 'test';
+CREATE INDEX IF NOT EXISTS idx_ch11_indexes_content_lower ON ch11_indexes (lower(content));
+EXPLAIN SELECT * FROM ch11_indexes WHERE lower(content) = 'test';
+
+--
+-- Partial Indexes
+--
+-- Built on part of the table - the values which match the index's predicate.
+--
+--
+-- Why use partial indexes?
+--
+-- Partial indexes avoid indexing common values. If a high percentage (~2+%) of values are the same, the index
+-- will be skipped anyway. A partial index allows you to index only less common values, giving the index a better
+-- chance it will be used.
+
+CREATE INDEX IF NOT EXISTS idx_partial_content_long ON ch11_indexes (content) WHERE length(content) > 5;
+
+--
+-- Index only scans
+--
+-- If you are *only* returning columns that are defined on the index, the main table does not need to be consulted.
+--
+-- An index that covers all fields in a query is called a "covering index". For example, this index "covers"
+-- the following query. The table itself (heap) does not need to be contacted.
+--
+-- This indexes (id), but adds additional fields to cover queries that need (id, content) only.
+CREATE INDEX IF NOT EXISTS idx_ch11_indexes_id_with_content ON ch11_indexes (id) INCLUDE (content);
+
+EXPLAIN ANALYZE SELECT id, content FROM ch11_indexes where content = 'test';
