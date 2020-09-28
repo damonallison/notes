@@ -1981,3 +1981,136 @@ CREATE INDEX IF NOT EXISTS idx_partial_content_long ON ch11_indexes (content) WH
 CREATE INDEX IF NOT EXISTS idx_ch11_indexes_id_with_content ON ch11_indexes (id) INCLUDE (content);
 
 EXPLAIN ANALYZE SELECT id, content FROM ch11_indexes where content = 'test';
+
+
+--
+-- Chapter 12: Full Text Search
+--
+--
+-- Postgres contains very primitive full text search functionality. Consider lucene (elastic) or a system
+-- built for search if you need to go beyond simple lexeme searches.
+--
+-- Textual search operators like regular expressions (~, ~*), LIKE, and ILIKE have limitations
+--
+-- * They do not provide linguistic support (i.e., handling derived words like satisfies and satisfy)
+-- * They provide no results ordering.
+--
+--
+-- Full Text indexing allows:
+--
+-- * Documents are pased into tokens (words, email addresses, etc).
+-- * Tokens are normalized to lexemes. (i.e., satisfies and satified are tokenized into 'satisfy').
+-- * Stop words are eliminated (i.e., a, the, and). Stop words are those which are so common they are irrelevant to search.
+-- * Indexes contain 'proximity ranking', to determine how close search terms are in the document.
+
+-- FTS uses dictionaries to:
+--
+-- * Define stop words.
+-- * Map synonyms together (using ispell).
+-- * Map phrases to a single word using a thesaurus.
+-- * Map variations of a word to a single word.
+-- * Map different variations of a word to a canonical form.
+--
+
+--
+-- Basic Text Matching
+--
+DROP SCHEMA IF EXISTS ch1 CASCADE;
+CREATE SCHEMA IF NOT EXISTS ch11;
+SET search_path to ch11;
+SHOW search_path;
+
+CREATE TABLE IF NOT EXISTS ch12_FTS (
+    id serial,
+    doc text
+);
+
+-- Documents are stored in text fields.
+INSERT INTO ch12_FTS (doc) VALUES (
+    'this is a test document. Think of a really long article with a bunch of words. '
+    'I would write about technology. Apple, Google, MIT, Microsoft, and others.'
+);
+INSERT INTO ch12_FTS (doc) VALUES (
+    'Cooking is a very popular pasttime. In involves ingredience, patience, and creativity. '
+);
+
+-- `tsvector` and `tsquery`
+--
+-- tsvector:
+-- * Documents must be converted into the `tsvector` data type to allow searching and ranking.
+--
+-- tsquery:
+-- * Documents are queried with the `tsquery` type.
+-- * A tsquery contains search terms (normalized lexemes) and operators (AND, OR, NOT, FOLLOWED BY)
+-- * Functions exist to_tsquery, plainto_tsquery, phraseto_tsquery that convert text -> tsquery by
+--   normalizing words appearing in the text.
+--
+
+-- Matches `write` from the first document
+SELECT * FROM ch12_FTS WHERE to_tsvector(doc) @@ plainto_tsquery('writing');
+SELECT * FROM ch12_FTS WHERE to_tsvector(doc) @@ plainto_tsquery('writing');
+
+-- Matches `cooking` from the second document.
+--
+-- FTS is based on the match operator `@@`.
+--
+-- to_tsquery() assumes a valid tsquery expression.
+-- * Words are already normalized lexemes.
+-- * Terms are combined with operators (&, |, !)
+SELECT * FROM ch12_FTS WHERE to_tsvector(doc) @@ to_tsquery('cook');
+-- AND
+SELECT * FROM ch12_FTS WHERE to_tsvector(doc) @@ to_tsquery('cooking & creativity');
+-- AND NOT
+SELECT * FROM ch12_FTS WHERE to_tsvector(doc) @@ to_tsquery('cooking & ! creativity');
+
+-- Search for phrases using the `FOLLOWED BY` operator `<->`.
+-- Works *only* if matches are adjacent
+SELECT * FROM ch12_FTS WHERE to_tsvector(doc) @@ to_tsquery('cooking <-> very');
+SELECT * FROM ch12_FTS WHERE to_tsvector(doc) @@ to_tsquery('cooking <-> popular');
+
+SELECT to_tsvector(doc) from ch12_FTS;
+
+--- Ranking
+select ts_rank_cd(to_tsvector(doc), to_tsquery('Cooking')) as rank, doc FROM ch12_FTS ORDER BY rank desc;
+
+--
+-- Testing and Debugging
+--
+-- ts_debug displays information about every parsed token.
+--
+SELECT * FROM ts_debug('123 - a number. Damon was here.');
+--
+-- ts_parse parses a document, returning the tokens used.
+-- tokid is the token type. `ts_debug`
+SELECT * FROM ts_parse('default', '123 - a number. Damon was here.');
+
+-- tx_lexize returns an array of lexemes known to the dictionary, an empty array if it is a stop word,
+-- or NULL if it is not known.
+SELECT ts_lexize('english_stem', 'cook');
+SELECT ts_lexize('english_stem', 'friends');
+
+
+-- Postgres allows you to create custom dictionaries. Dictionaries can be created which define:
+--
+-- * Stop words
+-- * Synonyms
+-- * Thesaurus (abbreviated as TZ): relationships between words ("cooking" -> "grilling", "frying", "making").
+--   * Thesaurus contains broader terms (BT), narrower terms (NT), perferred terms, non-preferred terms, related terms.
+--
+-- Dictionaries are used in configurations. The default text search config used is set in the `default_text_search_config`
+-- env var.
+SHOW default_text_search_config;
+--
+-- use psql to find information about text search configuration objects.
+--
+-- \dF+ : list text search configurations
+-- \dF+ english : describe the english configuration
+-- \dFd+ : list dictionaries
+-- \dFp+ : list parsers
+-- \dFf+ : list templates
+
+-- Indexing text search fields.
+--
+-- GIN (Generalized Inverted Indexes) are the preferred text search index type. As inverted indexes, they contain an
+-- index entry for each word (lexeme), with a compressed list of matching locations.
+--
