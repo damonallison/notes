@@ -2114,3 +2114,46 @@ SHOW default_text_search_config;
 -- GIN (Generalized Inverted Indexes) are the preferred text search index type. As inverted indexes, they contain an
 -- index entry for each word (lexeme), with a compressed list of matching locations.
 --
+
+--
+-- Chapter 13: Concurrency Control
+--
+--
+-- The goal of concurrency control is to allow efficient access for all sessions while maintaining data integrity.
+--
+-- Postgres uses Multiversion Currency Control (MVCC). MVCC minimizes lock contention in multi-user environments.
+-- Using MVCC, read locks do not conflict with write locks.
+--
+-- Each SQL statement sees a snapshot of the data (a database version) as it was some time ago, regardless of the
+-- current state of the underlying data.
+--
+-- Types of phenomena which occur during concurrent transactions:
+--
+-- "dirty read"
+--    * A transaction reads data by a concurrent *uncommitted* transaction.
+-- "nonrepeatable read"
+--   * A transaction re-reads data it previously read and finds the data was modified by another
+--     transaction. i.e., another transaction was committed between reads.
+-- "phantom read"
+--   * A transaction re-executes a query and obtains different results due to another recently committed transaction
+-- "serialization anomaly"
+--   * The result of committing a group of transactions is inconsistent with all possible orderings of running
+--     those transactions one at a time.
+
+-- Transaction Isolation Levels
+-- ----------------------------
+--
+-- Read Uncommitted - prevents dirty reads
+-- Read Committed - prevents dirty reads (same as read uncommitted in PG) (the default)
+-- Repeatable read - prevents dirty reads, non-repeatable reads, and phantom reads
+-- Serializable - prevents all
+
+-- IMPORTANT:
+-- Changes made to a sequence are immediately visible to all other transactions and are *not* rolled back on aborted
+-- transactions.
+--
+--
+-- In "Read Committed" (the default TX mode), UPDATE / DELETE commands will wait for any updater to commit their TX.
+-- The `WHERE` clause is then re-evaluted and the UPDATE / DELETE is applied.
+--
+--
