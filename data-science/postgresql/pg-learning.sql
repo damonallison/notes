@@ -2015,7 +2015,7 @@ EXPLAIN ANALYZE SELECT id, content FROM ch11_indexes where content = 'test';
 --
 -- Basic Text Matching
 --
-DROP SCHEMA IF EXISTS ch1 CASCADE;
+DROP SCHEMA IF EXISTS ch11 CASCADE;
 CREATE SCHEMA IF NOT EXISTS ch11;
 SET search_path to ch11;
 SHOW search_path;
@@ -2143,17 +2143,145 @@ SHOW default_text_search_config;
 -- Transaction Isolation Levels
 -- ----------------------------
 --
--- Read Uncommitted - prevents dirty reads
--- Read Committed - prevents dirty reads (same as read uncommitted in PG) (the default)
--- Repeatable read - prevents dirty reads, non-repeatable reads, and phantom reads
--- Serializable - prevents all
-
--- IMPORTANT:
--- Changes made to a sequence are immediately visible to all other transactions and are *not* rolled back on aborted
--- transactions.
+-- READ UNCOMMITTED
+-- * Prevents dirty reads (same as READ COMMITTED on Postgres)
 --
+-- READ COMMITTED
+-- * Prevents dirty reads (same as read uncommitted in PG) (the default).
+-- * A *statement* can only see rows committed before it began. Two successive SELECT statements will see
+--   different data if Txs were committed between them.
+-- * SELECT will see the effects of previous updates within it's own Tx.
+--
+-- REPEATABLE READ
+-- * Prevents dirty reads, non-repeatable reads, and phantom reads
+-- * All statements in the current transaction can only see rows committed before the first statement or
+--   data modification statement was executed in the transaction.
+-- * Using this level requires you to be prepared to retry transactions due to serialization failures.
+--   * When updating a row, if another TX commits changes after your Tx has started, your UPDATE will fail
+--     with a "concurrent update" failure.
+--
+-- SERIALIZABLE
+-- * REPEATABLE READ with additional guarantees which prevent concurrent serializable transactions from
+--   creating a situation which could not have occurred if the transactions were executed serially.
+-- * Like REPEATABLE READ, SERIALIZABLE transactions can fail. You'll need to build in the ability to retry.
+-- * Example
+--   * Tx1 reads rows with ID = 2 and attempts to update ID = 1.
+--   * Tx2 reads rows with ID = 1 and attempts to update ID = 2.
+-- * One TX will be allowed to commit, the other wil be aborted with:
+--   "ERROR: could not serialize access due to read/write dependencies among transactions
+--
+--
+--
+-- Access Levels
+-- -------------
+-- READ WRITE
+-- * Allows all SQL statements. The default.
+--
+-- READ ONLY
+-- * Prevents INSERT / UPDATE / DELETE
+--
+--
+-- Deferrable
+-- ----------
+-- * Deferrable allows the TX to block before acquiring it's snapshot, after which it's able to run without
+--   the overhead of SERIALIZABLE and will not be cancelled by a serialization failure.
+--
+-- IMPORTANT:
+-- Changes made to a sequence (SERIAL, identity columns) are immediately visible to all other
+-- -- transactions and are *not* rolled back on aborted transactions.
 --
 -- In "Read Committed" (the default TX mode), UPDATE / DELETE commands will wait for any updater to commit their TX.
 -- The `WHERE` clause is then re-evaluted and the UPDATE / DELETE is applied.
 --
 --
+--
+-- Setting Tx characteristics:
+--
+-- * Isolation level: { SERIALIZABLE | REPEATABLE READ | READ COMMITTED | READ UNCOMMITTED }
+-- * Access mode : { READ WRITE | READ ONLY }
+-- * Deferrable mode : [ NOT ] DEFERRABLE
+--
+-- At the session level:
+SET SESSION CHARACTERISTICS AS TRANSACTION ISOLATION LEVEL READ COMMITTED;
+SET SESSION CHARACTERISTICS AS TRANSACTION READ WRITE;
+SET SESSION CHARACTERISTICS AS TRANSACTION DEFERRABLE;
+
+-- Individual Tx settings will override SESSION settings
+
+BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE READ WRITE DEFERRABLE;
+DROP SCHEMA IF EXISTS ch12 CASCADE;
+CREATE SCHEMA IF NOT EXISTS ch12;
+SET search_path to ch12;
+SHOW search_path;
+END TRANSACTION;
+
+CREATE TABLE IF NOT EXISTS ch12_locking (
+    id SERIAL,
+    doc text
+);
+
+BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+INSERT INTO ch12_locking (doc) VALUES ('hello, world');
+-- ABORT TRANSACTION
+COMMIT TRANSACTION;
+
+SELECT * FROM ch12_locking;
+
+
+--
+-- Chapter 14: Performance Tips
+--
+
+BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE READ WRITE DEFERRABLE;
+DROP SCHEMA IF EXISTS ch14 CASCADE;
+CREATE SCHEMA IF NOT EXISTS ch14;
+SET search_path to ch14;
+SHOW search_path;
+COMMIT TRANSACTION;
+
+CREATE TABLE ch14_perf (
+    id SERIAL,
+    doc text
+);
+CREATE INDEX idx_unique ON ch14_perf (id);
+
+INSERT INTO ch14_perf (doc) VALUES ('hello, world');
+INSERT INTO ch14_perf (doc) VALUES ('hello, world');
+
+SELECT * FROM ch14_perf;
+
+-- Use EXPLAIN to see the query plan
+-- Use EXPLAIN ANALYZE to execute the query and report actuals.
+--
+-- Because EXPLAIN ANALYZE actual runs queries, you could put the query into a TX and ROLLBACK
+-- if you don't want changes to be committed
+BEGIN TRANSACTION;
+EXPLAIN ANALYZE VERBOSE UPDATE ch14_perf SET id = id + 1;
+ROLLBACK TRANSACTION;
+
+--
+-- ANALYZE tells Postgres to update statistics on the object. The query planner uses those statistics to plan queries.
+--   VERBOSE displays progress messages
+--   You must be a superuser or the table's owner to run ANALYZE
+ANALYZE VERBOSE ch14_perf;
+
+--
+-- VACUUM physically removes deleted rows. Without specifying a table name, VACUUM will vacuum all tables a user
+-- has access to.
+--
+VACUUM ANALYZE;
+
+--
+-- Chapter 15: Parallel Query
+--
+--
+-- Parallel queries are query plans which involve multiple workers. Workers are spawned and results are gathered by
+-- the parent process. Queries that touch a large number of rows but only return a few are great candidates for
+-- parallel queries.
+--
+--
+-- SHOW max_worker_processes;            -- the global max workers
+-- SHOW max_parallel_workers;            -- the max number of workers for parallel queries
+-- SHOW max_parallel_workers_per_gather; -- the max number of workers for data gathering from workers
+SHOW ALL;
+
