@@ -63,20 +63,24 @@ $ docker images
 $ docker run -t -i ubuntu /bin/bash
 
 
-// Create a daemon container, running the given command in the container.
+# Create a daemon container, running the given command in the container.
 $ docker run -d ubuntu /bin/sh -c "while true; do echo hello world; sleep 1; done"
 
-// Stop a docker container.
+# Stop a docker container.
 $ docker stop <container_id>
 
-// List running processes within the container.
+# List running processes within the container.
 $ docker top <container_id>
 
-// Full status information on a container
+# Full status information on a container
 $ docker inspect <container_id>
 
-```
+# exec - run a command in an existing container
+# -i : interactive
+# -t : allocate a pseudo-tty
+$ docker exec -it <container_id> /bin/bash
 
+```
 
 ## Creating a docker image.
 
@@ -94,7 +98,7 @@ $ docker inspect <container_id>
 * Run the container
 
 ```
-  -p link local port 4000 up to container port 80
+  -p link host port 4000 up to container port 80
 
   $ docker run -p 4000:80 pythonhello
 ```

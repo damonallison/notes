@@ -2285,3 +2285,22 @@ VACUUM ANALYZE;
 -- SHOW max_parallel_workers_per_gather; -- the max number of workers for data gathering from workers
 SHOW ALL;
 
+--
+--
+--
+--
+-- Part III: Server Administration
+--
+--
+--
+--
+
+--
+-- Chapter 18: Server Setup
+--
+SHOW ALL;
+SHOW config_file;
+SHOW data_directory;
+SHOW hba_file
+SHOW ident_file;
+
