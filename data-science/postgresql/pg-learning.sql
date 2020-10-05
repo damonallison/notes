@@ -2232,6 +2232,7 @@ SELECT * FROM ch12_locking;
 -- Chapter 14: Performance Tips
 --
 
+
 BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE READ WRITE DEFERRABLE;
 DROP SCHEMA IF EXISTS ch14 CASCADE;
 CREATE SCHEMA IF NOT EXISTS ch14;
@@ -2304,3 +2305,247 @@ SHOW data_directory;
 SHOW hba_file
 SHOW ident_file;
 
+--
+-- Chapter 21: Database Roles
+--
+
+-- List roles
+SELECT * from pg_roles;
+
+
+-- NOTE: before dropping role, objects assigned to the role must be dropped or reassigned to
+-- another role. `REASSIGN OWNED` will reassign objects to another role (must be run in each DB)
+
+-- Transfer ownership to another role
+REASSIGN OWNED BY testrole to postgres;
+-- Drops any remaining objects owned by role. Also removes privileges granted to the role in objects
+-- the role does not own.
+DROP OWNED BY testrole;
+--
+-- DROP ROLE will fail if the role owns objects.
+--
+DROP ROLE IF EXISTS testrole;
+
+--
+-- A role with the LOGIN attribute can be thought of as a "user"
+--
+-- SUPERUSER: only use in dev / test scenarios. SUPERUSER bypasses all security checks except LOGIN
+--
+-- Only roles with LOGIN can connect.
+CREATE ROLE testrole WITH
+    SUPERUSER
+    LOGIN
+    PASSWORD 'test';
+
+--
+-- In Postgres, there is no concept of "users" and "groups", just "roles.
+--
+-- To create a group called "engineering" and add users to it / remove users from it:
+--
+CREATE ROLE engineering;
+GRANT engineering to testrole;
+REVOKE engineering FROM testrole;
+
+
+
+
+
+--
+-- Chapter 22: Managing Databases
+--
+--
+-- Object hierarchy:
+--
+-- Cluster
+--   Role
+--   Database
+--     Schema
+--       Table, Function,
+
+-- List databases
+SELECT * from pg_database;
+-- Note that the SQL standard calls databases "catalogs". (lame)
+SELECT * FROM information_schema.information_schema_catalog_name;
+
+-- Note the database `template1` is cloned to create new DBs. Put objects / code into this DB - they will be cloned.
+--
+-- template0 is the "pristine" template and should not be altered. If you ever mess template1 up, you can use template0
+-- to bootstrap template1.
+--
+CREATE DATABASE CH22 TEMPLATE template0;
+DROP DATABASE CH22;
+
+
+--
+-- Chaapter 25: Backup and Restore
+--
+-- pg_dump will create SQL commands to rebuild a DB. This is great when upgrading DB's to a newer version of Postgres
+-- or for building up test databases that can run on multiple PG versions.
+
+-- pg_dump database-name > outfile
+--
+-- Restoring a dump file. Note the DB itself and all roles referenced in the dump file
+-- need to exist before restoring the dump file.
+--
+-- psql --set ON_ERROR_STOP=ON database-name < outfile
+--
+-- An example of of using pg_dump to dump a DB from one server to another
+--
+-- pg_dump -h host1 dbname | psql -h host2
+--
+-- gzip large dump files
+--
+-- pg_dump database-name | gzip > filename.gz
+--
+--
+
+--
+-- Chapter 26: High Availability, Load Balancing, and Replication
+--
+
+--
+-- Logical Replication: WAL based replication.
+-- Log Shipping: Moving WAL logs from primary -> secondary servers.
+-- Streaming Replication: WAL is streamed in real time.
+
+
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+--
+-- Part V: Server Programming
+--
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+
+--
+-- Functions
+--
+-- The results of the last SQL statement in a function is returned.
+--
+DROP SCHEMA IF EXISTS partv;
+CREATE SCHEMA partv;
+SET search_path TO partv;
+SHOW SEARCH_PATH;
+
+DROP TABLE IF EXISTS people;
+CREATE TABLE people (
+    id SERIAL,
+    fname text,
+    lname text,
+    birthdate date,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp DEFAULT current_timestamp
+);
+
+select current_timestamp - (40 * interval '1 year');
+
+INSERT INTO people (fname, lname, birthdate) VALUES ('damon', 'allison', '1976-08-22');
+INSERT INTO people (fname, lname, birthdate) VALUES ('kari', 'allison', '1976-08-07');
+
+--
+-- By default, a function only returns the first row of the last query. Using "SETOF" allows you to return
+-- a set of a type. Remember, each table is also a type.
+--
+-- Function bodies must be written as a string constant. It's typical to use dollar quoting ($$) to delimit the function
+-- body.
+CREATE FUNCTION older_than(IN age int) RETURNS SETOF people AS
+$$
+    SELECT * FROM people WHERE birthdate < current_timestamp - (older_than.age * INTERVAL '1 year');
+$$ LANGUAGE SQL;
+
+--
+-- A function which takes a row type
+--
+CREATE OR REPLACE FUNCTION full_name(IN person people) RETURNS text AS
+$$
+    SELECT person.fname || ' ' || person.lname;
+$$ LANGUAGE SQL;
+
+--
+-- Functions can be used as table sources
+--
+SELECT full_name(p) from older_than(50) as p;
+
+--
+-- Views
+-- https://www.postgresqltutorial.com/postgresql-views/
+--
+
+-- A view is simply a select statement. It does not store data, it simply provides a wrapper around
+-- a query. It allows you to "hide" complex logic or present a better interface than the underlying tables provide.
+--
+CREATE OR REPLACE VIEW old_people AS
+    SELECT * FROM people WHERE birthdate < (current_timestamp - INTERVAL '40 years');
+
+-- NOTE: PG will prevent you from dropping the view if other objects reference it. You could use `CASCADE`, but don't
+-- as you'll delete
+DROP VIEW IF EXISTS old_people;
+
+SELECT * FROM old_people;
+
+--
+-- Postgres allows views to physically store data - called "materialized views". Materialized views are periodically
+-- refreshed.
+--
+CREATE MATERIALIZED VIEW old_people_materialized AS
+    SELECT * FROM people WHERE birthdate < (current_timestamp - INTERVAL '40 years')
+WITH DATA;
+
+-- NOTE: This row will *NOT * be in the materialized view until you refresh it.
+INSERT INTO people (fname, lname, birthdate) VALUES ('test', 'user', '1970-08-22');
+
+SELECT * FROM old_people_materialized;
+
+REFRESH MATERIALIZED VIEW old_people_materialized;
+DROP MATERIALIZED VIEW old_people_materialized;
+
+
+
+--
+-- Triggers
+--
+--
+-- Trigger functions can be written in any procedural language (PL/pgSQL, PL/Python, etc...). It is not possible to
+-- write a trigger function in plain SQL.
+--
+
+-- Trigger functions must be defined before the trigger itself can be created. The trigger function must be declared
+-- as a function taking no arguments and returning type `trigger`.
+--
+
+--
+-- Triggers can be row level or statement level. If row level, the trigger is executed for every row. If statement level,
+-- the trigger is executed once per statement.
+--
+
+--
+-- Triggers can fire before, after, or instead of. Use BEFORE triggers to check or modify the data being inserted
+-- (created_at timestamps).
+--
+
+--
+-- Procedural Languages
+--
+-- Installing PL/pgSQL into a database. Note that plpgsql is installed into a DB by default.
+--
+CREATE EXTENSION IF NOT EXISTS plpgsql;
+
+--
+-- PL/pgSQL
+--
+--
+
+-- Examples:
+-- * Return a scalar value
+-- * Return a row
+-- * Return a table (or SETOF record) (i.e., RETURN QUERY)
+--
+
+CREATE FUNCTION transform_person(IN person people) RETURNS text AS
+$$
+    BEGIN
+        RETURN 'test'; -- SELECT person.fname || ' ' || person.lname
+    END
+$$ LANGUAGE plpgsql;
+
+SELECT transform_person(p) FROM people AS p;
