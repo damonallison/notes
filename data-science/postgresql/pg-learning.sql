@@ -1080,7 +1080,7 @@ SELECT CAST('test ' AS character varying) = CAST('test' AS character varying);
 -- Store strings as text, binary data as bytea
 --
 INSERT INTO ch8_types (id, fname, lname, bytes) VALUES (1, 'damon', 'allison', '\xDEADBEEF');
-UPDATE ch8_types SET updated_at = '2020-01-01T10:11:13.234987-07:00'; -- Assumed to be in UTC
+UPDATE ch8_types SET updated_at = '2020-01-01T10:11:13.234987-07:00';
 
 -- Converts a timezone value to UTC in ISO-8601 format
 SELECT to_char(updated_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'), * FROM ch8_types;
@@ -2422,7 +2422,7 @@ DROP DATABASE CH22;
 --
 -- The results of the last SQL statement in a function is returned.
 --
-DROP SCHEMA IF EXISTS partv;
+DROP SCHEMA IF EXISTS partv CASCADE;
 CREATE SCHEMA partv;
 SET search_path TO partv;
 SHOW SEARCH_PATH;
@@ -2439,8 +2439,20 @@ CREATE TABLE people (
 
 select current_timestamp - (40 * interval '1 year');
 
+SELECT pg_typeof(id) from people;
+
 INSERT INTO people (fname, lname, birthdate) VALUES ('damon', 'allison', '1976-08-22');
 INSERT INTO people (fname, lname, birthdate) VALUES ('kari', 'allison', '1976-08-07');
+
+CREATE TABLE IF NOT EXISTS change_log (
+    id SERIAL,
+    change_type text,  -- INSERT, UPDATE, DELETE
+    pid integer,
+    fname text,
+    lname text,
+    birthdate date,
+    created_at timestamp DEFAULT current_timestamp
+);
 
 --
 -- By default, a function only returns the first row of the last query. Using "SETOF" allows you to return
@@ -2522,30 +2534,131 @@ DROP MATERIALIZED VIEW old_people_materialized;
 -- Triggers can fire before, after, or instead of. Use BEFORE triggers to check or modify the data being inserted
 -- (created_at timestamps).
 --
+-- When triggers execute, special local variables are automatically defined to describe the condition that triggered
+-- the call.
+--
+-- `NEW` / `OLD` (type RECORD): holding the new / old DB row for INSERT/UPDATE operations in row level triggers.
+-- NULL for statement level triggers and for DELETE / INSERT operations. (NEW is NULL on delete, OLD is null on INSERT).
+--
+--
+-- BEFORE triggers can return NULL to tell the trigger manager to skip the rest of the operation for the row. Additional
+-- triggers are skipped and the INSERT / UPDATE / DELETE operation does not occur for the row. BEFORE triggers
+-- can also alter NEW.
+--
+-- AFTER triggers ignore the return value
+CREATE OR REPLACE FUNCTION people_cdc() RETURNS trigger AS
+$$
+    BEGIN
+        IF (TG_OP = 'DELETE') THEN
+            INSERT INTO change_log
+                (change_type, pid, fname, lname, birthdate)
+            VALUES
+                ('DELETE', OLD.id, OLD.fname, OLD.lname, OLD.birthdate);
+        ELSIF (TG_OP = 'INSERT') THEN
+            INSERT INTO change_log
+                (change_type, pid, fname, lname, birthdate)
+            VALUES
+                ('INSERT', NEW.id, NEW.fname, NEW.lname, NEW.birthdate);
+        ELSIF (TG_OP = 'UPDATE') THEN
+            INSERT INTO change_log
+                (change_type, pid, fname, lname, birthdate)
+            VALUES
+                ('UPDATE', NEW.id, NEW.fname, NEW.lname, NEW.birthdate);
+        END IF;
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS trg_people_cdc ON people;
+
+CREATE TRIGGER trg_people_cdc AFTER INSERT OR UPDATE OR DELETE ON people
+    FOR EACH ROW EXECUTE FUNCTION people_cdc();
+
+INSERT INTO people(fname, lname, birthdate) VALUES ('cole', 'allison', '2020-10-21');
+DELETE FROM people WHERE fname = 'cole';
+UPDATE people SET fname = 'cole' WHERE fname = 'cole';
+SELECT * FROM change_log;
+
+--
 --
 -- Procedural Languages
 --
--- Installing PL/pgSQL into a database. Note that plpgsql is installed into a DB by default.
+
+-- Procedural Languages (PLs) can be installed into PG. Functions can be written in the PL, triggers *must* be written
+-- in a PL (cannot be written in SQL).
+--
+-- Why write a function in a PL?
+-- * Performance
+-- * Saves client / server DB trips (marshalling / unmarshalling intermediate results)
+-- * Multiple rounds of query parsing can be avoided.
+-- * Abstraction
+--
+-- There are four PLs available on a default PG installation:
+--
+-- * PL/pgSQL
+-- * PL/Tcl
+-- * PL/Perl
+-- * PL/Python
+--
+
+--
+-- List the languages installed into the DB.
+--
+
+
+select * from pg_language;
+
+--
+-- For languages that are supplied with the standard distribution, use `CREATE EXTENSION` to install the language
+-- into a database.
+--
+-- NOTE: The language must be installed to EACH DB. They are not installed server wide.
 --
 CREATE EXTENSION IF NOT EXISTS plpgsql;
+DROP EXTENSION IF EXISTS plpgsql;
 
 --
 -- PL/pgSQL
 --
 --
 
--- Examples:
--- * Return a scalar value
--- * Return a row
--- * Return a table (or SETOF record) (i.e., RETURN QUERY)
+-- Any data type or set can be returned from a PL/pgSQL function.
+--
+-- * RETURN returns a scalar value or row
+-- * RETURN NEXT - adds an element to the output
+-- * RETURN QUERY - returns the results of a query
 --
 
-CREATE FUNCTION transform_person(IN person people) RETURNS text AS
+-- PL/pgSQL is a block language. The function must be defined in a block. A block is:
+--
+-- <<label>>
+-- DECLARE
+-- BEGIN
+-- END label
+--
+DROP FUNCTION IF EXISTS greet;
+
+CREATE OR REPLACE FUNCTION greet(IN person people) RETURNS text AS
 $$
+    -- A label is only needed if you want to identify the block to use in an EXIT statement
+    <<main>>
+    DECLARE
+        -- Variable declaration goes here.
+        current_hour CONSTANT double precision := date_part('hour', current_timestamp);
+        day_section text;
     BEGIN
-        RETURN 'test'; -- SELECT person.fname || ' ' || person.lname
-    END
+        CASE
+        WHEN current_hour < 12 THEN
+            day_section := 'morning';
+        WHEN current_hour < 18 THEN
+            day_section := 'afternoon';
+        ELSE
+            day_section := 'evening';
+        END CASE;
+        -- Each statement within a block ends with ;
+        RETURN 'Good ' || day_section ||', ' || person.fname || ' ' || person.lname;
+    END main
 $$ LANGUAGE plpgsql;
 
-SELECT transform_person(p) FROM people AS p;
+SELECT greet(p) FROM people AS p;
+
