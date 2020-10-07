@@ -12,12 +12,12 @@
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
-create database damon;
+CREATE DATABASE damon;
 
 -- NOTE: `DROP TABLE IF EXISTS` is *not* standard SQL
 --
 -- CASCADE recursively drops dependencies. However, it will *NOT* drop user defined functions that depend
--- on the object being dropped. These functions will break.
+-- on the object being dropped. i.e., PG will *not* analyze function text. These functions will break.
 --
 -- `DROP TABLE my_colors CASCADE` will *NOT* drop the get_color() function
 --
@@ -27,6 +27,9 @@ create database damon;
 --
 -- For safety, drop dependencies manually from the bottom up.
 --
+
+SET search_path TO public;
+
 DROP TABLE IF EXISTS people CASCADE;
 DROP TABLE IF EXISTS children CASCADE;
 DROP TABLE IF EXISTS scores CASCADE;
@@ -116,7 +119,11 @@ SELECT * FROM people as p
          LEFT OUTER JOIN children as c ON (c.parent_id = p.id)
 WHERE c.id IS NULL;
 
+--
+-- CROSS JOIN - returns cartesian product between the two tables.
+--
 SELECT * FROM people, children;
+SELECT * FROM people CROSS JOIN children;
 
 
 --
@@ -160,9 +167,9 @@ HAVING SUM(s.score) >= 100;
 -- PostgreSQL has the concept of `savepoints` (not shown here),
 -- which allow you to rollback part of a transaction
 --
-BEGIN;
+BEGIN TRANSACTION;
 UPDATE people SET fname = 'test' WHERE fname = 'damon';
-ROLLBACK;
+ROLLBACK TRANSACTION;
 
 --
 -- Window Functions
@@ -182,8 +189,7 @@ SELECT sum(score) OVER (PARTITION BY parent_id), parent_id FROM scores;
 
 -- Compare that to an aggregate which computes the sum. Only a single row is returned per parent_id
 SELECT sum(score), parent_id
-FROM scores
-         INNER JOIN people ON people.id = scores.parent_id
+FROM scores INNER JOIN people ON people.id = scores.parent_id
 GROUP BY parent_id;
 
 
@@ -217,7 +223,7 @@ WITH ex AS (
 )
 SELECT * FROM ex;
 
-SELECT 4 as "my-int";
+SELECT 4 AS "my-int";
 --
 --
 
@@ -253,10 +259,10 @@ SELECT 'Don''t do that' AS str, 4. as flt, 4 as num;
 -- Aggregate functions can have a FILTER clause. Only the input rows which match the filter
 -- clause will be fed to the aggregate function.
 --
-SELECT COUNT(*)                                                  as count,
+SELECT COUNT(*)                                                  AS count,
        SUM(ALL score)                                            AS total,
        SUM(ALL score * .9)                                       AS discount,
-       SUM(ALL score ORDER BY id desc) FILTER (WHERE score > 50) as ordered_sum,
+       SUM(ALL score ORDER BY id desc) FILTER (WHERE score > 50) AS ordered_sum,
        SUM(DISTINCT score)                                       AS uniq
 FROM scores;
 
@@ -334,6 +340,9 @@ FROM scores;
 --
 --   concat_lower_or_upper('damon', upper => false, b => 'allison')
 --
+--
+-- IMMUTABLE - the function cannot modify the DB and is guaranteed to return the same results given the same arguments
+-- STRICT - always returns null if any of it's arguments are null
 CREATE FUNCTION concat_lower_or_upper(a text, b text, upper boolean DEFAULT true) RETURNS text AS
 $$
 SELECT CASE
@@ -341,12 +350,13 @@ SELECT CASE
            ELSE LOWER($1 || ' ' || $2)
            END;
 $$
-    LANGUAGE SQL IMMUTABLE
-                 STRICT;
+    LANGUAGE SQL IMMUTABLE STRICT;
 
 -- Am example showing a function call using named (first) and positional (second) parameters
-select concat_lower_or_upper(b => 'allison', a => 'damon', upper => false) AS lower,
-       concat_lower_or_upper('damon', 'allison')                           AS upper;
+select
+        concat_lower_or_upper(b => 'allison', a => 'damon', upper => false) AS lower,
+        concat_lower_or_upper('damon', 'allison') AS upper,
+        concat_lower_or_upper(a => 'damon', b => null) as "null";
 
 
 
@@ -400,12 +410,14 @@ SELECT * FROM ch5;
 --
 -- You cannot INSERT or UPDATE a generated column manually.
 --
+DROP TABLE IF EXISTS ch5_2;
 CREATE TABLE IF NOT EXISTS ch5_2 (
     height_cm numeric,
     height_in numeric GENERATED ALWAYS AS ( height_cm / 2.54 ) STORED
 );
 
 INSERT INTO ch5_2 (height_cm) VALUES (2);
+
 SELECT * FROM ch5_2;
 
 
@@ -428,6 +440,8 @@ SELECT * FROM ch5_2;
 --
 -- * The PRIMARY KEY constraint indicates that a column or group of columns are unique and NOT NULL.
 -- * PRIMARY KEY will create a unique index on the column(s) and will force the columns to be NOT NULL.
+--
+-- CONSTRAINT pk_table_col1_col2 PRIMARY KEY (col1, col2)
 --
 -- FOREIGN KEY
 --
@@ -614,7 +628,7 @@ INSERT INTO log_items (severity, key, val, created_at) values (1, 'test', 'event
 
 
 SELECT * FROM log_items_recent;
-EXPLAIN SELECT * FROM log_items WHERE created_at > '2020-10-01';
+SELECT * FROM log_items WHERE created_at > '2020-10-01';
 DROP TABLE log_items_recent;
 
 --
@@ -623,6 +637,7 @@ DROP TABLE log_items_recent;
 
 DROP SCHEMA IF EXISTS ch6;
 CREATE SCHEMA IF NOT EXISTS ch6;
+
 SELECT * FROM information_schema.schemata;
 
 SET search_path to ch6;
@@ -780,7 +795,7 @@ SELECT s.* FROM get_students_by_last_name('allison') AS s;
 --
 -- There are some cases where LATERAL is useful. For example, providing an argument to a function that returns a table.
 
-SELECT * FROM students as s, LATERAL (SELECT get_students_by_last_name(s.lname)) AS s2;
+SELECT * FROM students as s CROSS JOIN LATERAL (SELECT get_students_by_last_name(s.lname)) AS s2;
 
 
 --
@@ -1014,7 +1029,7 @@ SELECT * from ch8;
 -- SERIAL types are *NOT* types. They are a notational convenience for creating unique identifier columns.
 --
 -- Note that it is technically possible for "holes" to exist in the sequence values. For example, if someone
--- calls `nextval` on the sequence but doesn't use the returned value, a number will be burned.
+-- calls `nextval` on the sequence but doesn't use the returned value (in a TX), a number will be burned.
 
 DROP TABLE IF EXISTS ch8_serial_1;
 CREATE TABLE ch8_serial_1 (
@@ -1109,7 +1124,7 @@ SELECT to_char(updated_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'), 
 -- Timezone Rules
 --
 -- * DON'T USE THEM!
---   * Store everything as UTC in DATETIME WTIHOUT TIME ZONE types. Let UIs deal with timezone conversion.
+--   * Store everything as UTC in DATETIME WITHOUT TIME ZONE types. Let UIs deal with timezone conversion.
 -- * Internally, dates are stored as UTC.
 -- * When parsing time zone input, if no time zone is started in the input string, it is assumed to be in the system's time zone.
 -- * When returning time zone output, values are returned in the system time zone.
@@ -1127,14 +1142,12 @@ SET TimeZone='America/Chicago';
 -- And return the corresponding timestamp in UTC + formatted in RFC3339 / ISO8601
 SELECT CAST('2020-10-10T10:00:00' AS timestamp with time zone),
        CAST('2020-10-10T10:00:00' AS timestamp with time zone) AT TIME ZONE 'UTC',
+       CAST('2020-10-10T10:00:00' AS timestamp),
+        -- Converts a timestamp in the local time to UTC
        to_char(CAST('2020-10-10T10:00:00' AS timestamp with time zone) AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"');
 
-
 -- Timestamp is simply dropped when converting a string to a timestamp without time zone
-SELECT CAST('2020-10-10T10:00:00' AS timestamp without time zone);
-
--- Converts a timestamp in the local time to UTC
-SELECT to_char('2020-01-01T03:04:05'::TIMESTAMP AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS""Z"');
+SELECT CAST('2020-10-10T10:00:00' AS timestamp);
 
 -- To convert a local timestamp into UTC and format it in ISO-8601
 SELECT to_char(CAST('2020-01-01 03:04:05' AS TIMESTAMP WITH TIME ZONE) AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS""Z"');
@@ -1202,8 +1215,6 @@ SELECT
     pg_typeof(val->>'fname'),
     val->'scores'->0,
     pg_typeof(val->'scores'->0),
-    val->'scores'->0,
-    pg_typeof(val->'scores'->0),
     val->'children'->0->>'fname',
     pg_typeof(val->'children'->0->>'fname')
 FROM
@@ -1241,7 +1252,7 @@ AND val @> CAST('{"children": [{"fname": "grace"}]}' AS JSONB);
 --
 -- The containment operator tests that one JSON document is contained within another.
 --
--- %> determines if the value on the RHS is contained in the LHS JSON document
+-- @> determines if the value on the RHS is contained in the LHS JSON document
 --
 SELECT * FROM ch8_json WHERE val @> CAST('{"fname": "damon"}' AS JSONB);
 --
@@ -1270,6 +1281,7 @@ SELECT * FROM ch8_json WHERE NOT val ? 'scores';
 --
 -- @? : Returns items matching a jsonpath
 --
+
 SELECT val->'children' FROM ch8_json WHERE val @? '$.children[*] ? (@.fname == "cole")';
 --
 -- @@ : Returns the results of a JSON path predicate check.
@@ -1284,6 +1296,7 @@ SELECT * FROM ch8_json WHERE val @@ '$.scores[*] >= 200';
 -- jsonb_array_elements(jsonb) : Expands the top level JSON array into a set of JSON values.
 --
 SELECT id, jsonb_array_elements(val->'children')->>'fname' as child FROM ch8_json;
+
 --
 -- jsonb_array_length(jsonb)
 --
@@ -1303,7 +1316,11 @@ SELECT fname FROM json_populate_recordset(null::name_type, '[{"fname": "damon"},
 --
 -- Expands the top-level JSON array into a set of rows using a composite type defined in an alias
 --
-SELECT * FROM ch8_json, jsonb_to_recordset(val->'children') AS children(fname text);
+SELECT
+       ch8_json.id,
+       children.fname
+FROM ch8_json CROSS JOIN jsonb_to_recordset(val->'children') AS children(fname text);
+-- WHERE children.fname = 'grace';
 
 --
 -- SQL:2016 included JSON support into the language.
@@ -1338,7 +1355,7 @@ SELECT
     pg_typeof(scores.v)
 FROM
     ch8_json AS A CROSS JOIN LATERAL (
-        SELECT CAST(v AS numeric) FROM jsonb_array_elements_text(val -> 'scores') AS scores(v)
+        SELECT CAST(v AS numeric) FROM jsonb_array_elements_text(val -> 'scores') AS v
     ) AS scores
 ORDER BY a.id ASC;
 
@@ -1371,7 +1388,7 @@ INSERT INTO ch8_array (ints) VALUES ('{{1, 2}, {2, 3}, {3, 4}}');
 --
 -- Postgres arrays are 1 based (by default)
 --
-SELECT *, array_length(ints) FROM ch8_array;
+SELECT *, array_length(ints, 1) FROM ch8_array;
 SELECT * FROM ch8_array where ints[1] = 1;
 
 -- NULL is returned (not an error) when trying to access an element that does not exist.
@@ -1422,7 +1439,7 @@ SELECT * FROM ch8_array WHERE ints && '{4}';
 INSERT INTO ch8_array (children) VALUES ('{"{\"fname\": \"damon\"}", "{\"fname\": \"kari\"}"}');
 INSERT INTO ch8_array (children) VALUES ('{"{\"fname\": \"grace\", \"scores\":[50, 75, 90]}", "{\"fname\": \"lily\", \"scores\": [75, 100, 125]}"}');
 
-SELECT children[:] FROM ch8_array WHERE children[1] @> CAST('{"fname": "damon"}' AS JSONB)
+SELECT children[:] FROM ch8_array WHERE children[1] @> CAST('{"fname": "damon"}' AS JSONB);
 
 
 --
@@ -1461,7 +1478,7 @@ DELETE FROM ch8_composite;
 --
 INSERT INTO ch8_composite VALUES ('("damon","allison")', 100);
 --
--- The ROW() syntax can also be used. This is much simplier than quoting.
+-- The ROW() syntax can also be used. This is much less error prone than quoting.
 --
 INSERT INTO ch8_composite VALUES (ROW('cole', 'allison'), 100);
 --
@@ -2209,6 +2226,7 @@ SET SESSION CHARACTERISTICS AS TRANSACTION DEFERRABLE;
 -- Individual Tx settings will override SESSION settings
 
 BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE READ WRITE DEFERRABLE;
+
 DROP SCHEMA IF EXISTS ch12 CASCADE;
 CREATE SCHEMA IF NOT EXISTS ch12;
 SET search_path to ch12;
