@@ -65,7 +65,6 @@ Postgres does privilege management with "roles". Users are associated to roles.
 * `statement_timeout` - in milliseconds by default
 * `deadlock_timeout` - default to 1s. Probably want to raise it in production
 
-
 ### Environment Variables
 
 * `PGHOST` - tells `psql` where to connect
