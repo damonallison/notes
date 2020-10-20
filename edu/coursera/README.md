@@ -49,35 +49,83 @@ Why study data science, machine learning, and artificial intelligence?
 * Inexpensive. Reimbursable via tuition reimbursement or cheap enough to fit within a monthly budget.
 * Flexible. Cannot commit to a rigorous, 20hr / week schedule.
 
-#### Udacity
+### Udacity
 
-* Quality. Career oriented. Solve "real world" problems. The credential appears to hold value.
-  * Google backed - Norvig, Vanhoucke (Deep Learning)
-* Online. Yes.
-* Expandable. No.
-* Inexpensive. $200/month. Many free courses.
+Udacity's curriculum is tailored for vocational training. It wasn't designed by
+academics, rather industry professionals. They have "Nanodegree" programs - 4
+month ($400/month) programs.
 
-* Georgia Tech Masters Degree thru Udacity
-  * http://www.omscs.gatech.edu/program-info/admission-criteria
-  * Quality. Fully accredited.
-  * Online. Yes.
-  * Expandable. Yes.
-  * Inexpensive. $7,000.
+The curriculum was designed by industry partners, so they use IBM Watson tools,
+work on solving problems with Starbucks data, etc.
 
-#### Coursera
+They used to be $200/month and offer tech masters degrees thru Udacity. They now
+cost $400/month and do not offer masters programs.
 
-* Quality. College backed.
-* Online.
-* Expandable. No.
-* Inexpensive. $50/month.
+### Coursera
 
+Coursera partners with colleges to offer courses and degrees. They have a *lot*
+of full accredited masters degree programs.
 
-#### Online Masters
-
-* Quality. Fully accredited.
 * Thru coursera.
 * Tuition under $20k.
 * 2-3 year commitment.
+
+#### U.of Michigan: Master Of Applied Data Science
+
+#### U. of Illinois: Master of Computer Science in Data Science
+
+#### U.of Colorado Boulder: Master of Science in Data Science
+
+
+
+### edX
+
+#### Georgia Tech: Online Master of Science in Analytics (OMS Analytics)
+
+* $10k, 11 courses, 1-3 years
+
+Spans GT'S colleges of engineering, computing, and business.
+
+Specialized tracks (choose 1 of 3)
+
+* Analytical Tools
+* Business Analytics
+* Computation Data Analytics
+
+Applicants admitted must pass the two OMS Analytics foundation courses with B's or better.
+
+#### University of Texas: Mater's Degree in Data Science
+
+This looks like a good one.
+
+* $10k, 10 courses, 1.5-3 yeaars
+
+Combination of Statistics and Data Sciences and Department of Computer Science.
+
+10 courses. 3 foundational
+
+This is a 30 hour program (3 credit hours per course). There are 3 core required courses and 7 additional required courses for a total of 10 courses. The core requirement will be satisfied with three foundational courses which will provide students with a broad, foundational understanding of the field and will also establish the basis for some of the prescribed electives. They include:
+
+* DSC 381: Probability and Simulation Based Inference for Data Science
+* DSC 382: Foundations of Regression and Predictive Modeling
+* DSC 388G: Algorithms: Techniques and Theory
+
+Non-core requirements include the following courses:
+
+* DSC 383: Advanced Predictive Models for Complex Data
+  * Pre-requisite of DSC 382
+* DSC 384: Design Principles and Causal Inference for Data-Based Decision Making
+  * No Pre-requisite
+* DSC 385: Data Exploration, Visualization, and Foundations of Unsupervised Learning
+  * No Prerequisite
+* DSC 91L: Principles of Machine Learning
+  * Pre-requisite of DSC 382
+* DSC 395T: Advanced Linear Algebra for Computation
+  * No Prerequisite
+* DSC 395T: Optimization
+  * Pre-requisite of DSC 388G
+* DSC 395T: Deep Learning
+  * Pre-requisite of DSC 382
 
 ## Coursera
 
