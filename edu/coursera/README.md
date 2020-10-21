@@ -72,11 +72,32 @@ of full accredited masters degree programs.
 
 #### U.of Michigan: Master Of Applied Data Science
 
+* 12 month curriculum
+* $32-42k
+
+34 small courses, each about 4 weeks.
+
+
 #### U. of Illinois: Master of Computer Science in Data Science
+
+Can start with open courses and transfer them to degree courses.
+
+* $21k, 1-3 years, 8 courses
+
+* Don't like the focus on cloud computing.
+
+* ML
+  * "Tool oriented and problem-directed" approaches to ML w/ vision, NLP,
+    geopositioning, voice & music.
+* Data mining
+* Data visualization
+* Cloud computing
 
 #### U.of Colorado Boulder: Master of Science in Data Science
 
+New in 2021. No application. You must enroll / pass 3 1 credit "pathway" courses.
 
+30 short courses, about 2 years to complete.
 
 ### edX
 
@@ -94,9 +115,21 @@ Specialized tracks (choose 1 of 3)
 
 Applicants admitted must pass the two OMS Analytics foundation courses with B's or better.
 
-#### University of Texas: Mater's Degree in Data Science
+6 course credits applied analytics practicum with an outside company.
 
-This looks like a good one.
+#### University of Texas: Master's Degree in Data Science
+
+Foundational statistical theory.
+
+Prerequisites:
+
+* Calculus and Linear Algebra
+  * Multivariable Calculus - MATH 408D
+  * Linear Algebra - MATH 341
+
+* Statistics (College level intro to stats)
+  * Introduction to Statistics (eg. SDS 302, 304, 306 or equivalent)
+  * Biostatistics (eg. SDS 328M or equivalent)
 
 * $10k, 10 courses, 1.5-3 yeaars
 
@@ -126,6 +159,9 @@ Non-core requirements include the following courses:
   * Pre-requisite of DSC 388G
 * DSC 395T: Deep Learning
   * Pre-requisite of DSC 382
+
+
+---
 
 ## Coursera
 
