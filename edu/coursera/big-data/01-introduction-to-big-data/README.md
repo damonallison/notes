@@ -49,8 +49,7 @@ The goals of this course is:
 
 * Massive amounts of data, cheap storage, abundant cloud computing, business moving to real time.
 
-* **Combining data sources is the key to unlocking interesting answers to
-  problems.**
+* **Combining data sources is the key to unlocking interesting answers to problems.**
 
 * Example : Healthcare
   * Pproducing data rapidly. Doubling in recent years.
@@ -500,8 +499,7 @@ The goals of this course is:
   * Business Objectives
 
 * According to Ilkay, why is exploring data crucial to better modeling?
-  * Not : enables understanding of general trends, correlations, and outliers.
-  * leads to understanding which allows an informed analysis of the data.
+  * Leads to understanding which allows an informed analysis of the data.
 
 * Why is data science mainly about teamwork?
   * Data science requires a variety of expertise in different fields.

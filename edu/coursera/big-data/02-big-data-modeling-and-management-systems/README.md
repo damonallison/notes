@@ -792,7 +792,7 @@ What is the difference between a data format and a data model?
 * Data types
   * Scalars, lists, maps, geospatial, large objects.
 * AQL
-j  * Similar to SQL to access key/value storage.
+  * Similar to SQL to access key/value storage.
 * Transactions in Aerospike
   * ACID compliance.
     * Synchronous writes to replicas.

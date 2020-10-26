@@ -62,7 +62,7 @@ Here is an overview of all 6 courses. Each course is expected to take about abou
         * Filter
         * Join
         * Aggregations
-    * Machine Learning algorithms are frequently used to prcess data.
+    * Machine Learning algorithms are frequently used to process data.
         * Regression: the predicted future value.
         * Classification: classifying a sample into one of many options (i.e., rainy, sunny, cloudy, snowy).
     * Tools used
