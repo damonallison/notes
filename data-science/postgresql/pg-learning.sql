@@ -1442,6 +1442,19 @@ INSERT INTO ch8_array (children) VALUES ('{"{\"fname\": \"grace\", \"scores\":[5
 SELECT children[:] FROM ch8_array WHERE children[1] @> CAST('{"fname": "damon"}' AS JSONB);
 
 
+-- Enum
+
+
+CREATE TYPE status_t AS ENUM ('open', 'claimed', 'arrived_at_store', 'completed');
+
+create table orders (
+  id bigserial primary key,
+  status status_t
+);
+
+INSERT INTO orders (status) values ('claimed');
+SELECT * FROM orders where status = ANY ('{claimed, completed}');
+
 --
 -- Composite types
 --
@@ -2679,4 +2692,6 @@ $$
 $$ LANGUAGE plpgsql;
 
 SELECT greet(p) FROM people AS p;
+
+
 
