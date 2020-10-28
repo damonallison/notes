@@ -67,7 +67,12 @@ Notation
 * (x (i), y (i)) = ith training example
 * h = hypothesis - a function (model) which maps input -> output
 
-h(x) = O(0) + O(1)
+The hypothesis function is the function which determines the linear line:
+
+> `h(x) = Θ(0) + Θ(1)x`
+
+* Θ(0) == theta zero (the first variable)
+* Θ(1) == theta one (the second variable)
 
 How do you select the model (hypothesis)?
 
@@ -81,13 +86,15 @@ typically the `squared error function`.
 Ultimately, linear regression is a minimization problem. The goal is to minimize
 a cost function.
 
+
 ### Gradient Descent
 
 Gradient Descent is a process for minimizing a function. It's an iterative
 algorithm which starts at one point and incrementally moves the point closer to
 a minimum value.
 
-By taking the derivative of the cost function (the slope) and move down.
+Gradient descent converges on the minimum by taking the derivative of the cost
+function (the slope) and move down.
 
 At each iteration j, one should simultaneously update the parameters (O1, O2, O3).
 
@@ -95,15 +102,16 @@ The learning rate is the amount we move between different iterations of the
 algorithm. If the learning rate is too small, it will take a lot of steps. If
 too large, we may miss the minimum or start to diverge.
 
-* Can we change the training rate based on the derivative?
+* Should we modify the training rate based on the derivative to speed up descent?
   * We don't need to.  As we approach a local mimimum, gradient descent will
     take smaller steps.
+
 * How to find the global optimum if you are at a local optimum?
 
 
 ### Gradient Descent for Linear Regression
 
-Goal: Use gradient descent to mimium.
+Goal: Use gradient descent to find the minimum error.
 
 With linear regression, you'll only have one local optimum, the global optimum.
 
@@ -112,3 +120,33 @@ With linear regression, you'll only have one local optimum, the global optimum.
 
 The normal equations method (from linear algebra) will find the global minimum without needing to use gradient descent. However, gradient descent will scale better than the normal equations method.
 
+### Linear Algebra Review
+
+A matrix is a 2d array.
+
+Aij == ith row (down), jth column (1 based)
+
+```plain
+[
+  1 100 324
+  1200 800 53
+]
+
+A(1, 1) == 1
+A(2, 3) == 53
+```
+
+A vector is a single column. Here is a "4 dimensional" vector. This is different
+terminology than an array.
+
+y0 == 100
+y1 == 120
+
+```plain
+[
+  100
+  120
+  212
+  321
+]
+```
