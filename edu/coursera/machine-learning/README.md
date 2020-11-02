@@ -122,9 +122,10 @@ The normal equations method (from linear algebra) will find the global minimum w
 
 ### Linear Algebra Review
 
-A matrix is a 2d array.
-
-Aij == ith row (down), jth column (1 based)
+* A matrix is a 2d array. Matrices are references row first, column second.
+* Aij == ith row (down), jth column (1 based)
+* Data scientists use 1-based indexing to reference elements in a vector.
+* Matricies are refernced with capital letters (A, B, C), vectors lower (x, y, z).
 
 ```plain
 [
@@ -136,8 +137,9 @@ A(1, 1) == 1
 A(2, 3) == 53
 ```
 
-A vector is a single column. Here is a "4 dimensional" vector. This is different
-terminology than an array.
+A vector is a single column. A vector has a "dimension" (number of rows). Here
+is a "4 dimensional" vector. This is different terminology than an array.
+
 
 y0 == 100
 y1 == 120
@@ -149,4 +151,124 @@ y1 == 120
   212
   321
 ]
+```
+
+### Matrix Addition, Subtraction, Multiplication
+
+* + and - are applied to every element within each matrix.
+* Each matrix must have identical dimensions for addition / subtraction.
+
+* Multiplication of (i x n) * (n x j) matrices returns an (i x j) matrix, which
+  each column of the second matrix multiplied by each row of the first. The
+  result is an (i x j) matrix.
+
+#### Matrix Multiplication
+
+```plain
+
+# Matrix x Vector
+#
+# Matrix multiplication (multiplying a 2x3 matrix with a 2x1 vector)
+# For each row in the vector, multiply by each column in the matrix.
+# The number of columns must match the number of rows in the vector.
+
+[
+  1, 3
+  4, 0
+  2, 1
+]
+
+*
+
+[
+  1
+  5
+]
+
+[
+  (1 * 1) + (3 * 5)
+  (4 * 1) + (0 * 5)
+  (2 * 1) + (1 * 5)
+]
+
+[
+  16
+  4
+  7
+]
+
+
+# Matrix x Matrix Multiplication
+
+# m
+
+[
+  1 3 2
+  4 0 1
+]
+
+[
+  1 3
+  0 1
+  5 2
+]
+```
+
+#### Properties of matrix multiplication
+
+* Matrix multiplication is *not* commutative.
+  * A * B != B * A
+
+* Matrix mutliplication is associative
+  * A * B * C == (A * B) * C == A * (B * C)
+
+* 1 is the identity operation
+  * A * I = I * A = A
+[
+  1 0 0
+  0 1 0
+  0 0 1
+]
+
+#### Matrix Inverse / Matrix Transpose
+
+* Inverse
+  * 3 * inverse = 1
+  * 3 * 3^-1 = 1
+  * 3 * 1/3 = 1
+
+* Only square (m x m) matricies *can* have an inverse.
+* The 0 matrix does not have an inverse.
+  * Any matrix that doesn't have an inverse is "singular" or "degenerate"
+
+
+* Transpose
+
+A = m x n
+B = n x m
+
+B(ij) = A(ji)
+
+[
+  1 2 0
+  3 5 9
+]
+
+[
+  1 3
+  2 5
+  0 9
+]
+
+---
+
+## Week 2: Multivariate Linear Regression
+
+### MATLAB / Octave
+
+```matlab
+
+
+v = [-2, -1, 0, 1, 2]
+
 ```
