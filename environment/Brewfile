@@ -48,37 +48,12 @@ brew "vegeta"
 brew "wget"
 brew "zlib"
 brew "golangci/tap/golangci-lint"
-brew "rs/tap/jaggr"
-cask "1password"
-cask "adoptopenjdk8"
-cask "authy"
-cask "azure-data-studio"
-cask "calibre"
-cask "charles"
-cask "datagrip"
-cask "dbeaver-community"
-cask "docker"
-cask "dotnet-sdk"
 cask "font-hack-nerd-font"
-cask "google-photos-backup-and-sync"
 cask "iterm2"
-cask "kitematic"
-cask "microsoft-remote-desktop-beta"
-cask "periphery"
-cask "postman"
-cask "slack"
-cask "sourcetree"
 cask "spectacle"
-cask "transmission"
-cask "virtualbox"
-cask "virtualbox-extension-pack"
 cask "visual-studio-code"
-cask "vlc"
 mas "AdBlock", id: 1402042596
 mas "Bear", id: 1091189122
 mas "Developer", id: 640199958
 mas "iMazing HEIC Converter", id: 1292198261
 mas "Microsoft To Do", id: 1274495053
-mas "Pages", id: 409201541
-mas "Playgrounds", id: 1496833156
-mas "Xcode", id: 497799835
