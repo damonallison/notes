@@ -272,3 +272,10 @@ B(ij) = A(ji)
 v = [-2, -1, 0, 1, 2]
 
 ```
+
+### Multivariate Linear Regression
+
+* n == number of features
+* x(n) == feature n (1 based)
+* x(i) == ith training example
+
