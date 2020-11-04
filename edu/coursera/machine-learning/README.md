@@ -278,4 +278,107 @@ v = [-2, -1, 0, 1, 2]
 * n == number of features
 * x(n) == feature n (1 based)
 * x(i) == ith training example
+* xj(i) == jth feature within the ith training example
+
+#### Feature Scaling
+
+Feature scaling is a technique to get gradient descent to converge more quickly.
+Rather than use the raw feature values in the gradient descent calculation,
+faatures are scaled into a much smaller range of values.
+
+Without feature scaling, if x1 takes values from 0-2000 and x2 takes values from
+1-5, it will take a long time to converge. A very small change in x1 has much
+less impact than a small change in x2.
+
+Put every feature into a scale range. For example :
+
+> -1 <= x(i) >= 1
+
+or
+
+> 0 <= x(i) >= 1
+
+If a feature takes on values `-3 <= x >= 3`, scale the feature.
+
+##### Mean normalization
+
+Mean normalization involves subtracting the value of x from the mean of x,
+dividing by the range (or standard deviation) of values.
+
+`x = x - mean(x) / (max - min)`
+
+##### Determining Learning Rate
+
+How do you determining if gradient descent is working?
+
+Plot the result of J(theta) for each iteration of gradient descent. It should be
+approaching zero.
+
+How do you know that gradient descent is working?
+
+> If J(theta) isn't decreasing, it has converged.
+
+Automatic convergence test: declare convergence if J(theta) decreases by less
+than E in one iteration, where E is some small value (say 10^-3). In practice,
+it's hard to choose E.
+
+###### How to determine what learning rate should be used?
+
+If theta isn't converging, use a smaller learning rate.
+
+If J(theta) is small enough, J(theta) should decrease on every iteration.
+
+* If learning rate is too small - slow convergence
+* If learning rate is too large - may not decrease on each iteration, may not
+  converge
+
+* Try 0.0001, 0.0003, 0.01, 0.03, 0.1, 0.3, 1.
+  * Choose the learning rate that is decreasing with every iteration.
+
+
+### Features and Polynomial Regression
+
+How do you choose the correct features to use?
+
+You could create "synthetic" features based on data that you are given. For
+example, if you are given frontage and depth of a house plot, you may use "area" - (frontage * depth).
+
+Many times data is not linear, but rather quadratic or cubic. Polynomial
+Regression fits a polynomial function to the data. We do this by creating
+additional features which are powers of the original feature.
+
+* x(1) = x
+* x(2) = x^2
+* x(3) = x^3
+
+Note that when you create features which are powers of other features, feature
+scaling becomes very important.
+
+
+### Normal Equation
+
+Rather than running linear regression, we just solve for J(theta) in a single step.
+
+How does the Normal Equation work?  It finds the optimal values for all
+coefficients without gradient descent. It does this by explicitly taking the
+derivatives with respect to each theta and set them to `0`.
+
+`theta = pinv((x' * x) * x' * j`
+
+#### Gradient Descent vs. Normal Equation
+
+Gradient Descent
+
+* Need to choosing the learning rate.
+* Needs many iterations
+* Fast. Works well when n is large
+
+Normal Equation
+
+* No need to choosing the learning rate.
+* No need to iterate.
+* Slow when n is large (O^3)
+
+When the number of features is > 10,000, the normal equation will be slow. It's
+time to convert to linear regression.
 
