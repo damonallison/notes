@@ -1,5 +1,15 @@
 # Machine Learning
 
+## Todo
+
+* LR w/ a real data set
+  * Feature selection
+    * How to select features?
+    * When to add new features?
+
+
+
+
 ## Questions
 
 * How do we determine the optimal learning rate?
@@ -367,6 +377,11 @@ derivatives with respect to each theta and set them to `0`.
 
 #### Gradient Descent vs. Normal Equation
 
+When should we use the Normal Equation vs. Gradient Descent?
+
+When the number of training examples is > 10,000, the normal equation will be
+slow (Computing pinv(x' * x) is O^3).
+
 Gradient Descent
 
 * Need to choosing the learning rate.
@@ -379,6 +394,48 @@ Normal Equation
 * No need to iterate.
 * Slow when n is large (O^3)
 
-When the number of features is > 10,000, the normal equation will be slow. It's
-time to convert to linear regression.
 
+##### Noninvertibility
+
+What if (X^tX) is *not* invertible? Most matrices should be invertible
+
+```
+pinv: pseudo inverse - will work w/ non-invertible matrices (use this)
+inv: inv
+```
+
+How do matrices become non-invertible?
+
+* Redundant features (x1 = size in feet, x2 = size in meters)
+* Too many features (10 training examples w/ 100 features)
+
+## Octave / Tutorial
+
+### Vectorization
+
+Think of iteration in terms of vectors.
+
+```matlab
+
+% An unvectorized prediction algorithm for j = 1->n
+
+prediction = 0.0;
+for j = 1:n+1
+  prediction = prediction + theta(j) * x(j);
+end;
+
+% Vectorization
+
+prediction = theta' * x
+
+
+% Gradient Descent
+
+
+```
+
+for j = 1:3
+  u(j) = 2 * v(j) + 5 * w(j);
+end;
+
+u = (2 * v) + (5 * w)

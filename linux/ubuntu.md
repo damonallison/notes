@@ -1,16 +1,24 @@
 # Ubuntu
 
+Determining the ubuntu version: settings -> about.
+
+Do a release upgrade
+
+```shell
+# Upgrade ubuntu
+$ sudo do-release-upgrade
+```
 ## apt
 
-"Advanced Package Tool" is Debian and Ubuntu's package manager. 
+"Advanced Package Tool" is Debian and Ubuntu's package manager.
 
 ```shell
 #
 # apt-get
 #
-# apt-get synchronizes packages from their sources. Packages are fetched 
+# apt-get synchronizes packages from their sources. Packages are fetched
 # from the locations specified in /etc/apt/sources.list
-# 
+#
 # Always update before doing an `upgrade` or `dist-upgrade`
 #
 apt-get update

@@ -5,6 +5,17 @@
 % Determine if a variable name is in use / where it is used.
 % which [name]
 
+%
+% format determines how floating point values are displayed.
+%
+format long
+format short
+
+% print all variables / memory for each variable in the environment
+whos
+
+addpath("/Users/dra/test")
+
 % -----------------------------------------------------------------------------
 % Creating Matrices
 % -----------------------------------------------------------------------------
@@ -59,9 +70,31 @@ rand(2, 10)
 % -----------------------------------------------------------------------------
 
 v = [1, 2, 3; 4, 5, 6]
+length(v)
 
-length(v) % returns the length of the largest dimension (rows or columns)
 [nrows, ncols] = size(v);
+
+% The first dimention size element (1 == rows, 2 == columns)
+nrows = size(v, 1)
+
+% -----------------------------------------------------------------------------
+% Accessing a matrix
+% -----------------------------------------------------------------------------
+
+% Retrieving multiple rows / columns
+m = [1, 2, 3; 4, 5, 6; 7, 8, 9]
+
+% Return all row / column combinations
+% From rows [1, 3], return cols [2, 3]
+rows = [1, 3]
+cols = 2:3;
+m(rows, cols) % [2, 3; 8, 9]
+
+% A single colon references all elements in that dimension.
+
+m(:, 1) % retrieves all rows, column 1
+m(1, :) % retrieves row 1, all columns
+
 
 % -----------------------------------------------------------------------------
 % Concatenating Matrices
@@ -102,24 +135,6 @@ v > 2
 w = v(v > 2)
 
 % -----------------------------------------------------------------------------
-% Accessing a matrix
-% -----------------------------------------------------------------------------
-
-% Retrieving multiple rows / columns
-m = [1, 2, 3; 4, 5, 6; 7, 8, 9]
-
-% Return all row / column combinations
-% From rows [1, 3], return cols [2, 3]
-rows = [1, 3]
-cols = 2:3;
-m(rows, cols) % [2, 3; 8, 9]
-
-% A single colon references all elements in that dimension.
-
-m(:, 1) % retrieves all rows, column 1
-m(1, :) % retrieves row 1, all columns
-
-% -----------------------------------------------------------------------------
 % Matrix Calculations
 % -----------------------------------------------------------------------------
 
@@ -139,6 +154,11 @@ v = v - v
 % .^
 
 v = [1, 2, 3];
+
+% elementwise operations
+abs(v)
+log(v)
+
 w = 3*v.^2  % [3, 12, 27]
 
 v = -20:0.1:20
@@ -179,9 +199,7 @@ w = v';
 % Plotting
 % -----------------------------------------------------------------------------
 
-v = [1, 2, 3]
-v2 = [4, 5, 6]
-plot(v, v2)
+% hist(v, buckets)
 
 % Line Plots (plot())
 
@@ -211,6 +229,25 @@ plot(v, v2)
 % hold on        % Allows us to add additional plots
 % plot(x2, y2, 'b:o')
 
+% help plot
+
+x = [0:0.01:0.98]
+y = sin(2*pi*4*y)
+plot(x,y, 'r')
+hold on
+
+% saves the plot to a file.
+print -dpng 'myplot.png'
+
+figure(1); plot(x, y)
+figure(2); plot(x y)
+subplot(1, 2, 1) % Divides the figure into a 1x2 grid, access the first element now
+subplot(1, 2, 2) % Starts accessing the second plot element
+axis([0.5 1 -1 1])
+clf; % clear the figure
+imagesc(magic(5))
+imagesc(magic(5)), colorbar, colormap gray;
+
 % -----------------------------------------------------------------------------
 % Programming Language
 %
@@ -228,7 +265,7 @@ v <= 5 & v > 20
 % if-elseif-else
 %
 if v < 10
-    %
+    disp('th')
 elseif v < 20
     %
 else
@@ -243,6 +280,7 @@ end
 r = 0.04;
 balances = zeros(1, 20)
 balances(1) = 1700000
+
 for i = 1:20
     balances(i + 1) = balances(i) * (1 + r)
 end
@@ -276,3 +314,22 @@ function res = apply(f, arg)
     % apply(@min, [10, 20])
     res = f(arg)
 end
+
+
+%
+% Moving data around
+%
+% How do you load data into octave / save save results / generally move data around?
+%
+
+% command line vars
+pwd
+cd
+ls
+
+% loading a file into a local variable (will be named after `file` (no ext))
+load file.dat
+
+% Save a variable to text
+save test v --ascii
+
