@@ -15,6 +15,8 @@
 * How do we determine the optimal learning rate?
   * Idea: The smallest possible without becoming too slow?
 
+---
+
 ## Week 1
 
 ML: Getting computers to learn without being explictly programmed.
@@ -409,9 +411,9 @@ How do matrices become non-invertible?
 * Redundant features (x1 = size in feet, x2 = size in meters)
 * Too many features (10 training examples w/ 100 features)
 
-## Octave / Tutorial
+### Octave / Tutorial
 
-### Vectorization
+#### Vectorization
 
 Think of iteration in terms of vectors.
 
@@ -431,7 +433,6 @@ prediction = theta' * x
 
 % Gradient Descent
 
-
 ```
 
 for j = 1:3
@@ -439,3 +440,35 @@ for j = 1:3
 end;
 
 u = (2 * v) + (5 * w)
+
+
+
+---
+
+## Week 3 : Logistic Regression (Classification)
+
+* Classification, the cost function to LR, multi-class classification.
+* Regularization: helps prevent models from overfitting
+
+### Classification
+
+The output is a discrete class (0 or 1).
+
+* 0 = "Negative Class" (i.e., not spam)
+* 1 = "Positive Class" (i.e., spam)
+
+* Email - spam / not spam
+* Online Tx - fraud / not fraud
+* Demographics - upper / middle / lower (multi-class classification problem)
+
+
+Should we use LR for classification?
+
+* Adding outliers throws off LR.
+* LR is *not* a good algorithm for classification.
+* LR can return values < 0 and > 1.
+
+The predictions of logistic regression (classification) are always between 0 and 1.
+
+`0 <= hΘ(x) <= 1`
+
