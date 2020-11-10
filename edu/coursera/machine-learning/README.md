@@ -516,7 +516,8 @@ The decision boundary is the line which separates the hypothesis returning 0 vs.
 Non-linear Decision Boundaries. When higher order polynominals are used, the
 decision boundaries will become more complex shapes.
 
+### Cost Function
+
 
 * How do you choose a hypothesis function?
 * How to choose parameters for Θ?
-
