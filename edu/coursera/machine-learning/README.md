@@ -472,3 +472,51 @@ The predictions of logistic regression (classification) are always between 0 and
 
 `0 <= hΘ(x) <= 1`
 
+### Hypotheses Representation
+
+Logistic Regression uses the "Sigmoid Function", also called the "Logistic
+Function" (a sinusoid). It maps any real number to the (0, 1) interval, making
+it better for classification.
+
+```plain
+
+hΘ(x) = g(Θ^tx)
+
+z = Θ^tx
+
+g(z) = 1 / (1 + e^-z)
+
+```
+
+The Logistic Function gives us the probability our output is 1.
+
+### Decision Boundary
+
+The decision boundary is the line that separates the area where `y == 0` and `y == 1`.
+It is created by our hypothesis function.
+
+**IMPORTANT**
+
+The training set does *not* define the decision boundary. The training set helps
+define Θ, but the decision boundary is a property of the hypothesis function.
+Once Θ has been defined, the training data *cannot* influence the decision
+boundary.
+
+When will the Logistic Regression function return 1?
+
+* Predict 1 when `hΘ(x) >= 0.5`, thus when `z >= 0`, thus when `Θ^Tx >= 0`
+* Predict 0 when `Θ^Tx < 0`
+
+The decision boundary is the line which separates the hypothesis returning 0 vs. 1.
+
+5 - x1 >= 0.5
+4.5 < x1
+
+
+Non-linear Decision Boundaries. When higher order polynominals are used, the
+decision boundaries will become more complex shapes.
+
+
+* How do you choose a hypothesis function?
+* How to choose parameters for Θ?
+
