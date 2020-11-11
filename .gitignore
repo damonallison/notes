@@ -1,5 +1,8 @@
 __pycache__/
 
+# Coursera homework token file
+*token.mat
+
 # -----------------------
 # Scala
 # -----------------------
