@@ -518,6 +518,66 @@ decision boundaries will become more complex shapes.
 
 ### Cost Function
 
-
 * How do you choose a hypothesis function?
 * How to choose parameters for Θ?
+
+### Regularization / Overfitting
+
+#### Underfitting
+
+Underfitting occurs when the algorithm doesn’t fit the training data well (high
+bias). It is usually caused by a function that is too simple or uses too few
+features.
+
+“High bias” is the term used to describe a function that doesn’t fit the data
+well. For example, a linear function is “biased” towards the data fitting a
+linear model. When the data doesn’t fit the linear model, the function is said
+to have “high bias”.
+
+#### Overfitting
+
+Overfitting occurs when the function matches training data well but doesn’t
+generalize well to non-training data. Also called “high variance”. It is usually
+caused be a function that is too complex or uses to many features
+
+If we have too many features, the learned hypotheses fits the training data too
+well, but fails to generalize to non-training data.
+
+#### Addressing Overfitting
+
+How can we address overfitting?
+
+* Reduce the number of features
+    * Manually select / combine features
+    * Model selection algorithm (described later in course)
+
+* Regularization
+    * Keep the features, but reduce magnitude of the parameters (theta)
+    * Works when we want to have a lot of slightly useful features that we don’t want to throw away.
+
+
+### Regularization: Cost Function
+
+Rgularization "regularizes" or penalizes the features you want to limit by
+increasing their cost. When we increase their cost, the parameters must be
+really low in order to minimize the cost function.
+
+How do you pick which parameters are relevant? You can shrink them all by the
+same amount (lambda == ƛ). How do choose the right lambda value? Mulit-selection can
+help us choose a lambda (later in course).
+
+If ƛ is too large:
+
+* Algorithm works fine; setting ƛ very large can't hurt it.
+* Results in underfitting.
+* Gradient descent will fail to converge.
+
+
+#### Quiz Notes
+
+* Adding additional features does *not* always improve model performance.
+  Additional parameters exposes you to overfitting.
+
+* Regularization does *not* improve performance on the training set.
+
+*
