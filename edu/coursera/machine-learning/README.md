@@ -559,8 +559,9 @@ How can we address overfitting?
 ### Regularization: Cost Function
 
 Rgularization "regularizes" or penalizes the features you want to limit by
-increasing their cost. When we increase their cost, the parameters must be
-really low in order to minimize the cost function.
+increasing their cost. When you increase their cost, the coefficient must be
+smaller for the overall cost to be lower. Thus, the feature becomes less and
+less influential.
 
 How do you pick which parameters are relevant? You can shrink them all by the
 same amount (lambda == ƛ). How do choose the right lambda value? Mulit-selection can
@@ -579,5 +580,3 @@ If ƛ is too large:
   Additional parameters exposes you to overfitting.
 
 * Regularization does *not* improve performance on the training set.
-
-*
