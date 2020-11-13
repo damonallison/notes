@@ -580,3 +580,12 @@ If ƛ is too large:
   Additional parameters exposes you to overfitting.
 
 * Regularization does *not* improve performance on the training set.
+
+
+---
+
+## Week 4: Neural Networks: Representation
+
+Neural networks are inspired by how the brain works. NNs help solve problems
+like speech or image recognition.
+
