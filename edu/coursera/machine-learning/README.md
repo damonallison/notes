@@ -589,3 +589,49 @@ If ƛ is too large:
 Neural networks are inspired by how the brain works. NNs help solve problems
 like speech or image recognition.
 
+Why NN? For non-linear hypothesis. Linear works for simple problems with a small
+set of features. If you include just second order terms in a 100 feature
+problem, you end up with 5000 features. Grows O(n^2) == n^2 / 2. That's a lot of
+features. You'll end up overfitting. If you only include the quadratic features,
+it won't fit the data set. You can't fit a more complex data set.
+
+If you include the third order polynominal features, you'd have O(n^3) features
+(170k).
+
+For many problems, the number of features will be large. Image recognition. What
+is the dimension of the feature space? If we use individual pixels, even on a
+50x50 image, you have n = 2500. If you are using RGB, you'd have n = 7500.
+Quadratic features you'd have 3m features.
+
+Linear classifiers won't work when the feature set is large. We need a different
+type of learning algorithm, one that can deal with a large number of features.
+
+### Neurons and the brain
+
+The goal of traditional ML algorithm (80s / 90s) was to mimic the brain. NNs
+have had a resurgence. They require computers fast enough to run large scale
+NNs. Today, NNs are "state of the art".
+
+How does the brain work? If you wire up vision to the brain's auditory cortex
+(neuro-rewiring), the auditory cortex will learn to see.
+
+The brain is adaptable. If you plug in a new sensor into the brain, it will use
+it (3rd eye). The goal of NNs is to mimic the underlying pattern the brain uses
+to learn.
+
+
+### Model Representation
+
+NNs are simulating network of neurons (cells).
+
+`Dendrites (inputs) -> neuron -> Axon (output wire)`
+
+A neuron receives inputs, does it's computation, and sends it result to other
+neurons. Stacking neurons is how the brain work (senses / muscles). Small pulses
+of electricity (messages) thru neurons.
+
+Neuron model: Logisitc unit ("bias unit") - uses logistic regression. Sigmoid
+(logistic) is called an "activation function" in NN terms. NNs call theta
+parameters "weights".
+
+An NN is a set of layers with different neurons strung together.
