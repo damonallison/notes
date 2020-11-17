@@ -21,9 +21,27 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
-X = [ones(size(X, 1), 1) X];
-XX = [ones(size(X, 1), 1) (Theta1 * X')];
-[max_val, p] = max(Theta2 * XX', [], 2);
+% X contains 5000 rows of 400 pixels each.
+%
+% Theta1 contains the weights to apply to each of the 401 pixels for each node
+% in a2. Therefore, we transpose theta to properly multiply each X sample with
+% each weight for each node in a2. This will result in a 5000x25 matrix. Each
+% column corresponds to that node's value for the row.
+
+a1 = [ones(size(X, 1), 1) X];
+a2 = [ones(size(a1, 1), 1) sigmoid(a1 * Theta1')];
+
+% We then repeat the process with a2 and theta2 to compute a3.
+%
+% a3 will be a 5000x10 matrix, each column representing the probability the
+% sample (row) is the digit. For example, column1 contains the probability the
+% sample is a "1", column2 is the probability
+
+a3 = sigmoid(a2 * Theta2');
+
+% We now take the max probability for each row. That is our prediction for the row.
+
+[max_val, p] = max(a3, [], 2);
 
 % =========================================================================
 
