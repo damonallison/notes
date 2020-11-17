@@ -41,7 +41,7 @@ predictions = sigmoid(X * theta);
 errs = (-y .* log(predictions)) - ((1-y) .* log(1-predictions));
 
 % Compute regularization: do *not* include theta(1) in regularization
-reg = (lambda / (2 * m)) * sum((theta .^ 2)(2:size(theta, 1)));
+reg = (lambda / (2 * m)) * sum((theta .^ 2)(2:end));
 J = ((1/m) * sum(errs)) + reg;
 
 % Compute gradients.
