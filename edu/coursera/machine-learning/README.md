@@ -635,3 +635,128 @@ Neuron model: Logisitc unit ("bias unit") - uses logistic regression. Sigmoid
 parameters "weights".
 
 An NN is a set of layers with different neurons strung together.
+
+## Week 5: Neural Networks: Learning
+
+* What is the cost function for a NN?
+* How do we determine theta (weights) for each node of an NN?
+
+### Cost Function
+
+#### Unrolling Parameters
+
+* `fminunc` expects theta as a vector.
+* With NN, theta is a matrix.
+
+What is "unrolling" them into vectors?
+
+Assuming a 10x10x1 NN:
+
+* Theta1 == 10x11
+* Theta2 == 10x11
+* Theta3 == 1x11
+
+* D1 = 10x11
+* D2 = 10x11
+* D3 = 1x11
+
+```mat
+%
+% "Unrolling turns theta into a large vector.
+%
+% Why do you want to do this? The optimization functions
+% expect your parameters to be unrolled into a large vector.
+%
+thetaVec = [Theta1(:); Theta2(:); Theta3(:)]
+deltaVec = [D1(:); D2(:); D3(:)]
+
+Theta1 = reshape(thetaVec(1:110), 10, 11);
+Theta2 = reshape(thetaVec(111:220), 10, 11);
+Theta3 = reshape(thetaVec(221:231), 1, 11);
+
+% Invoking a learning algorithm (i.e., fminunc)
+%
+% * Assume you have initial pameters theta1, theta2, theta3
+%
+% * Unroll to get `initialTheta` to pass to fminunc
+% * fminunc(@costFunction, initialTheta, options)
+%
+% Implement costFunction
+%
+% function [jVal, graidentVec] = costFunction(thetaVec)
+%
+%   from thetaVec, reshape to get back theta1, theta2, theta3
+%   use forward / back prop to compute D1, D2, D3 and jVal
+```
+
+#### Numerical Gradient Checking
+
+How do you know your cost function is working correctly? Even if J is
+decreasing, you could still have a bug.
+
+Gradient checking ensures forward / back propogation is correct.
+
+Compute `theta + epsilon` and `theta - epsilon`. Connect by a straight line. Compare that slope to the derivative at J(theta). They should be almost identical.
+
+* `J(theta + epsilon) - J(theta - epsilon) / 2 * epsilon ~~ J(theta)`
+* Typically use a small epsilon, but not too small
+  * `e == 10^-4`
+
+```mat
+gradApprox = (J(theta) + EPSILON) - J(theta - EPSILON) / (2 * EPSILON)
+```
+
+To check a derivative of a vector.
+
+* Approximate all derivatives for all theta parameters (1->n).
+
+```mat
+for i = 1:n
+  thetaPlus = theta;
+  thetaPlus(i) = thetaPlus(i) + ESPILON;
+  thetaMinus = theta
+  thetaMinus(i) = thetaMinus(i) - ESPILON
+  gradApprox(i) = (J(thetaPlus) - J(thetaMinus)) / (2 * ESPILON)
+
+  % Verify that gradApprox ~~ DVec (the graident you got from back prop)
+```
+
+How to implement gradient checking:
+
+* Implement backprop to compute DVec (unrolled D(1), D(2), D(3))
+* Implement numerical gradient check to compute `gradApprox`
+* Make sure they give similar values (within .01 or so)
+* Turn off gradient checking. Use backprop for learning
+
+Important:
+
+* Be sure to disable gradient checking before training your classifier. If you
+  run numerical gradient computation on every iteration of gradient descent (or
+  in the inner loop of `costFunction`), your code will be very slow. Back prop
+  (delta vector creation using back prop) is much faster.
+
+#### Random Initialization
+
+What should our initial value of theta? Always 0s?
+
+All zeros do *not* work for training a NN. If you do that, all nodes and their
+derivatives will have the same values. The hidden units compute the same values. All weights always stay the same. (Symmetric weights)
+
+We use random initialization to set initial weights (symmetry breaking).
+
+```mat
+theta1 = rand(10, 11) * *(2 * INIT_EPSILON) - INIT_EPSILON
+theta1 = rand(1, 11) * *(2 * INIT_EPSILON) - INIT_EPSILON
+```
+
+#### Putting it Together
+
+1. Pick a network architecture.
+  * How to decide how many hidden units / how many layers?
+    * Input units are fixed (features). Output units are fixed (classes).
+    * Default: single hidden layer. If > 1 hidden layer, same number of units in
+      each hidden layer. The more hidden units the better. More hidden units
+      will be more expensive to compute, but usually better. The number of
+      hidden units per layer can relate to the number of features. For example,
+      the number of hidden units can be 2 or 3 times the number of input
+      features.
