@@ -660,7 +660,7 @@ Assuming a 10x10x1 NN:
 * D2 = 10x11
 * D3 = 1x11
 
-```mat
+```matlab
 %
 % "Unrolling turns theta into a large vector.
 %
@@ -691,19 +691,22 @@ Theta3 = reshape(thetaVec(221:231), 1, 11);
 
 #### Numerical Gradient Checking
 
-How do you know your cost function is working correctly? Even if J is
-decreasing, you could still have a bug.
+* How do you know your cost function is working correctly? Even if J is
+  decreasing, you could still have a bug.
 
-Gradient checking ensures forward / back propogation is correct.
+* Gradient checking ensures forward / back propogation is correct.
 
-Compute `theta + epsilon` and `theta - epsilon`. Connect by a straight line. Compare that slope to the derivative at J(theta). They should be almost identical.
+* Compute `theta + epsilon` and `theta - epsilon`. Connect by a straight line.
+  Compare that slope to the derivative at `J(theta)`. They should be almost
+  identical.
 
-* `J(theta + epsilon) - J(theta - epsilon) / 2 * epsilon ~~ J(theta)`
-* Typically use a small epsilon, but not too small
+* Use a small epsilon, but not too small
   * `e == 10^-4`
 
 ```mat
-gradApprox = (J(theta) + EPSILON) - J(theta - EPSILON) / (2 * EPSILON)
+
+gradApprox = J(theta + epsilon) - J(theta - epsilon) / 2 * epsilon
+
 ```
 
 To check a derivative of a vector.
@@ -740,7 +743,8 @@ Important:
 What should our initial value of theta? Always 0s?
 
 All zeros do *not* work for training a NN. If you do that, all nodes and their
-derivatives will have the same values. The hidden units compute the same values. All weights always stay the same. (Symmetric weights)
+derivatives will have the same values. The hidden units compute the same values.
+All weights always stay the same. (Symmetric weights)
 
 We use random initialization to set initial weights (symmetry breaking).
 
@@ -751,12 +755,38 @@ theta1 = rand(1, 11) * *(2 * INIT_EPSILON) - INIT_EPSILON
 
 #### Putting it Together
 
-1. Pick a network architecture.
+##### Pick a network architecture.
+
+Pick a network architecture. While the number of input (features) and output
+(classes) are fixed, we must decide how many hidden layers and neurons per layer
+to use.
+
   * How to decide how many hidden units / how many layers?
-    * Input units are fixed (features). Output units are fixed (classes).
-    * Default: single hidden layer. If > 1 hidden layer, same number of units in
-      each hidden layer. The more hidden units the better. More hidden units
-      will be more expensive to compute, but usually better. The number of
-      hidden units per layer can relate to the number of features. For example,
-      the number of hidden units can be 2 or 3 times the number of input
-      features.
+    * By default, use single hidden layer.
+    * If you use > 1 hidden layer, use same number of neurons in each hidden
+      layer.
+  * How many neurons in each layer?
+    * The more nerorns the better. More neurons will be more expensive to
+      compute, but usually better.
+    * While not required, the number of neurons per layer should generally
+      relate to the number of features. For example, the number of neurons can
+      be 2 or 3 times the number of input features.
+
+##### Training a neural network
+
+* Randomly initialize weights.
+* Implement forward prop to get the value of h(x) for any x.
+* Implment cost function.
+* Implement back prop to compute partial derivatives.
+  * Use `for 1 = 1:m` to implement forward / back prop for each training
+    example.
+    * Find activations (forward prop).
+    * Find delta terms (back prop) for each node and overall DELTA.
+  * Compute partial derivative terms (with regularization).
+* Use gradient checking to compare partial derivatives found using back prop.
+* Disable gradient checking.
+* Use gradient descent or `fminunc` with backprop to try and minimize the cost
+  function.
+
+**Note that the cost function is *NOT* convex. It is succeptible to local minimums**
+
