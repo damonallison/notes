@@ -790,3 +790,12 @@ to use.
 
 **Note that the cost function is *NOT* convex. It is succeptible to local minimums**
 
+### Week 5: Review
+
+* We use the same cost function as in logistic regression, however we sum the
+  cost for each `k` output.
+
+* Regularization regularizes the theta value for *each* node in the network.
+
+* Backpropogation determines the error (gradients) for eacn node of the
+  network, starting with the output layers, working back thru layer 2, assign
