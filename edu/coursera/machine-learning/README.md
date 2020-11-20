@@ -799,3 +799,15 @@ to use.
 
 * Backpropogation determines the error (gradients) for eacn node of the
   network, starting with the output layers, working back thru layer 2, assign
+
+  ### Week 6
+
+* How do you know your model is working? What should you do if your model
+  doesn't generalize well?
+
+* What do you do when the model isn't working? What should you do next?
+  * Get more data / more training examples. (Could be really expensive)
+  * Smaller set of features (you are overfitting)
+  * More features (polynominal features)
+  * Increasing / decreasing lambda
+
