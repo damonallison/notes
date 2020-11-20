@@ -645,10 +645,10 @@ An NN is a set of layers with different neurons strung together.
 
 #### Unrolling Parameters
 
-* `fminunc` expects theta as a vector.
-* With NN, theta is a matrix.
+* `fminunc` expects theta as a vector. Thus, theta needs to be "unrolled" into a vector
+  * `Theta = [Theta1(:); Theta2(:)]`
 
-What is "unrolling" them into vectors?
+* With NN, theta is a matrix.
 
 Assuming a 10x10x1 NN:
 

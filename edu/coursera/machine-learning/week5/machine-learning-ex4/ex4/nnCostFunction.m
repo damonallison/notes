@@ -38,7 +38,49 @@ Theta2_grad = zeros(size(Theta2));
 %         variable J. After implementing Part 1, you can verify that your
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
+
+% X contains 5000 rows of 400 pixels each.
 %
+% Theta1 contains the weights to apply to each of the 400 pixels (and 1 bias
+% unit) to produce each neurons in a2. Therefore, we transpose theta and
+% multiply X, which gives us the values of each a2 node.
+
+a1 = [ones(m, 1) X];
+% fprintf("size(a1) == %d %d\n", size(a1, 1), size(a1, 2));
+% fprintf("size(t1) == %d %d\n", size(Theta1, 1), size(Theta1, 2));
+a2 = sigmoid(Theta1 * a1');
+% fprintf("size(a2) == %d %d\n", size(a2, 1), size(a2, 2));
+a2 = [ones(m, 1) a2'];
+% fprintf("size(a2) == %d %d\n", size(a2, 1), size(a2, 2));
+% fprintf("size(t2) == %d %d\n", size(Theta2, 1), size(Theta2, 2));
+
+% We then repeat the process with a2 and theta2 to produce a3.
+
+z3 = sigmoid(Theta2 * a2');
+% fprintf("size(z3) == %d %d\n", size(z3, 1), size(z3, 2));
+
+% We now have the values for each example in X for output neuron (K).
+%
+% To find the overall cost, we apply logistic regression for each example and
+% each output class.
+
+% Recode y values as k * m row vectors.
+yk = zeros(num_labels, m);
+for i=1:m
+    yk(y(i), i) = 1;
+end
+% fprintf("size(yk) == %d %d\n", size(yk, 1), size(yk, 2));
+
+J = (1/m) * (sum ( sum ( (-yk) .* log(z3) - (1 - yk) .* log(1 - z3) ) ) );
+
+% regularization: do *not* include the bias term (first column)
+t1 = Theta1(:, 2:size(Theta1, 2));
+t2 = Theta2(:, 2:size(Theta2, 2));
+
+regularization = lambda * (sum ( sum (t1 .^ 2)) + sum ( sum (t2 .^ 2) ) ) / (2*m);
+
+J = J + regularization;
+
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
@@ -62,34 +104,60 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+for t=1:m
+
+    %
+    % Step 1
+    %
+    % Run a "forward pass" (feeedforward) to compute all neuron
+    % activations, including the final values (i.e., h(theta))
+    %
+    a1 = X(t, :);
+    a1 = [1 a1]; % add bias
+
+    % Layer 2
+    z2 = Theta1 * a1';
+    a2 = sigmoid(z2);
+    a2 = [1; a2]; % add bias
+
+    % Layer 3
+    %
+    % a3 = The values for each output class. i.e., h(theta) for each k. (size == [k 1])
+    z3 = Theta2 * a2;
+    a3 = sigmoid(z3);
 
 
+    %
+    % Step 2
+    %
+    % Compute the error for layer 3.
+    %
+    actual_y = yk(:, t); % the label vector for the t'th training example size == [k 1]
+    delta3 = a3 - actual_y;
+    z2 = [1; z2];
 
+    %
+    % Step 3.
+    %
+    % Compute the error for layer 2.
+    %
+    delta2 = (Theta2' * delta3) .* sigmoidGradient(z2);
+    delta2 = delta2(2:end); % remove the bias error
 
-% We need to relabel y into vectors of size (k) (i.e., 10)
-% 1 == [1; 0; 0; 0; 0; 0; 0; 0; 0; 0]
-% 2 == [0; 1; 0; 0; 0; 0; 0; 0; 0; 0]
-% ...
+    Theta2_grad = Theta2_grad + delta3 * a2';
+    Theta1_grad = Theta1_grad + delta2 * a1;
+end
 
-% You need to implement the feedforward computation that computes h(x(i)) for
-% every example i and sum the cost over all examples.
-%
-% Ensure your code can work with any size (i) and any number of labels (k).
-%
-% You can use a for loop over examples to compute the cost.
+% Gradients w/o regularization
+% Theta1_grad = Theta1_grad / m;
+% Theta2_grad = Theta2_grad / m;
 
+% Do *not* regularize the bias term
+Theta1_grad(:, 1) = Theta1_grad(:, 1) ./ m;
+Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) ./ m + ((lambda / m) * Theta1(:, 2:end));
 
-
-
-
-
-
-
-
-
-
-
-
+Theta2_grad(:, 1) = Theta2_grad(:, 1) ./ m;
+Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) ./ m + ((lambda / m) * Theta2(:, 2:end));
 
 % -------------------------------------------------------------
 

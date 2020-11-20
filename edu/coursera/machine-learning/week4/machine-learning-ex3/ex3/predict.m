@@ -24,7 +24,7 @@ p = zeros(size(X, 1), 1);
 % X contains 5000 rows of 400 pixels each.
 %
 % Theta1 contains the weights to apply to each of the 401 pixels for each node
-% in a2. Therefore, we transpose theta to properly multiply each X sample with
+% in a1. Therefore, we transpose theta to properly multiply each X sample with
 % each weight for each node in a2. This will result in a 5000x25 matrix. Each
 % column corresponds to that node's value for the row.
 
