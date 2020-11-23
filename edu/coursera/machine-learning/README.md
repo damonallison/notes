@@ -811,3 +811,26 @@ to use.
   * More features (polynominal features)
   * Increasing / decreasing lambda
 
+* People typically go with gut feel on what to do next. It's random.
+
+* How to evaluate learning algorithms
+
+* Machine learning diagnostics. A test to understand what's working and what's
+  not, and get guidance on how to best improve performance.
+
+#### Evaluating a Hypothesis
+
+* Less error != a good hypothesis (overfitting)
+
+* How to determine if a model is overfitting?
+  * Split test data into training / test sets. Typically a **70/30%** random split.
+
+##### Training / testing process
+
+* Train your model (i.e., find theta to minimize cost over a training set).
+* Compute error on `test` set. i.e., Average square error over the test set (for
+  linear regression, logistic regression cost function).
+  * You could also use `misclassification error`. A boolean (1 or 0) for each
+    example - 0 if correct, 1 if correct.
+
+
