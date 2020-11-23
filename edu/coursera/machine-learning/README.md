@@ -834,3 +834,53 @@ to use.
     example - 0 if correct, 1 if correct.
 
 
+
+#### Machine Learning System Design
+
+The real world process / work tasks for putting together an ML system.
+
+Example: Building a spam classifier.
+
+1. Determine features. What data elements are most likely to predict future data?
+   * Features may be a list of the most freqently occurring words found in emails.
+
+Where do you spend your time to make it have low error?
+
+* Collect lots of data. May be expensive
+* Develop sophisticated features based on email routing headers / routing information.
+* Develop sophisticated features based on message body (use root words
+  (stemming), misspellings (w4tches)).
+
+It's hard to predict which features will be the best. Don't fixate on one or two
+options. Don't base your research on gut feel, have data to back up your
+hypothesis.
+
+#### Error Analysis
+
+How to systematically make decisions on what you should do next.
+
+* Prototype! Start with a simple algorithm. Implement and test on cross-validation data.
+* Plot learning curves to decide if more data, more features are likely to help.
+* Error analysis: manually examine the example (in CV set) that your algorithm
+  made errors on. See if you can spot any trend in what type of examples it's
+  making errors on.
+
+Example: email classification. If your algorithm classifies 100 emails
+incorrectly, what is common among those 100 emails? Can you come up w/ better
+features to classify them correctly?
+
+What are the most difficult examples for us to classify? That is what you'll
+want to focus on.
+
+##### The Importance of Numerical Evaluation
+
+A single real number (i.e., cross validation error) that determines how your
+algorithm is doing. It will give you a concrete baseline to determine how much
+you are improving or regressing when you update / change features.
+
+Use the cross validation set to determine error. Otherwise, you'll be
+implementing something that fits the test set and not generalize well.
+
+##### Handling Skewed Data
+
+< start here >
