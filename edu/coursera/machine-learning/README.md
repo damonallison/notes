@@ -857,7 +857,7 @@ hypothesis.
 
 #### Error Analysis
 
-How to systematically make decisions on what you should do next.
+How do you systematically make decisions on what to work on?
 
 * Prototype! Start with a simple algorithm. Implement and test on cross-validation data.
 * Plot learning curves to decide if more data, more features are likely to help.
@@ -865,22 +865,78 @@ How to systematically make decisions on what you should do next.
   made errors on. See if you can spot any trend in what type of examples it's
   making errors on.
 
-Example: email classification. If your algorithm classifies 100 emails
-incorrectly, what is common among those 100 emails? Can you come up w/ better
-features to classify them correctly?
+Example: email classification.
 
-What are the most difficult examples for us to classify? That is what you'll
-want to focus on.
+* If your algorithm classifies 100 emails incorrectly, what is common among
+  those 100 emails?
+* Can you come up w/ better features to classify them correctly? (i.e.,
+  Examining SMTP headers / routing information / bad domains?)
+
+**Focus on the most difficult examples to classify.**
 
 ##### The Importance of Numerical Evaluation
 
-A single real number (i.e., cross validation error) that determines how your
-algorithm is doing. It will give you a concrete baseline to determine how much
-you are improving or regressing when you update / change features.
+Use a single real number (i.e., cross validation error) to determine how your
+algorithm is doing. You need a concrete baseline to determine how much the model
+is improving or regressing when you update / change features.
 
 Use the cross validation set to determine error. Otherwise, you'll be
 implementing something that fits the test set and not generalize well.
 
 ##### Handling Skewed Data
 
-< start here >
+Skewed classes occur when one actual result is so predominant it makes
+classification accuracy irrelevant. For example, if 99.5% of the actual results
+are `0`, a model that has 99% accuracy is *worse* than simply predicting `0` all
+the time.
+
+###### Precision / Recall
+
+Helps us determine if the classifier is performing well with skewed data. It is
+a better metric than looking at classification error when you have skewed data.
+
+* Precision: `(true positives) / (true pos + false pos)`
+* Recall: `(true positives) / (true pos + false neg)`
+
+High precision / high recall is a good classifier. A low precision and low
+recall is not a good classifier.
+
+##### Trading Off Precision and Recall
+
+In typical logistic regression, we predict 1 if h(x) >= 0.5.
+
+What if we want to be *really* confident in the results (i.e., 0.9) - (higher
+precision, lower recall).
+
+What if we want to avoid false negatives? (i.e., 0.2) - (higher recall, lower
+precision).
+
+For example, assume we are predicting if a patient has cancer.
+
+* Higher precision: we want to be really confident when we tell someone they have cancer.
+* Higher recall: we want to ensure that if there is even a *small* chance the
+  patient has cancer, we tell them.
+
+Which is better? That depends on what you want. Both cases have value.
+
+
+###### F Score
+
+How do we compare different precision / recall numbers?
+
+| Algorithm | Precision (P) | Recall (R) |
+| --------- | ------------- | ---------- |
+| 1         | 0.5           | 0.4        |
+| 2         | 0.7           | 0.1        |
+| 3         | 0.1           | 1.0        |
+
+
+How do you determine which algorithm is the "best"? The higher `F Score` the
+better. If Precision or Recall == 0, you'll get a really low score.
+
+`F Score = 2 (PR / (P + R))`
+
+If you want to automatically find the "best" threshold value to use, try
+multiple threshold values and choose the one with the highest `F Score`.
+
+
