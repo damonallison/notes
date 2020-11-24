@@ -16,6 +16,7 @@
   * Idea: The smallest possible without becoming too slow?
 
 ---
+---
 
 ## Week 1
 
@@ -273,6 +274,7 @@ B(ij) = A(ji)
 ]
 
 ---
+---
 
 ## Week 2: Multivariate Linear Regression
 
@@ -444,6 +446,7 @@ u = (2 * v) + (5 * w)
 
 
 ---
+---
 
 ## Week 3 : Logistic Regression (Classification)
 
@@ -582,6 +585,7 @@ If ƛ is too large:
 * Regularization does *not* improve performance on the training set.
 
 
+---
 ---
 
 ## Week 4: Neural Networks: Representation
@@ -790,7 +794,16 @@ to use.
 
 **Note that the cost function is *NOT* convex. It is succeptible to local minimums**
 
-### Week 5: Review
+---
+---
+
+### Week 5
+
+Training neural networks.
+
+* Feed forward, backpropogation, gradient checking, random initialization.
+
+### Review
 
 * We use the same cost function as in logistic regression, however we sum the
   cost for each `k` output.
@@ -800,7 +813,10 @@ to use.
 * Backpropogation determines the error (gradients) for eacn node of the
   network, starting with the output layers, working back thru layer 2, assign
 
-  ### Week 6
+---
+---
+
+### Week 6
 
 * How do you know your model is working? What should you do if your model
   doesn't generalize well?
@@ -939,4 +955,42 @@ better. If Precision or Recall == 0, you'll get a really low score.
 If you want to automatically find the "best" threshold value to use, try
 multiple threshold values and choose the one with the highest `F Score`.
 
+
+##### Large Data For Machine Learning
+
+How much data to train on? Is more data always better? (Banko and Brill, 2001)
+
+> "It's not who has the best algorithm that wins, it's who has the most data"
+
+When does a massive data set help?
+
+* Assume we have sufficient features to predict `y` accurately.
+
+How do you know you have sufficient features? Ask yourself:
+
+> Given the input x, can a human expert confidently predict `y`?
+
+When you have an algorithm with many features / NN with many features (low
+bias), use a large training set (unlikely to overfit). Bias is addressed by
+adding a lot of features. The large training set is addressed by having a lot of
+data.
+
+---
+---
+
+## Week 7
+
+### Support Vector Machines: Optimization objective
+
+SVM can give a cleaner, more powerful way to learn complex, non-linear
+functions. This is the last supervised learning algorithm taught in the class.
+
+SVM's determine decision boundaries by maximizing margin between training
+examples. The cost function is penalized when the distance between the decision
+boundary and the training examples is low (based on vector distance between
+theta and the training example).
+
+Kernels are used to find non-linear decision boundaries. Kernels are functions
+which apply cost to theta's proximity to landmarks. The closer theta is to
+landmarks, the more likely we'll predict positive.
 
