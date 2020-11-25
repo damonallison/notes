@@ -988,9 +988,114 @@ functions. This is the last supervised learning algorithm taught in the class.
 SVM's determine decision boundaries by maximizing margin between training
 examples. The cost function is penalized when the distance between the decision
 boundary and the training examples is low (based on vector distance between
-theta and the training example).
+theta and the training example). Because SVMs are finding the decision boundary
+by maximing margin between examples, it's called a "large margin classifier".
 
-Kernels are used to find non-linear decision boundaries. Kernels are functions
-which apply cost to theta's proximity to landmarks. The closer theta is to
-landmarks, the more likely we'll predict positive.
+Kernels are functions which apply cost to theta's proximity to landmarks. The
+closer theta is to landmarks, the more likely we'll predict positive. Different
+kernels can be used. The Gaussian kernel is used in the class.
+
+SVM is a bit more strict than linear regression. In linear regression, we
+predict `1` when `theta(T) * X >= 0`. With SVM, we predict `1` when `theta(T) *
+X >= 1`. The same applies for `0`. This means we have to be more sure of
+ourselves when predicting.
+
+* if y == 1, predict 1 when theta(T) * X >= 1
+* if y == 0, predict 0 when theta(T) * X <>= -1
+
+#### Choosing landmarks
+
+How do we choose landmarks? Make each example is a landmark.
+
+f(0) = 1
+f(1) = similarity(x, l(1))
+f(2) = similarity(x, l(2))
+...
+f(m) = similarity(x, l(m))
+
+The features are used as the feature vector in the SVM calculation.
+
+### SVM With Kernels
+
+* Given x, compute features (similarity using kernel).
+* Predict y =1 if theta(T)*f >= 0
+
+How do you get theta?
+
+Use the SVM function to obtain theta.
+
+```plain
+
+J = C * (sum(y(i) * cost(theta(T) * f)) + ((1 - y(i)) * cost(theta(T) * f))) + (1/2 * theta(T) * theta)
+
+```
+
+In the regularization term, ignore theta(0)
+
+Why don't we apply kernels to linear regression (landmarks)? The computational
+tricks done with SVM do not generalize well to linear regression. It's slow.
+
+### How do you choose C?
+
+C = 1 / lambda
+
+Large C: Lower bias, high variance. Overfitting. Not using much regularization.
+Smaller C: Higher bias, low variance. Underfitting. Uses high regularization.
+
+Sigma (used in kernel)
+
+Large sigma: Features vary more smoothly. Higher bias, lower variance.
+Small sigma: Features vary more abruptly. Lower bias, higher variance.
+
+
+### Using an SVM
+
+SVM software packages: `liblinear`, `livsvm`.
+
+* Choose parameter C
+* Choose kernel (similarity function)
+  * No kernel == "linear kernel" (theta(T) * X) >= 0
+    * Use a linear kernel when n is large, m is small.
+    * You just want a linear decision boundary.
+  * Gaussian kernel. Choose sigma.
+    * When to choose Gaussian? n is small and/or m is large.
+
+* You may need to implement a kernel. (similarity function)
+
+NOTE: Perform feature scaling before using the Guassian kernel. Otherwise,
+features with larger values (housing cost) will dominate smaller features
+(number of bedrooms).
+
+###  Multi-class Classification
+
+Many SVM packages include multi-class classifiers.
+
+Use the one-vs-all method. Train K SVMs, one for each class (k). Pick class with
+largest (theta(T) * x).
+
+#### Logistic Regression vs. SVM
+
+* n = number of features
+* m = number of training examples
+
+* If n is large (relative to m)
+  * Example: n is 10,000. m is 1000
+  * Use logistic regression or SVM without a kernel (linear kernel)
+
+* If n is small (1-10000) m is intermediate 10-10000
+  * SVM with a Gaussian kernel
+
+* If n is small (1-1000), m is large(50,000+)
+  * Create / add more features
+  * Use logistic regression or SVM without a kernel
+
+Linear regression and SVM wtihout a kernel are very similar implementations.
+
+The power of SVM is with finding non-linear boundaries.
+
+A NN likely to work, but be slower to train.
+
+The learning algorithm you choose (linear regression, support vector machines)
+sometimes isn't as important as how much data you have, feature selection, or
+how good you are at debugging / analysis.
 
