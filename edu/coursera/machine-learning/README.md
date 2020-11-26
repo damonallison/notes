@@ -1168,7 +1168,20 @@ Homework
 How good do you want the image to look vs. how much do you want the image
 compressed?
 
+### Dimensionality Reduction (Data Compression)
 
+* Uses less data, speeds up learning algorithms.
+* Remove redundant features (i.e., size in cm. and in. are redundant)
+  * Highly correlated features can be reduced into one.
+  * Come up with a new features which are a consolidation of multiple features.
+  * 2D (x1, x2) can be projected into an z1 line.
+  * 3D (x1, x2, x2) can be projected into a (z1, z2) plane.
 
+### Dimensionality Reduction (Visualization)
+
+* Reducing 50 dimensions into 2 (summarizes 50 dimensions) we can visualize the
+  data better.
+* It is up to us to determine how to reduce the dimensions. Basically by
+  grouping.
 
 
