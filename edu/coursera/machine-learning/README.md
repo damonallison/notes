@@ -1099,3 +1099,76 @@ The learning algorithm you choose (linear regression, support vector machines)
 sometimes isn't as important as how much data you have, feature selection, or
 how good you are at debugging / analysis.
 
+---
+---
+## Week 8:  Unsupervised Learning
+
+Unsupervised learning does *not* have labeled training examples. Clustering is
+an unsupervised learning algorithm which groups inputs into like clusters.
+
+We ask the algorithm to find the structure in data.
+
+Why clustering?
+
+* Market segmentation: which customers are alike?
+* Social network analysis: who are related?
+
+### k-Means Clustering
+
+* Group data into k clusters.
+* Repeat until ?
+  * Cluster assignment step. Assign each point to a centriod.
+  * Move centroid step. For each cluster, finid the mean and move to the new
+    center.
+* When centroids do not change, you are done.
+
+#### Algorithm
+
+* k = number of clusters
+* Training set (x)
+
+* Randomly initializes k centroids
+* Repeat
+  * for i = 1:m
+    * find cluster centroid closest to x(i)
+  * For k = 1:K
+    * Average (mean) of points assigned to k. Move to mean.
+  * Remove any centriods without any points assigned to it (very rare).
+
+What if the data set is not separated? (Linear)? K-means will still work.
+
+#### Optimization Objective
+
+k-Means
+* c(i) = the centroid to which x(i) is assigned.
+
+J(c(1), ... c(m)) = (1/m) * sum((x(i) - mu(i)) ^ 2)
+
+#### Random Initialization
+
+How to initialize cluster centroids?
+
+* Randomly pick `K` training examples, set mu(1-k) equal to these examples.
+
+* k-Means can end up at a local optima.
+* Try multiple random initializations / run k-means multiple times. Pick lowest
+  cost. The higher `k`, the less likely multiiple iterations will help much.
+
+#### Choosing K
+
+* Most common: choose manually. You typically know how many clusters you want.
+
+* Elbow method
+  * Determine where `J` "elbows" for each `k`. Where it elbows is the optimal `k`.
+  * The elbow method doesn't really work like that. There is no "elbow".
+
+
+Homework
+
+How good do you want the image to look vs. how much do you want the image
+compressed?
+
+
+
+
+
