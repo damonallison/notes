@@ -1184,4 +1184,51 @@ compressed?
 * It is up to us to determine how to reduce the dimensions. Basically by
   grouping.
 
+### Principal Component Analysis (Dimensionality Reduction)
 
+PCA tries to find a lower dimensional surface which minimizes the sum of square
+error (projection error).
+
+* 2D -> 1D projections find the line of best fit.
+  * Reducing two dimensions into one.
+      * Find a vector which minimizes the projection error.
+* 3D -> 2D projections find the plane of best fit.
+
+* For n dimensions -> k dimensions
+  * Find k vectors onto which to project the data to minimize the projection
+    error.
+
+### PCA Algorithm
+
+How do you find the surface onto which to project the data?
+
+Data Preprocessing (before performing PCA):
+
+* Mean normalization
+  * mu(j) = sum(x(j)i) / m
+  * Replace x(j)i with x(j)i - mu(j)
+
+* Feature scaling
+  * Scale features to have a comparable range of values.
+
+* How to find the vectors?
+* How do we replace the x values with the new z values.
+
+* Compute the covariance matrix
+* Eigenvectors
+
+#### Summary
+
+* Mean normalize
+* Feature scaling
+* Find sigma
+  * `sigma = (1/m) * X' * X`
+    * sigma == n x n matrix
+* Find `U` vectors (the reduced dimensions)
+  * `[U, S, V] = svd(sigma) % singluar value decomposition`
+
+* Take the number of `k` vectors you want to reduce your data to
+  * `ureduce = U*(:, 1:k)`
+
+* Compute the new features (`z`)
+  * `z = ureduce' * x`
