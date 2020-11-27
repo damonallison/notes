@@ -1536,3 +1536,82 @@ Multivariate Gaussian:
 * Must have m > n (examples > featuers). Use multivariate only when m
   substantially (10x) larger than n.
 
+**Eliminate redundant features before doing anomaly detection (causes sigma to be non-invertible)**
+
+* Redundant = features that are linearily dependent.
+
+
+### Quiz (Anomaly Detection)
+
+1. Anomaly detection is suited for data sets with a really small set of outliers.
+
+* Fraud
+* Unusually unhealthy patients
+
+2. The cross-validation set is missing many fradulent transactions when p(x) < e.
+
+You need to increase epsilon to count more examples as anomalies.
+
+3. You are detecting anomalies in engine manufacturing. You expect `x1 ≅ x2`.
+   One of the suspected anomalies is that a flawed engine may vibrate very
+   intensely even without generating much heat (large x1, small x2), even tho
+   they don't individually fall outside their typical range of values.
+
+x(1) = vibration intensity
+x(2) = heat generated
+
+You want to create a feature which exposes the relationship between x1 and x2.
+
+`x3 = x1 / x2`
+
+4. Which of the following are true?
+
+* Classification accuracy is *not* a good metric to use when doing anomaly
+  detection (skewed data).
+
+* We *do* want to select an appropriate numerical performance metric to evaluate
+  the model's effectiveness.
+
+* We *do* want to fit a model to all negative training examples.
+
+* In a typical anomaly detection setting, we have a *small* set of anomalous examples.
+
+
+### Predicting Movie Ratings
+
+Recommender systems. A very important topic. People want to recommend things to
+you based on your history, what similar people have liked.
+
+Features are important to ML. Some algorithms can "learn" which features you
+want to use.
+
+Example: Predict movie ratings
+
+* Users rate movies 1-5 stars
+
+* n(u) = number of users
+* n(m) = number of movies
+* r(i, j) = 1 if user j has rated movie i
+* y(i, j) = rating given by user j to movie i (defined only if r(i, j) = 1)
+
+Given the data set, predict the values of missing ratings. We could also predict
+other movies the user would like to watch.
+
+### Content Based Recommendations
+
+Why is `x0` called the interceptor and always set to 1?
+
+How would users rate movies they have not yet rated?
+
+* Give each movie a set of features
+  * x1 = degree to which a movie is a romance movie
+  * x2 = degree to which a movie is an action movie
+  * x3 = ...
+
+For each user `j`, learn parameters. Predict user `j` as rating movie `i` with `theta(j)' * x(i)`
+
+
+### Problem Formulation
+
+* How do we learn `theta(j)`, the coefficients for a user?
+  * Min of `sum(all movies j has rated) theta(j)' * x(i) - j(i, j))^2 + lambda`
