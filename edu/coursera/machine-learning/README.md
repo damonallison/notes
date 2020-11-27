@@ -1327,3 +1327,153 @@ uses, and makes your data visualizable.
   * Reduced dimensions = reduced memory = faster performance
   * Data visualization
 
+---
+---
+## Week 9 - Anomaly Detection / Recommender Systems
+
+Abnomaly dectection: Model a dataset using a Gaussian distribution and look for
+outliers. Useful for finding abnormal elements (credit card fraud, manufacturing
+defects).
+
+Recommender systems (Amazon, Netflix) use collaborative filtering algorithm and
+low-rank matrix factorization.
+
+### Anomaly Detection: Problem Motivation
+
+Mostly like unsupervised learning, but has properties of supervised learning.
+
+How to determine if an example is anomalous?
+
+Build a model for P(x). If P(xtest) <= epsilon - it is an anomaly.
+
+#### Example: Fraud detection
+
+* Features
+  * Number of webopages viewed
+  * Typing speed
+  * Number of transactions
+  * Time of day
+  * Number of attempts
+
+#### Example: Monitoring computers in a data center
+
+* Features
+  * Memory / CPU / I/O / ...
+
+#### Example: Manufacturing
+
+* Features
+  * Propoerties of the product (weight, height, heat, speed, etc..)
+
+
+### Gaussian (Normal) Distribution
+
+A normal distribution is a bell shaped curve with the peak at mu, and the width
+as sigma (standard deviation). When sigma is small, the width becomes tighter
+(smaller variance). It's half as wide, but twice as tall. The area is *always* 1
+since it's a probability distribution.
+
+* Mean (mu)
+* Variance (sigma^2)
+
+`x ~ N(mu, sigma^2)`  % ~ == "distributed as"
+
+`P(x; mu, sigma^2) = (1 / )
+
+### Parameter Estimation
+
+Given a data set, what are the values of mu and sigma^2?
+
+```matlab
+mu = 1/m * sum(x)
+sigma^2 = 1/m * sum(x - mu)^2
+```
+
+### Anomaly Detection Algorithm (Density Estimation)
+
+Given we have a set of m training examples. Assume each feature (x1, x2, etc...)
+in the training examples follow the Gaussian distribution.
+
+* Find mu and sigma for each feature
+* Multiply the probability of each feature according to it's mu and sigma^2.
+
+```matlab
+p(x1; mu(1), sigma(1)^2) * p(x2; mu(2), sigma(2)^2) * p(x3; mu(3), sigma(3)^2) * p(xn; mu(n), sigma(n)^2)
+```
+
+1. Choose features (x(i)) that you might think will be indicative of anomalous example (i.e., what features would describe fraud)
+1. Find mu and sigmal for each feature.
+1. Compute probability for a training example by taking the product of all
+   feature probabilities.
+1. If the probability is < epsilon, you have an anomaly.
+
+Think of mu as a vector. You can vectorize mu and sigma.
+
+### Developing and Evaluating an Anomaly Detection Sytem
+
+How do you evaluate an anomaly detection algorithm? Will adding another feature
+make my anomaly detection algorithm better?
+
+* Assume we have some labeled data (known alomalies). (y = 0 (normal), y = 1 (anomaly))
+
+* Build training / CV / test sets
+  * Training (60%): assume it has no anomalies
+  * Cross validation (20%) / test set (20%) should have a few known anomalies.
+
+* Fit model (p(x)) on the training set
+* On the CV, predict anomalies (y = 0 if p(x) >= e, y = 1 if p(x) < e)
+* Because the data is skewed, evaluation accuracy is *not* a good evaluation metric.
+* Compute the precision / recall and F1 score. The higher the F1 score the better.
+
+* We can use the CV set to choose the parameter `e`.
+* Pick the epsilon which gives us the highest f1 score.
+
+### Anomaly Detection vs. Supervised Learning
+
+When should we use anomaly detection and when should we use supervised learning?
+
+Anomaly detection
+
+* Small number of positive examples (anomalies)
+* Large number of negative examples
+* Many "types" of anomalies. Hard to learn what an anomaly is from positive examples.
+
+
+Supervised Learning
+
+* Large number of both positive / negative examples.
+* Enough positive examples for an algorithm to understand what an anomaly is.
+  Future examples likely to be similar to the ones in the training set.
+
+Key difference: in anomaly detection, we don't have a lot of positive examples.
+We don't have enough data for a learning algorithm to understand what an anomaly
+is.
+
+### Choosing What Features to Use
+
+Post a histogram of the data. The data should look somewhat Gaussian. It's not a
+hard requirement that it's Gaussian, but it's better if it does.
+
+If the data doesn't look Gaussian, transform the data to try and make it more
+Gaussian. (log(x), sqrt(x))
+
+```matlab
+hist(x, 50) % 50 bins
+hist(x.^0.5, 50)
+hist(log(x), 50)
+```
+
+How to select the features?
+
+Make sure the anomalies are really anomalies. Create features so that anomalies
+are truly anomalies. Look at the anomalies that the algorithm is failing to
+flag.
+
+Want p(x) large for normal examples. p(x) small for anomalies.
+
+Most common problem: p(x) is comparable for both normal and anomalous examples.
+(Anomalies aren't really anomalies)
+
+Choose features that might take on unusually large or small values in the event
+of anomalies. Example: a computer stuck in an infinite loop (CPU high, but low network traffic). Create a new feature (x5 = (cpu load)^2 / network traffic). When x5 is high, you'll detect the anomaly.
+
