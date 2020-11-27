@@ -1116,7 +1116,8 @@ Why clustering?
 ### k-Means Clustering
 
 * Group data into k clusters.
-* Repeat until ?
+* Repeat until a determined convergence (a metric you can determine. perhaps the
+  total delta of cluster movement < a threshold)
   * Cluster assignment step. Assign each point to a centriod.
   * Move centroid step. For each cluster, finid the mean and move to the new
     center.
@@ -1280,7 +1281,15 @@ or
 
 ### Advice for Applying PCA
 
-PCA speeds up a learning algorithm.
+WHy PCA:
+
+* Compression
+  * Reduce memory / disk
+  * Speed up learning algorithm
+
+* Visualization
+  * Typically choose k == 2 or k == 3 in order to visualize it
+
 
 #### Supervised Learning Algorithm
 
@@ -1294,15 +1303,6 @@ Reduce features before you train the learning algorithm.
 * PCA defines a mapping between x -> z.
 * Run PCA *only* on the training set to get the mapping. The mapping can be used
   on the CV and test sets.
-
-WHy PCA (review):
-
-* Compression
-  * Reduce memory / disk
-  * Speed up learning algorithm
-
-* Visualization
-  * Typically choose k == 2 or k == 3 in order to visualize it
 
 * Do *not* use PCA to prevent overfitting. Use regularization instead.
 * PCA does *not* use the labels (y). PCA throws away some information (variance)
@@ -1344,11 +1344,13 @@ Mostly like unsupervised learning, but has properties of supervised learning.
 
 How to determine if an example is anomalous?
 
-Build a model for P(x). If P(xtest) <= epsilon - it is an anomaly.
+Build a model for P(x). If P(xtest) <= epsilon - it is an anomaly. That means,
+if the cumulative product of the probability of each feature occuring is less
+than a known threshold (say 0.03, it is considered an outlier).
 
 #### Example: Fraud detection
 
-* Features
+* Features (detecting fraudlegent website behavior):
   * Number of webopages viewed
   * Typing speed
   * Number of transactions
@@ -1378,8 +1380,6 @@ since it's a probability distribution.
 
 `x ~ N(mu, sigma^2)`  % ~ == "distributed as"
 
-`P(x; mu, sigma^2) = (1 / )
-
 ### Parameter Estimation
 
 Given a data set, what are the values of mu and sigma^2?
@@ -1407,12 +1407,17 @@ p(x1; mu(1), sigma(1)^2) * p(x2; mu(2), sigma(2)^2) * p(x3; mu(3), sigma(3)^2) *
    feature probabilities.
 1. If the probability is < epsilon, you have an anomaly.
 
-Think of mu as a vector. You can vectorize mu and sigma.
+Think of mu as a vector. You can vectorize mu and sigma. (How?)
 
 ### Developing and Evaluating an Anomaly Detection Sytem
 
 How do you evaluate an anomaly detection algorithm? Will adding another feature
 make my anomaly detection algorithm better?
+
+In order to determine the quality of the model detecting anomalies, we use a
+similar approach to that used in supervised learning. Namely, we train a model
+using a training set, optimize it on a cross validation set, and verify it using
+a test set.
 
 * Assume we have some labeled data (known alomalies). (y = 0 (normal), y = 1 (anomaly))
 
@@ -1472,8 +1477,62 @@ flag.
 Want p(x) large for normal examples. p(x) small for anomalies.
 
 Most common problem: p(x) is comparable for both normal and anomalous examples.
-(Anomalies aren't really anomalies)
+(Anomalies aren't really anomalies, they are mixed into normal examples)
 
 Choose features that might take on unusually large or small values in the event
-of anomalies. Example: a computer stuck in an infinite loop (CPU high, but low network traffic). Create a new feature (x5 = (cpu load)^2 / network traffic). When x5 is high, you'll detect the anomaly.
+of anomalies. Example: a computer stuck in an infinite loop (CPU high, but low
+network traffic). Create a new feature (x5 = (cpu load)^2 / network traffic).
+When x5 is high, you'll detect the anomaly.
+
+### Multivariate Gaussian Distribution
+
+What if examples aren't very anomalous?
+
+Rather than modeling all features separately, we model them all together.
+
+Setting sigma
+
+mu = [0; 0]
+sigma = [1 0; 0 1]
+
+When you vary sigma non-linearily, you'll vary the distribution of what is considered an "anomaly".
+
+```matlab
+%
+% Here, we are saying that x1 has a smaller distribution of values
+% and x2 has a wider distribution of values.
+%
+sigma = [0.6, 0; 0 2]
+```
+
+You can also use multi-variate Gaussian to get different versions of distributions.
+
+sigma = [1 0.8; 0.8 1] % x1 and x2 are closely related.
+
+### Anomaly Detection using Multivariate Gaussian Distribution
+
+1. Fit model p(x) by finding mu and sigma
+1. Given a new example `x`, compute `p(x)`
+1. If `p(x)` is small (`< e`), flag the example as an anomaly.
+
+What is the relationship between normal gaussian anomaly detection and multivariate gaussian detection?
+
+The original model is the same as the multivariate case, except it doesn't
+account for correlations between features.
+
+When would you use the original vs. multivariate Gaussian models?
+
+Original model:
+
+* The original model is used more often.
+* Manually create features to capture unusual combinations (correlations) of
+  features.
+* Computationally cheaper, scales better.
+
+Multivariate Gaussian:
+
+* Automatically captures correlations between features.
+* Computationally more expensive.
+* Must have m > n (examples > featuers). Use multivariate only when m
+  substantially (10x) larger than n.
 
