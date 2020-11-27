@@ -1228,7 +1228,7 @@ Data Preprocessing (before performing PCA):
   * `[U, S, V] = svd(sigma) % singluar value decomposition`
 
 * Take the number of `k` vectors you want to reduce your data to
-  * `ureduce = U*(:, 1:k)`
+  * `ureduce = U(:, 1:k)`
 
 * Compute the new features (`z`)
   * `z = ureduce' * x`
