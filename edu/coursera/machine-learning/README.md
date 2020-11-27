@@ -1222,7 +1222,7 @@ Data Preprocessing (before performing PCA):
 * Mean normalize
 * Feature scaling
 * Find sigma
-  * `sigma = (1/m) * X' * X`
+  * `sigma = (1/m) * X' * X(j)`
     * sigma == n x n matrix
 * Find `U` vectors (the reduced dimensions)
   * `[U, S, V] = svd(sigma) % singluar value decomposition`
@@ -1232,3 +1232,98 @@ Data Preprocessing (before performing PCA):
 
 * Compute the new features (`z`)
   * `z = ureduce' * x`
+
+### Reconstruction from compressed representation.
+
+* `x(approx) = ureduce * z`
+  * An approximate of the original representation.
+
+### How to choose k (the number of principal components)
+
+1/m * sum((x(i) - xapprox(i)) ^ 2)
+Average square projection error
+      --- divided by ---
+Total variation in the data.
+1/m * sum(x(i) ^ 2)
+
+Choose k to be the smallest value so that:
+
+* "99% of the variance is retained"
+
+Many features are highly correlated, so you can frequently reduce dimensions
+without losing variance. You can typically reduce a 10,000 feature set into
+1,000.
+
+Proposed algorithm:
+
+* Try k = 1
+* Compute U(reduce)
+* Check variance
+* Keep trying until you find `k` with 99% variance retention
+
+^^ This algorithm is slow. You don't need to do it. `svd` will return the
+  variance retained for each value of `k`.
+
+`[U, S, V] = svd(sigma)`
+
+* S == everying on the diagonal is non-zero.
+* Traverse the `S` diagonal, stopping when you find a `k` which retains 99% of
+  the variance:
+
+```
+1 - (sum(1 -> k)(s(ii)) / sum((i -> n)s(ii))) <= 0.01
+
+or
+
+(sum(1 -> k)(s(ii)) / sum((i -> n)s(ii))) > 0.99
+```
+
+### Advice for Applying PCA
+
+PCA speeds up a learning algorithm.
+
+#### Supervised Learning Algorithm
+
+Reduce features before you train the learning algorithm.
+
+* When `x` is high (100 x 100 pixels == 10,000 features)
+* Extract inputs
+* Reduce input w/ PCA (map x -> z (reduced))
+* Use the new training set `(z1, y1), (z2, y2), ...`
+
+* PCA defines a mapping between x -> z.
+* Run PCA *only* on the training set to get the mapping. The mapping can be used
+  on the CV and test sets.
+
+WHy PCA (review):
+
+* Compression
+  * Reduce memory / disk
+  * Speed up learning algorithm
+
+* Visualization
+  * Typically choose k == 2 or k == 3 in order to visualize it
+
+* Do *not* use PCA to prevent overfitting. Use regularization instead.
+* PCA does *not* use the labels (y). PCA throws away some information (variance)
+  without knowing what the values of (y).
+
+* Do *not* use PCA unless you absolutely need it. Do you *need* PCA? Can you run
+  your algorithm just fine without PCA, with the raw data?
+
+PCA is an incredibly useful step. It speeds up the running time, reduces memory
+uses, and makes your data visualizable.
+
+### Quiz
+
+1. PCA should return a +-u vector that corresponds to the data pattern.
+2. You want the sum of the adjusted distance to be *small* when divided by the
+   actual distance.
+3. Smallesk `k` which retains 99% of the variance.
+4. Which are true
+  * Use feature scaling before PCA if the features are on different scales.
+  * PCA compresses x(n) to a lower dimensional vector z(k) where `k < n`
+5. Recommended applications of PCA:
+  * Reduced dimensions = reduced memory = faster performance
+  * Data visualization
+
