@@ -1615,3 +1615,112 @@ For each user `j`, learn parameters. Predict user `j` as rating movie `i` with `
 
 * How do we learn `theta(j)`, the coefficients for a user?
   * Min of `sum(all movies j has rated) theta(j)' * x(i) - j(i, j))^2 + lambda`
+
+### Collaborative Filtering
+
+It learns what features to use by itself.
+
+All users are collaborating to help the algorithm to learn better features.
+
+Assume we ask users if they like romantic movies or action movies (the
+features). We use the combination of user preferences (as theta), and their
+reviews, we infer the features of a movie.
+
+For example, if Alice really likes action movies and rates a movie high, it's
+probably an action movie.
+
+Given we have theta (user preference), we want to find `x`.
+
+* If we are given user preferences and ratings, we can determine features.
+* If we are given features and preferences, we can predict if a user will like
+  it (theta).
+
+### Collaborative Filtering Algorithm
+
+* If you are given `x`, you can solve for `theta`.
+* If you are given `theta`, you can solve for `x`.
+
+You could go back and forth to continually improve `x` and `theta` by finding
+`x`, using that to find `theta`, using that to improve `x` and so on.
+
+You can combine both objectives (finding `x` and `theta`) into a single linear
+regression problem by regularizing both `x` and `theta`.
+
+What is the derivative of multiple parameter sets?
+
+We do *not* add `x0` or `theta(0)` because we are learning the features. If the
+algorithm wants an `x0` feature, it will learn it.
+
+1. Initialize `x(1) -> x(n)` and `theta(1) -> theta(n)` to small random values.
+1. Minimize `J(x(1) -> x(n), theta(1) -> theta(n))` using gradient descent for
+   every `i` and `j`.
+1. For a user with parameters `theta` and a movie with (learned) features `x`,
+   predict a star rating of `theta' * x`.
+
+```
+%
+% Partial derivatives of x and theta
+%
+x(k)(i) = x(k)(i) - ((learning rate) * sum(r(i, j)(theta(j)' * x(i) - y(i, j)) * theta(k)(j) + lamnda*x(k)(i)
+theta(k)(j) = theta(k)(j) - ((learning rate) * sum(r(i, j)(theta(j)' * x(i) - y(i, j)) * z(k)(i) + lamnda*theta(k)(j)
+```
+
+
+### Vectorization: Low Rank Matrix Factorization
+
+To create a ratings matrix `Y`, where `Y(i,j)` is the rating for the `i`th movie
+by the `j`th user, we multiply `theta(j)' x(i)`.
+
+[
+  theta(1)' * x(1) theta(2)' * x(1) ... theta(num users)' * x(1)
+  theta(1)' * x(2) theta(2)' * x(2) ... theta(num users)' * x(2)
+  ...
+  theta(1)' * x(num movies) theta(2)' * x(num movies) ... theta(num users)' * x(num movies)
+]
+
+The vectorized way to create this matrix: `X * THETA'`, where `X` and `THETA` are:
+
+X =
+[
+  --- x(1)' ---
+  --- x(2)' ---
+  --- x(3)' ---
+  ...
+  --- x(num movies)' ---
+]
+
+THETA =
+[
+  --- theta(1)' ---
+  --- theta(2)' ---
+  --- theta(3)' ---
+  --- theta(4)' ---
+  ...
+  --- theta(num users)' ---
+]
+
+
+### Finding related movies
+
+If feature vectors are similar, they are similar. Find the movies with the smallest feature delta.
+
+`|| x(i) - x(j) ||`
+
+### Implementation Detail: Mean Normalization
+
+Mean normalization makes the algorithm perform better.
+
+Mean normalization: calculate the mean for each movie. Subtract the mean from
+the actuals. Which normalizes each movie to have an average rating of zero.
+
+Use the normalized Y matrix to learn `x` and `theta`. Add the mean back after when making the final prediction
+
+`theta(j)' * x(i) + mu(i)`
+
+If a user hasn't rated any movies, we'll predict the user will have rated each movie the mean. We an use this to recommend a new user movies.
+
+### Quiz
+
+Given a set of theta for each user and x for each book, what is the "training
+error". What are the correct ways of doing this?
+
