@@ -1594,12 +1594,10 @@ Example: Predict movie ratings
 * r(i, j) = 1 if user j has rated movie i
 * y(i, j) = rating given by user j to movie i (defined only if r(i, j) = 1)
 
-Given the data set, predict the values of missing ratings. We could also predict
-other movies the user would like to watch.
+Given the data set, we want to predict the values of missing ratings. High
+predictions are candidates to recommend.
 
 ### Content Based Recommendations
-
-Why is `x0` called the interceptor and always set to 1?
 
 How would users rate movies they have not yet rated?
 
@@ -1608,26 +1606,33 @@ How would users rate movies they have not yet rated?
   * x2 = degree to which a movie is an action movie
   * x3 = ...
 
-For each user `j`, learn parameters. Predict user `j` as rating movie `i` with `theta(j)' * x(i)`
+* For each user `j`, learn theta using linear regression.
+* Predict user `j` as rating movie `i` with `theta(j)' * x(i)`
 
+### Content Based Recommendations: Optimization Objective (Learning theta)
 
-### Problem Formulation
+You want to minimize the error for all of a user's ratings.
 
-* How do we learn `theta(j)`, the coefficients for a user?
-  * Min of `sum(all movies j has rated) theta(j)' * x(i) - j(i, j))^2 + lambda`
+```
+min(theta(j)) : 1/2 sum((all ratings)((theta(j))' * x(i) - y(i, j)) ^ 2 + ((lambda / 2) * sum(theta(k)(j)) ^ 2)
+```
+
+We want to learn theta for *all* users. Each user has their own learned theta.
 
 ### Collaborative Filtering
 
-It learns what features to use by itself.
-
-All users are collaborating to help the algorithm to learn better features.
+It learns data set features by itself. (i.e., We don't have labels for each
+movie. Can we learn them?)
 
 Assume we ask users if they like romantic movies or action movies (the
 features). We use the combination of user preferences (as theta), and their
 reviews, we infer the features of a movie.
 
 For example, if Alice really likes action movies and rates a movie high, it's
-probably an action movie.
+probably an action movie. That movie has a high "action" feature value.
+
+It's called "collaborative learning" because all users are collaborating to help
+the algorithm to learn better features.
 
 Given we have theta (user preference), we want to find `x`.
 
@@ -1637,8 +1642,8 @@ Given we have theta (user preference), we want to find `x`.
 
 ### Collaborative Filtering Algorithm
 
+* If you are given `theta` (user gives us preferences), you can solve for `x`.
 * If you are given `x`, you can solve for `theta`.
-* If you are given `theta`, you can solve for `x`.
 
 You could go back and forth to continually improve `x` and `theta` by finding
 `x`, using that to find `theta`, using that to improve `x` and so on.
@@ -1650,6 +1655,8 @@ What is the derivative of multiple parameter sets?
 
 We do *not* add `x0` or `theta(0)` because we are learning the features. If the
 algorithm wants an `x0` feature, it will learn it.
+
+Algorithm:
 
 1. Initialize `x(1) -> x(n)` and `theta(1) -> theta(n)` to small random values.
 1. Minimize `J(x(1) -> x(n), theta(1) -> theta(n))` using gradient descent for

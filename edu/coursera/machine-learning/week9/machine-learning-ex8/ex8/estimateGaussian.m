@@ -24,13 +24,19 @@ sigma2 = zeros(n, 1);
 %
 % Implement this using a for loop for 1->n
 
-mu = 1/m .* sum(X')
+%
+% mean() takes the mean of each column in X, returning a column vector w/ the mean for each feature.
+%
+mu = mean(X);
 
-sigma2 = 1/m
+for i = 1:n
+    sigma2(i) = var(X(:, i), 1);
+end
 
-
-
-
+%
+% Vectorized version
+%
+% sigma2 = 1/m
 
 % =============================================================
 
