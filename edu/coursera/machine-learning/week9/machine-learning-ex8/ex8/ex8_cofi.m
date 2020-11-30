@@ -31,16 +31,16 @@ load ('ex8_movies.mat');
 %  rating to movie i
 
 %  From the matrix, we can compute statistics like average rating.
-fprintf('Average rating for movie 1 (Toy Story): %f / 5\n\n', ...
-        mean(Y(1, R(1, :))));
+% fprintf('Average rating for movie 1 (Toy Story): %f / 5\n\n', ...
+%         mean(Y(1, R(1, :))));
 
-%  We can "visualize" the ratings matrix by plotting it with imagesc
-imagesc(Y);
-ylabel('Movies');
-xlabel('Users');
+% %  We can "visualize" the ratings matrix by plotting it with imagesc
+% imagesc(Y);
+% ylabel('Movies');
+% xlabel('Users');
 
-fprintf('\nProgram paused. Press enter to continue.\n');
-pause;
+% fprintf('\nProgram paused. Press enter to continue.\n');
+% pause;
 
 %% ============ Part 2: Collaborative Filtering Cost Function ===========
 %  You will now implement the cost function for collaborative filtering.
@@ -116,10 +116,9 @@ pause;
 
 
 %% ============== Part 6: Entering ratings for a new user ===============
-%  Before we will train the collaborative filtering model, we will first
-%  add ratings that correspond to a new user that we just observed. This
-%  part of the code will also allow you to put in your own ratings for the
-%  movies in our dataset!
+%  Before we train the collaborative filtering model, we will first add ratings
+%  that correspond to a new user that we just observed. This part of the code
+%  will also allow you to put in your own ratings for the movies in our dataset!
 %
 movieList = loadMovieList();
 
@@ -130,20 +129,38 @@ my_ratings = zeros(1682, 1);
 % For example, Toy Story (1995) has ID 1, so to rate it "4", you can set
 my_ratings(1) = 4;
 
-% Or suppose did not enjoy Silence of the Lambs (1991), you can set
+% Or suppose you did not enjoy Silence of the Lambs (1991), you can set
 my_ratings(98) = 2;
 
 % We have selected a few movies we liked / did not like and the ratings we
 % gave are as follows:
-my_ratings(7) = 3;
-my_ratings(12)= 5;
-my_ratings(54) = 4;
-my_ratings(64)= 5;
-my_ratings(66)= 3;
-my_ratings(69) = 5;
-my_ratings(183) = 4;
-my_ratings(226) = 5;
-my_ratings(355)= 5;
+% my_ratings(7) = 3;
+% my_ratings(12)= 5;
+% my_ratings(54) = 4;
+% my_ratings(64)= 5;
+% my_ratings(66)= 3;
+% my_ratings(69) = 5;
+% my_ratings(183) = 4;
+% my_ratings(226) = 5;
+% my_ratings(355)= 5;
+
+% sci-fi movies
+my_ratings(2) = 4;      % Golden Eye
+my_ratings(9) = 5;      % Dead man walking
+my_ratings(22) = 5;     % Braveheart
+my_ratings(29) = 3;     % Batman Forever
+my_ratings(77) = 4;     % The Firm
+my_ratings(98) = 4;     % Silence of the Lambs
+my_ratings(118) = 4;    % Twister
+my_ratings(144) = 5     % Die Hard
+my_ratings(157) = 5;    % Platoon
+my_ratings(172) = 5;    % The Empire Strikes Back
+
+% holiday / romance / sappy
+my_ratings(63) = 2;     % Santa Clause
+my_ratings(35) = 1;     % Free Willy 2
+my_ratings(163) = 1;    % Return of the Pink Panther
+my_ratings(175) = 1;    % Brazil
 
 fprintf('\n\nNew user ratings:\n');
 for i = 1:length(my_ratings)

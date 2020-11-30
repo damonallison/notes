@@ -23,7 +23,9 @@ sigma2 = zeros(n, 1);
 
 %
 % mean() takes the mean of each column in X, returning a column vector w/ the mean for each feature.
-% var() finds the variance of each column in X
+% var() finds the variance of each column in X, returning a column vector.
+%
+% In both cases, we want an n x 1 row vector, so we transpose the results.
 %
 mu = mean(X)';
 sigma2 = var(X, 1)';

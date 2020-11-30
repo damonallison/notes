@@ -22,35 +22,35 @@ for epsilon = min(pval):stepsize:max(pval)
     %
     % Note: You can use predictions = (pval < epsilon) to get a binary vector
     %       of 0's and 1's of the outlier predictions
-%
-% pval : The probability the example is *not* an anomaly.
-%        Low probability examples are more likely an outlier.
-%
+    %
+    % pval : The probability the example is *not* an anomaly.
+    %        Low probability examples are more likely an outlier.
+    %
 
-% Using epsilon, find all of the:
-%
-% Term            Prediction  Actual
-% True positive:  1           1
-% False positive: 1           0
-% True negative:  0           0
-% False negative: 0           1
-%
-% Precision: true positive / true positive + false positive
-% Recall : true positive / true positive + false negative
-%
-% F1 = (2 * precision * recall) / (precision + recall)
+    % Using epsilon, find all of the:
+    %
+    % Term            Prediction  Actual
+    % True positive:  1           1
+    % False positive: 1           0
+    % True negative:  0           0
+    % False negative: 0           1
+    %
+    % Precision: true positive / true positive + false positive
+    % Recall : true positive / true positive + false negative
+    %
+    % F1 = (2 * precision * recall) / (precision + recall)
 
-predictions = (pval < epsilon);
+    predictions = (pval < epsilon);
 
-tp = sum((predictions == 1) & (yval == 1));
-fp = sum((predictions == 1) & (yval == 0));
-tn = sum((predictions == 0) & (yval == 0));
-fn = sum((predictions == 0) & (yval == 1));
+    tp = sum((predictions == 1) & (yval == 1));
+    fp = sum((predictions == 1) & (yval == 0));
+    tn = sum((predictions == 0) & (yval == 0));
+    fn = sum((predictions == 0) & (yval == 1));
 
-precision = tp / (tp + fp);
-recall = tp / (tp + fn);
+    precision = tp / (tp + fp);
+    recall = tp / (tp + fn);
 
-F1 = (2 * precision * recall) / (precision + recall);
+    F1 = (2 * precision * recall) / (precision + recall);
 
     % =============================================================
 
