@@ -22,21 +22,19 @@ sigma2 = zeros(n, 1);
 %
 
 %
-% Implement this using a for loop for 1->n
-
-%
 % mean() takes the mean of each column in X, returning a column vector w/ the mean for each feature.
+% var() finds the variance of each column in X
 %
-mu = mean(X);
-
-for i = 1:n
-    sigma2(i) = var(X(:, i), 1);
-end
+mu = mean(X)';
+sigma2 = var(X, 1)';
 
 %
-% Vectorized version
+% Non-vectorized approach
 %
-% sigma2 = 1/m
+% for i = 1:n
+%     mu(i) = mean(X(:, i))
+%     sigma2(i) = var(X(:, i), 1);
+% end
 
 % =============================================================
 
