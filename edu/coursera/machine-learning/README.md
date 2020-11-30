@@ -1731,3 +1731,115 @@ If a user hasn't rated any movies, we'll predict the user will have rated each m
 Given a set of theta for each user and x for each book, what is the "training
 error". What are the correct ways of doing this?
 
+
+---
+---
+## Week 10: Large Scale Machine Learning
+
+Learning algorithms work better with large data sets. As the amount of data
+grows, the ability to handle "big data" becomes more important.
+
+> It's not who has the best algorithm that wins, it's who has the most data.
+
+How do you perform summations over 100M entries? Can we find more efficient ways
+(map / reduce)?
+
+Before training your algorithm on 100M, perform a `sanity check`. Can we train a
+model with 1000 examples rather than 100M? Create a learning curve for smaller
+values of M. If you have `high variance`, additional data will help.
+
+If you are in a `high bias` situation, increase the amount of features.
+
+Two patterns for dealing with large data:
+
+* Stochastic gradient descent.
+* Map / reduce
+
+### Stochastic Gradient Descent
+
+Gradient descent eventually moves the overall cost to the global mimimum.
+
+When `m` is large, it's computationally expensive to sum over all the results.
+
+"Batch Gradient Descent" looks at **all** training examples when determining the
+gradient.
+
+Stochastic gradient descent doesn't sum the entire traning set error. Rather, it
+adjusts theta a small amount for each training example. This iterative
+(streaming) approach will consume less memory since you don't need to load the
+entire data set into memory.
+
+1. Randomly shuffle the data set. You want to ensure the data is not sorted.
+1. Repeat: {
+    for i=1:m
+      theta(j) = theta(j) - ((learning rate)(h(theta(x)) - y(i)) * x(j)(i)
+    end
+}
+
+Stochastic gradient descent will *generally* move the parameters toward the
+direction of the global minimum, however it won't be as linear as batch gradient
+descent. At times, stochastic will move *away* from the global minimum,
+depending on the current training example.
+
+How many times to run stochastic gradient descent (the outer loop)? Typically
+between 1-10 times. When `m` is really large, you may be able to get by with
+less iterations.
+
+* Stochastic gradient descent can be much faster than batch gradient descent.
+  Stochastic can move theta more per iteration than batch can.
+
+Stochastic gradient descent works with all learning algorithms which are
+attempting to find a global miminum. Linear regression, logistic regression,
+neural networks, etc.
+
+### Mini-Batch Gradient Descent
+
+Uses a *batch* with each gradient iteration. It's between batch / Stochastic.
+Typically, `b` is anywhere between 2 to 100.
+
+Could be a bit faster than Stochastic due to vectorization.
+
+Run gradient descent on each batch, moving theta just a bit closer to the global
+minimum.
+
+```matlab
+b = 10
+m = 1000
+for i = 1, 11, 21 ..., 991
+  theta(j) = theta(j) - (learning rate) * (1 / b) * sum(h(theta(x)(k)) - y(k) * x(j)(k))
+end
+```
+
+### Stochastic Gradient Descent Convergence
+
+How do you know Stochastic is converging correctly? How do you pick the right alpha?
+
+In batch gradient descent, we plot J(theta) with each iteration of gradient
+descent to ensure it's converging.
+
+We average the costs over the last 1000 examples. We plot the cost average over
+time, we expect the average cost to generally decrease until it starts to
+converge.
+
+Once it converges, the cost will start to flatten.
+
+With a smaller learning rate, it will converge slower but with less fluctuation.
+If you average over more examples, you'll get a smoother convergence plot, but
+you'll get fewer data points.
+
+
+---
+---
+
+## Week 11: Photo OCR
+
+A "real world" ML example using photo OCR. Identifying and recognizing objects,
+words, and digits in an image. We learn how to build a pipeline to solve the
+problem and how to improve the performance of such a system.
+
+### Photo OCR Problem description and pipeline
+
+ML pipelines break problems into discrete stages (modules).
+
+Modules create natural team boundaries.
+
