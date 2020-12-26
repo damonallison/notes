@@ -49,7 +49,6 @@ Cmd-Shift-5 -> Options -> Save to -> Other Location -> /tmp
 
 ## App Store
 
-* Bear (if logged in as `damon@damonallison.com`
 * Xcode
 * Microsoft To Do
 
@@ -58,24 +57,17 @@ Cmd-Shift-5 -> Options -> Save to -> Other Location -> /tmp
 * [homebrew](https://brew.sh/)
 
 ```
+$ brew cask install visual-studio-code
 $ brew cask install iterm2
 $ brew cask install spectacle
 $ brew cask install sourcetree
-$ brew cask install dotnet-sdk
-$ brew cask install dotnet
-$ brew cask install slack
-$ brew cask install postman
 
 $ brew install fish
 $ brew install emacs
 $ brew install git
 $ brew install tree
-$ brew install python
 $ brew install htop
 
-// gotop - a better version of top (written in go)
-$ brew tap cjbassi/gotop
-$ brew install gotop
 
 // mas - a command line tool for interating with the Mac App Store
 $ brew install mas
@@ -83,7 +75,6 @@ $ brew install mas
 # Adds alternate (beta) casks
 $ brew tap homebrew/cask-versions
 
-$ brew cask install visual-studio-code
 ```
 
 ## Configuration
@@ -96,9 +87,9 @@ Download the `config` repository from https://github.com/damonallison/config
 ln -s ~/ateam/config/.ssh ~/.ssh
 chmod 400 ~/.ssh/id_rsa ~/.ssh/id_rsa.pub
 
-ln -s ~/ateam/config/.bash_profile .bash_profile
-ln -s ~/ateam/config/.bashrc .bashrc
-ln -s ~/ateam/config/.emacs .emacs
+ln -s ~/config/.bash_profile .bash_profile
+ln -s ~/config/.bashrc .bashrc
+ln -s ~/config/.emacs .emacs
 ```
 ## iTerm
 
@@ -131,7 +122,10 @@ Preferences -> Profiles -> Text -> Font
 * Open new windows with a larger default size
 
 ```shell
-Preferences -> Profiles -> Window -> Settings for New Windows: 140x80 (16" mbp)
+Preferences -> Profiles -> Window -> Settings for New Windows
+  * 140x80 (16\" mbp)
+  * 140x80 (13\" mba)
+
 ```
 
 ## Spectacle
@@ -165,7 +159,50 @@ $ rvm --create 2.6.3@damon
 $ rvm use ruby-2.6.3@damon --default
 ```
 
+## go
+
+$ brew install go
+
+There is a `gover.fish` function in `~/.config/fish/functions/gover.fish` that will set the GOPATH / GOROOT to a folder in ~ based on the go version.
+
+mkdir ~/go1.15
+
+## Python
+
+First, install the latest version of python and pyenv.
+
+```shell
+$ brew install zlib
+$ brew install bzip2
+
+$ brew install python
+$ brew install pyenv
+```
+
+Next, install any python versions you want:
+
+$ pyenv install --list
+
+$ pyenv install 3.9.0
+
+If you run into `zlib` errors, you may have to manually set `LGFLAGS` and `CPPFLAGS`:
+
+```shell
+#
+# LDFLAGS and CPPFLAGS allows pyenv to find the zlib / bzip2 headers
+#
+LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib" \
+CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include" \
+pyenv install 3.9.0
+
+```
+
+Install the `pyenv-virtualenv` plugin:
+* https://github.com/pyenv/pyenv-virtualenv
+
+
 ## Fish
+
 ```
 # Add fish to your list of shells
 
@@ -179,15 +216,10 @@ $ chsh -s /usr/local/bin/fish
 ```
 
 ### Oh My Fish
+
+Install `oh-my-fish`:
 *  [https://github.com/oh-my-fish/oh-my-fish](https://github.com/oh-my-fish/oh-my-fish)
 
-###  Bass
-
-NOTE: You *may* not need this.
-
-Bass allows you to run bash utilities in fish. It works by capturing environment variables modified by the bash utility and replaying the changes in fish.
-
-* [GitHub - edc/bass: Make Bash utilities usable in Fish shell](https://github.com/edc/bass)
 
 ```shell
 $ omf install bass
@@ -229,13 +261,3 @@ $ git config --global core.email "damon@damonallison.com"
 # Use FileMerge.app as the default merge tool
 $ git config --global merge.tool opendiff
 ```
-## Node
-
-* Follow node setup instructions at:
-	* https://github.com/damonallison/javascript/blob/master/documentation/tools.md
-
-## Anaconda
-
-* Follow Anaconda setup instructions at:
-    * https://github.com/damonallison/python-examples/blob/master/documentation/anaconda.md
-
