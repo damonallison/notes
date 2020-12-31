@@ -57,6 +57,15 @@ Cmd-Shift-5 -> Options -> Save to -> Other Location -> /tmp
 * [homebrew](https://brew.sh/)
 
 ```
+# Adds casks
+$ brew tap homebrew/cask
+
+# Adds font casks
+$ brew tap homebrew/cask-fonts
+
+# Adds alternate (beta) casks
+$ brew tap homebrew/cask-versions
+
 $ brew cask install visual-studio-code
 $ brew cask install iterm2
 $ brew cask install spectacle
@@ -68,13 +77,20 @@ $ brew install git
 $ brew install tree
 $ brew install htop
 
+```
 
-// mas - a command line tool for interating with the Mac App Store
-$ brew install mas
+## Fonts
 
-# Adds alternate (beta) casks
-$ brew tap homebrew/cask-versions
+Install powerline compatible (nerd) fonts. We'll use these fonts when
+configuring tools later on.
 
+```shell
+$ brew tap homebrew/cask-fonts
+
+# Search for fonts
+
+$ brew search font
+$ brew cask install font-hack-nerd-font
 ```
 
 ## Configuration
@@ -233,22 +249,6 @@ $ omf install bobthefish
 
 # bobthefish should be the new default theme. To ensure it is, run:
 $ omf theme bobthefish
-```
-
-## Fonts
-
-* Download / install powerline compatible fonts. Homebrew has a cask dedicated to fonts.
-
-```shell
-$ brew tap homebrew/cask-fonts
-
-# Search for fonts
-
-$ brew search font
-$ brew cask install font-hack-nerd-font
-
-# In iTerm -> Preferences -> Profiles -> Text -> Set Font to "Hack Nerd Font"
-# In VS Code. Add "Hack Nerd Font" to the font string (JSON settings)
 ```
 
 ## git
