@@ -1,6 +1,14 @@
 # Fish Shell
 
-Fish is a "friendly" shell which attempts to modernize the arcane world of legacy shells. Fish improves command line completion, scripting syntax, and has a `oh my zsh`-like package manager called `oh my fish`.
+## TODO
+
+* `LaunchServices` - default text editor.
+* `$PATH` / global user paths.
+* Redirection
+
+Fish is a "friendly" shell which attempts to modernize the arcane world of
+legacy shells. Fish improves command line completion, scripting syntax, and has
+a `oh my zsh`-like package manager called `oh my fish`.
 
 ## Features
 
@@ -28,6 +36,14 @@ Fish is a "friendly" shell which attempts to modernize the arcane world of legac
 ~/.config/fish/functions
 
 ```
+
+## Quotes
+
+Single quoted strings do *not* perform parameter expansion. Double quoted
+strings do. With both single and double quoted strings, escape sequences are
+ignored.
+
+
 
 ## Path
 
@@ -71,6 +87,13 @@ ls **.orig | xargs [-p] rm -v
 
 ## Pipes and Redirection
 
+All three file descriptors can be redirected to a different output than its
+default through redirection.
+
+* FD 0 == stdin
+* FD 1 == stdout
+* FD 2 == stderr
+
 ```shell
 #
 # fish supports typical stdin / stdout redirection with < >
@@ -79,9 +102,16 @@ ls **.orig | xargs [-p] rm -v
 grep fish < /etc/shells > ~/output.txt 2> ~/errors.txt
 
 #
-# To redirect stdout and stderr into one file, you need to first redirect stdout, then stderr into stdout
+# To redirect stdout and stderr into one file, you need to first redirect stdout, then stderr into stdout.
+#
+# 2>&1 == "redirect stderr to FD 1 (stdout)"
 #
 make > out.txt 2>&1
+#
+# As a convenience, the redirection "&>" bcan be used to redirect both stdout and stderr to the same file.
+#
+make &> out.txt
+
 ```
 
 ## Tab Completions
@@ -242,7 +272,11 @@ functions
 
 # To see the source of a function, pass it's name to `functions`
 functions say_hello
+
 ```
+
+Functions can be auto-loaded. Any file in `$fish_function_path` with the name of
+the function plus the suffix `.fish` will be autoloaded when needed.
 
 ## Configuration
 

@@ -7,15 +7,9 @@
     * How to select features?
     * When to add new features?
 
-
-
-
-## Questions
-
 * How do we determine the optimal learning rate?
   * Idea: The smallest possible without becoming too slow?
 
----
 ---
 
 ## Week 1
@@ -31,7 +25,7 @@ There are categories of problems that can't be directly programmed:
 ### Types of Machine Learning
 
 * Supervised / Unsupervised Learning
-* Reinforcment learning / recommender systems ()
+* Reinforcment learning / recommender systems
 
 Equally / more important as ML itself is determining how to apply ML in the real
 world. How do you determine what types of models to use?
@@ -131,7 +125,9 @@ With linear regression, you'll only have one local optimum, the global optimum.
 * "Batch" gradient descent. Batch means that at each step, we look at all training examples.
 * Other approaches use a subset of all points at each step (Stocastic Gradient Descent?)
 
-The normal equations method (from linear algebra) will find the global minimum without needing to use gradient descent. However, gradient descent will scale better than the normal equations method.
+The normal equations method (from linear algebra) will find the global minimum
+without needing to use gradient descent. However, gradient descent will scale
+better than the normal equations method.
 
 ### Linear Algebra Review
 
@@ -349,7 +345,7 @@ If J(theta) is small enough, J(theta) should decrease on every iteration.
 * Try 0.0001, 0.0003, 0.01, 0.03, 0.1, 0.3, 1.
   * Choose the learning rate that is decreasing with every iteration.
 
-
+˜
 ### Features and Polynomial Regression
 
 How do you choose the correct features to use?
@@ -584,7 +580,6 @@ If ƛ is too large:
 
 * Regularization does *not* improve performance on the training set.
 
-
 ---
 ---
 
@@ -811,7 +806,7 @@ Training neural networks.
 * Regularization regularizes the theta value for *each* node in the network.
 
 * Backpropogation determines the error (gradients) for eacn node of the
-  network, starting with the output layers, working back thru layer 2, assign
+  network, starting with the output layers, working back thru layer 2.
 
 ---
 ---
