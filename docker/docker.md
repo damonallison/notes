@@ -62,6 +62,8 @@ $ docker images
 
 $ docker run -t -i ubuntu /bin/bash
 
+$ docker run --name pg -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:latest
+
 
 # Create a daemon container, running the given command in the container.
 $ docker run -d ubuntu /bin/sh -c "while true; do echo hello world; sleep 1; done"

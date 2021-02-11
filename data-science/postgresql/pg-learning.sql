@@ -28,6 +28,9 @@ CREATE DATABASE damon;
 -- For safety, drop dependencies manually from the bottom up.
 --
 
+--
+-- search_path controls which schema(s) will be used when identifying objects.
+--
 SET search_path TO public;
 
 DROP TABLE IF EXISTS people CASCADE;
@@ -91,6 +94,8 @@ CREATE OR REPLACE VIEW fam AS (
              INNER JOIN children AS c on p.id = c.parent_id
 );
 
+SELECT * FROM fam;
+
 --
 -- Expressions
 --
@@ -102,6 +107,7 @@ SELECT CONCAT(fname, ' ', lname) AS fullname FROM people;
 --
 -- JOIN
 --
+-- INNER JOIN - returns rows where LHS == RHS.
 -- LEFT OUTER JOIN - returns all rows from the LHS. If no matching rows exist on the RHS, returns NULL for RHS fields
 -- RIGHT OUTER JOIN - returns all rows from the RHS. If no matching rows exist on the LHS, returns NULL for LHS fields
 -- FULL OUTER JOIN - returns all rows from both tables. If no matching row exists on the opposite side, returns NULL for the opposite side fields
@@ -1214,7 +1220,7 @@ SELECT
     val->>'fname',
     pg_typeof(val->>'fname'),
     val->'scores'->0,
-    pg_typeof(val->'scores'->0),
+    pg_typeof((val->'scores'->0)::int),
     val->'children'->0->>'fname',
     pg_typeof(val->'children'->0->>'fname')
 FROM
@@ -1226,6 +1232,7 @@ SELECT * FROM ch8_json WHERE val->'children' IS NULL;
 
 -- Gets just the first child (remember, JSONB array ordering is *NOT* guaranteed.
 SELECT
+    val,
     val->'children',
     val->'children'->0,
     val->'children'->0->'fname',
@@ -2161,7 +2168,7 @@ SHOW default_text_search_config;
 --
 -- "dirty read"
 --    * A transaction reads data by a concurrent *uncommitted* transaction.
--- "nonrepeatable read"
+-- "non-repeatable read"
 --   * A transaction re-reads data it previously read and finds the data was modified by another
 --     transaction. i.e., another transaction was committed between reads.
 -- "phantom read"
@@ -2176,11 +2183,11 @@ SHOW default_text_search_config;
 -- READ UNCOMMITTED
 -- * Prevents dirty reads (same as READ COMMITTED on Postgres)
 --
--- READ COMMITTED
--- * Prevents dirty reads (same as read uncommitted in PG) (the default).
+-- READ COMMITTED (the default)
+-- * Prevents dirty reads (same as read uncommitted in PG)
 -- * A *statement* can only see rows committed before it began. Two successive SELECT statements will see
---   different data if Txs were committed between them.
--- * SELECT will see the effects of previous updates within it's own Tx.
+--   different data if Txs were committed between them
+-- * SELECT will see the effects of previous updates within it's own Tx
 --
 -- REPEATABLE READ
 -- * Prevents dirty reads, non-repeatable reads, and phantom reads
