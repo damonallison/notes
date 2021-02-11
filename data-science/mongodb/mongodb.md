@@ -1,8 +1,9 @@
 # MongoDB
 
-MongoDB is a distributed document store. Documents are stored in `collections`,
-queried using a JSON-like based query language, and have dynamic schemas.
-Documents in the same collection can have different schemas.
+MongoDB is a distributed document store (NoSQL). Documents are stored in
+`collections`, queried using a JSON-like based query language, and have dynamic
+schemas (by default). Documents in the same collection can have different
+schemas.
 
 The key advantage of document stores over relational stores is the flexability
 and dynamic nature of documents. Documents do not require you to create complex,
@@ -10,20 +11,26 @@ potentially slow `JOIN` statements or create a dedicated stored procedure query
 layer.
 
 Schema is not enforced or does not have to be consistent between documents. This
-allows you to version on demand.
+allows you to version on demand. Schemas can be optionally enforce schema
+validation.
 
 ## Key Features
 
-* Performance.
+* Performance
   * Document based queries avoid expensive JOIN operations found in
     SQL based DMBSs.
 
-* High Availability.
+* High Availability
   * Mongo supports multiple replica sets, providing automatic
     fail over and data redundancy.
 
-* Scalable.
+* Scalability
   * Mongo shards data horizontally across a cluster of machines.
+
+* Views
+  * Read only
+  * Not persisted to disk. Queries are evaluated against the base tables on
+    demand.
 
 ## Conceptual
 
@@ -32,11 +39,19 @@ allows you to version on demand.
 
 * Collections
   * A set of documents.
+  * Collections can be capped. Once the cap is reached, the earliest documents
+    are evicted (FIFO). Documents cannot be deleted from capped collections nor
+    can you shard a capped collection.
+  * Collections can have a TTL.
 
 * Documents
   * Records in a collection. Must have an `_id` field (primary key).
   * Documents are stored in `BSON`. `BSON` is a binary representation of `JSON`
     but contains more types.
+
+* Replica Set
+  * Automatic failover and redundancy
+
 
 ## Launching Mongo
 
