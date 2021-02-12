@@ -2,9 +2,6 @@
 
 ## Questions
 
-* Docker command line completion?
-* Where on the FS are images stored?
-* How to ssh into a running container?
 * Look into linux control groups.
 * Docker uses `xhyve` on mac to virtualize the Docker Engine environment. What is `xhyve`?
 
@@ -14,7 +11,7 @@
 
 A docker container is a single process with encapsulation features which isolate
 it from other containers. A docker image wraps up software in a complete file
-system that contain everything the software needs to run : code, runtime, system
+system that contain everything the software needs to run: code, runtime, system
 tools, libraries. This guarantees the software will run the same, regardless of
 the host environment the container is running in.
 
@@ -85,6 +82,13 @@ $ docker exec -it <container_id> /bin/bash
 ```
 
 ## Creating a docker image.
+
+### Creating a Dockerfile
+
+A `Dockerfile` is the set of build instructions for creating an image.
+
+When creating an image, the entire directory tree which contains `Dockerfile` is
+packaged up and sent to the docker engine.
 
 * Build the application and create a `Dockerfile` for it.
 

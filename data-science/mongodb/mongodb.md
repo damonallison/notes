@@ -52,6 +52,11 @@ validation.
 * Replica Set
   * Automatic failover and redundancy
 
+* Transactions
+  * Atomicity of reads / writes across multiple documents in a single or
+    multiple collections.
+
+*
 
 ## Launching Mongo
 
