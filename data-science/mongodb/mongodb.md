@@ -2,19 +2,22 @@
 
 MongoDB is a distributed document store (NoSQL). Documents are stored in
 `collections`, queried using a JSON-like based query language, and have dynamic
-schemas (by default). Documents in the same collection can have different
-schemas.
+schemas (by default).
 
-The key advantage of document stores over relational stores is the flexability
-and dynamic nature of documents. Documents do not require you to create complex,
-potentially slow `JOIN` statements or create a dedicated stored procedure query
-layer.
+To achieve horizontal scalability, MongoDB has the concept of "replica sets"
+(multiple copies) and collection sharding - distributing a collection over
+multiple "shards" based on a shard key.
 
-Schema is not enforced or does not have to be consistent between documents. This
-allows you to version on demand. Schemas can be optionally enforce schema
-validation.
+By default, collections are schemaless. Documents in the same collection can
+have different representations. JSON schemas can be added to collections.
 
 ## Key Features
+
+* Flexability
+  * The key advantage of document stores over relational stores is the
+    flexability and dynamic nature of documents. Documents do not require you to
+    create complex, potentially slow `JOIN` statements or create a dedicated
+    stored procedure query layer.
 
 * Performance
   * Document based queries avoid expensive JOIN operations found in
@@ -56,7 +59,8 @@ validation.
   * Atomicity of reads / writes across multiple documents in a single or
     multiple collections.
 
-*
+* Sharding
+  * Partitions a collection across machines using a `shard key`.
 
 ## Launching Mongo
 
