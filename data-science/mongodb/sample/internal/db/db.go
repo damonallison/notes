@@ -1,10 +1,11 @@
-package mongo
+package db
 
 import (
 	"context"
+	"log"
 	"time"
 
-	"github.com/damonallison/notes/data-science/mongodb/sample/models"
+	"github.com/shipt/damon/mongodb/internal/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -127,12 +128,123 @@ func (c *Client) CreateMany(ctx context.Context, drivers ...models.Driver) ([]mo
 	return iDrivers.([]models.Driver), nil
 }
 
-// Find ...
+// FindAll ...
+func (c *Client) FindAll(ctx context.Context) ([]models.Driver, error) {
+	return c.findWithFilter(ctx, bson.D{})
+}
+
+// FindByFirstName ...
+func (c *Client) FindByFirstName(ctx context.Context, fname string) ([]models.Driver, error) {
+	return c.findWithFilter(ctx, bson.D{
+		bson.E{Key: "first_name", Value: fname},
+	})
+}
+
+// FindByCertName ...
+func (c *Client) FindByCertName(ctx context.Context, name string) ([]models.Driver, error) {
+	// Finds all documents where the certifications array has at least one certification named `name`
+	return c.findWithFilter(ctx, bson.D{
+		bson.E{
+			Key:   "certifications.name",
+			Value: name,
+		},
+	})
+}
+
+func (c *Client) findWithFilter(ctx context.Context, filter bson.D) ([]models.Driver, error) {
+	cur, err := c.coll.Find(ctx, filter, options.Find())
+	if err != nil {
+		return nil, err
+	}
+	drivers := make([]models.Driver, 0)
+	for cur.Next(ctx) {
+		var d models.Driver
+		if err := cur.Decode(&d); err != nil {
+			return nil, err
+		}
+		drivers = append(drivers, d)
+	}
+	if err := cur.Close(ctx); err != nil {
+		return nil, err
+	}
+	return drivers, nil
+}
+
 // Update ...
+func (c *Client) Update(ctx context.Context, driver models.Driver) (models.Driver, error) {
+	res, err := c.coll.ReplaceOne(ctx, bson.D{
+		bson.E{
+			Key:   "_id",
+			Value: driver.ID,
+		},
+	},
+		driver,
+		options.Replace().SetUpsert(true))
+
+	if err != nil {
+		return models.Driver{}, err
+	}
+	if res.UpsertedCount > 0 {
+		driver.ID = res.UpsertedID.(primitive.ObjectID)
+	}
+	return driver, nil
+}
+
 // Delete ...
+func (c *Client) Delete(ctx context.Context, drivers ...models.Driver) error {
+	ids := make([]interface{}, len(drivers))
+	for i, d := range drivers {
+		ids[i] = d.ID
+	}
+	doc := bson.D{
+		bson.E{
+			Key: "_id",
+			Value: bson.D{
+				bson.E{
+					Key:   "$in",
+					Value: ids,
+				},
+			},
+		},
+	}
+	_, err := c.coll.DeleteMany(ctx, doc, options.Delete())
+	return err
+}
+
+// Watch starts a change stream
+func (c *Client) Watch(ctx context.Context, change chan<- bson.D, done chan<- error) {
+	stream, err := c.coll.Watch(ctx, mongo.Pipeline{})
+	if err != nil {
+		done <- err
+	}
+	defer func() {
+		if err := stream.Close(ctx); err != nil {
+			log.Printf("error closing change stream: %v\n", err)
+		}
+	}()
+	for stream.Next(ctx) {
+		var data bson.D
+		if err := stream.Decode(&data); err != nil {
+			done <- err
+			return
+		}
+		change <- data
+	}
+	done <- nil
+}
 
 func (c *Client) withTX(ctx context.Context, f func(sessionCtx mongo.SessionContext) (interface{}, error)) (interface{}, error) {
+
+	// NOTE: Use `majority`
 	//
+	// MongoDB uses `majority` for all cluster configuration read/write
+	// operations. If `majority` is what they use, consider using `majority` for
+	// your read / writes as well unless you *know* you need a lesser
+	// transaction level for performance reasons.
+	//
+	// Prior to 4.0, change streams required `majority` read concern. They don't
+	// any longer, but you should still use `majority`.
+
 	// Read / write operations with "majority" will only read /write data that
 	// was acknowledged by a majority of replica set members.
 	//
@@ -153,7 +265,6 @@ func (c *Client) withTX(ctx context.Context, f func(sessionCtx mongo.SessionCont
 	//
 	// The "linearizable" read concern returns data that is guaranteed to not be
 	// stale. However, it only allows you to read a single document.
-	//
 	rc := readconcern.Majority()
 
 	txnOpts := options.Transaction().SetWriteConcern(wc).SetReadConcern(rc)
