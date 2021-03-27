@@ -5,7 +5,6 @@
 -- https://www.postgresql.org/docs/13/index.html
 -- ************************************************
 
-
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 -- Part I : Tutorial
@@ -397,14 +396,16 @@ DROP TABLE IF EXISTS ch5;
 -- Postgres provides a `SERIAL` shorthand that will generate successive unique IDs for you.
 --
 CREATE TABLE IF NOT EXISTS ch5(
-    id SERIAL,
+    id bigserial,
     name text,
     price numeric DEFAULT 9.99,
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT ch5_pk_id PRIMARY KEY (id)
 );
 INSERT INTO ch5 (name, price) VALUES ('test', 78.20);
 
-SELECT * FROM ch5;
+SELECT id, * FROM ch5;
 
 -- Generated Columns
 --
@@ -433,7 +434,7 @@ SELECT * FROM ch5_2;
 -- Constraints provide additional restrictions on a column's value.
 --
 -- Constraints are satisfied if the columns they refer to are NULL. They will *NOT* prevent NULLs
--- from entering the table. Use NOT NULL on the column definition.
+-- from entering the table. Use NOT NULL on the column definition to prevent NULLs.
 --
 -- You *CAN* call functions in a check constraint. Makes sure the function you call is IMMUTABLE
 -- and IDEMPOTENT. It MUST return the same result when given the same row.
@@ -508,7 +509,7 @@ DROP TABLE IF EXISTS section3_2;
 CREATE TABLE IF NOT EXISTS section3 (
     id SERIAL PRIMARY KEY,
     product_no TEXT NOT NULL,
-    price numeric NOT NULL CONSTRAINT positive_price CHECK (price > 0 AND price < 1000),
+    price NUMERIC NOT NULL CONSTRAINT positive_price CHECK (price > 0 AND price < 1000),
     -- Constraints can be added without being associated with a column.
     -- Postgres calls independent constraints "table constraints" as opposed to "column constraints"
     CONSTRAINT redundant_price CHECK (price > 0),
@@ -531,8 +532,8 @@ INSERT INTO section3 (product_no, price) VALUES ('computer', 12.11);
 -- INSERT INTO section3 (price) VALUES (-1);
 
 
-INSERT INTO section3_2 (product_id) VALUES (2);
-DELETE FROM section3_2 WHERE id = 2;
+INSERT INTO section3_2 (product_id) VALUES ((SELECT id from section3 where product_no = 'computer'));
+DELETE FROM section3_2 WHERE product_id = (SELECT id from section3 where product_no = 'computer');
 
 SELECT * FROM section3;
 SELECT * FROM section3_2;
@@ -633,9 +634,16 @@ INSERT INTO log_items (severity, key, val, created_at) values (1, 'test', 'event
 INSERT INTO log_items (severity, key, val, created_at) values (1, 'test', 'event', '2020-11-15');
 
 
-SELECT * FROM log_items_recent;
+--
+-- By default all partitions are used when querying the partitioned table.
+--
 SELECT * FROM log_items WHERE created_at > '2020-10-01';
-DROP TABLE log_items_recent;
+--
+-- You can query a partition directly.
+--
+SELECT * FROM log_items_y2020m11;
+
+DROP TABLE IF EXISTS log_items_recent;
 
 --
 -- Chapter 6 - Data Manipulation
@@ -653,10 +661,11 @@ DROP TABLE IF EXISTS products;
 
 CREATE TABLE IF NOT EXISTS products
 (
-    id    SERIAL,
+    id    bigserial,
     name  text NOT NULL DEFAULT '',
     price numeric NOT NULL
 );
+
 INSERT INTO products (name, price)
 VALUES
     ('test', 10.0),
@@ -680,7 +689,7 @@ INSERT INTO products (name, price) VALUES ('damon', 30.0), ('kari', 30.0) RETURN
 -- Returns the entire rows that are being deleted
 DELETE FROM products WHERE name IN ('damon', 'kari') RETURNING *;
 
-
+-- Describe the table
 SELECT * FROM information_schema.tables where table_schema = 'ch6' AND table_name = 'products';
 SELECT * FROM information_schema.columns WHERE table_schema = 'ch6' AND table_name = 'products';
 SELECT * FROM information_schema.table_constraints where table_schema = 'ch6' AND table_name = 'products';
@@ -702,7 +711,7 @@ SHOW search_path;
 DROP TABLE IF EXISTS scores;
 DROP TABLE IF EXISTS students;
 CREATE TABLE IF NOT EXISTS students (
-    id SERIAL,
+    id bigserial,
     fname text NOT NULL,
     lname text NOT NULL,
     CONSTRAINT pk_students_id PRIMARY KEY (id),
@@ -714,7 +723,7 @@ CREATE TABLE IF NOT EXISTS scores (
     student_id integer,
     score integer,
     CONSTRAINT pk_scores_id PRIMARY KEY (id),
-    CONSTRAINT fk_scores_student_id_students_id FOREIGN KEY (student_id) REFERENCES students (id),
+    CONSTRAINT fk_scores_student_id_students_id FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE,
     CONSTRAINT score_range CHECK (score >= 0 AND score <= 100)
 );
 
@@ -754,7 +763,8 @@ FROM students AS S INNER JOIN scores AS sc ON s.id = sc.student_id;
 -- When tables are JOINed with USING, only *one* value of the USING columns are returned (since they are both the same).
 -- When joined with ON, both of the join columns are returned.
 --
--- This query makes no sense for the given table layout, but it does show USING.
+-- This query makes no sense for the given table layout (since the ID columns refer to different things),
+-- but it does show USING.
 --
 SELECT * FROM students JOIN scores USING (id);
 
@@ -801,7 +811,7 @@ SELECT s.* FROM get_students_by_last_name('allison') AS s;
 --
 -- There are some cases where LATERAL is useful. For example, providing an argument to a function that returns a table.
 
-SELECT * FROM students as s CROSS JOIN LATERAL (SELECT get_students_by_last_name(s.lname)) AS s2;
+SELECT * FROM students as s CROSS JOIN LATERAL (SELECT * from get_students_by_last_name(s.lname)) AS s2;
 
 
 --
@@ -815,7 +825,7 @@ SELECT * FROM scores WHERE student_id IN (select id from get_students_by_last_na
 SELECT * FROM scores WHERE student_id IN (SELECT id from students where fname = 'grace');
 --
 -- Subqueries can reference the *entire* virtual table of the FROM clause.
--- Remember, WHERE is executed for EACH ROW of the virtual table.
+-- Remember, WHERE is executed for EACH ROW of the virtual table, so this will be slow.
 --
 -- Here, we show using `s` within a WHERE subquery.
 --
@@ -829,7 +839,9 @@ SELECT * FROM scores AS s WHERE s.student_id IN (SELECT id FROM students WHERE i
 -- GROUP BY groups rows in a table that have the same values in all the columns listed. This combines each set of rows
 -- having common values into one row that represents all rows in the group.
 --
--- If a table is grouped, columns *NOT* listed in the GROUP BY clause cannot be referenced except in aggregate expressions.
+-- If a table is grouped, columns *NOT* listed in the GROUP BY clause cannot be referenced in the SELECT
+-- except in aggregate expressions.
+--
 -- For example, score is referenced in the aggregate expression SUM ().
 SELECT COUNT(*) as CT, SUM(score) as total, student_id FROM scores GROUP BY student_id;
 
@@ -841,7 +853,7 @@ SELECT COUNT(*) as CT, SUM(score) as total, student_id FROM scores GROUP BY stud
 --
 -- If the select list contains a value expression example: (a * 1.5), the column is given an alias,
 -- typically matching the function that was performed. In almost all cases, you'll want to give the
--- column an alias.
+-- column a known alias with `AS`.
 --
 -- DISTINCT eliminates duplicate rows. You can give DISTINCT a list of columns you want it to consider as distinct.
 --
@@ -849,7 +861,7 @@ SELECT COUNT(*) as CT, SUM(score) as total, student_id FROM scores GROUP BY stud
 --       You'll typically want to use GROUP BY in your queries to avoid the need to use DISTINCT ON.
 --
 -- `DISTINCT` *is* part of the SQL standard, so it can be used cross platform.
-SELECT DISTINCT ON (student_id) student_id,  CONCAT('your score is ', SUM(score)) AS d FROM scores GROUP BY student_id;
+SELECT DISTINCT(student_id),  CONCAT('your score is ', SUM(score)) AS d FROM scores GROUP BY student_id;
 
 
 --
@@ -874,19 +886,19 @@ SELECT 'hello' as greeting;
 
 SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world')) AS d (greeting)
 INTERSECT
-SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world'), ('there')) AS d (greeting)
+SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world'), ('there')) AS d (greeting);
 
 SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world')) AS d (greeting)
 INTERSECT ALL -- ALL will include duplicates
-SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world'), ('there')) AS d (greeting)
+SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world'), ('there')) AS d (greeting);
 
 SELECT greeting FROM (VALUES ('hello'), ('world'), ('world')) AS d (greeting)
 EXCEPT
-SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world')) AS d (greeting)
+SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world')) AS d (greeting);
 
 SELECT greeting FROM (VALUES ('hello'), ('world'), ('world')) AS d (greeting)
 EXCEPT ALL -- ALL will *not* eliminate duplicates
-SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world')) AS d (greeting)
+SELECT greeting FROM (VALUES ('hello'), ('hello'), ('world')) AS d (greeting);
 
 --
 -- ORDER BY
@@ -960,26 +972,34 @@ SELECT * FROM scores AS s JOIN student_ids AS ids ON s.student_id = ids.id;
 -- Here are the traditional "SQL" types and a few custom types that are *not* part of the SQL standard,
 -- but would be useful to generic programs (like JSON or money).
 --
--- bigint (int8)                             64 bit integer
--- bigserial (serial8)                       autoincrementing 8 byte integer
--- boolean
--- character(n)                              fixed length character string
--- character varying [n] (varchar(n))        variable length character string
--- date                                      calendar date (year, month, day)
--- double precision                          64 bit floating point
+-- smallint                                  16 bit integer
 -- integer                                   32 bit integer
--- json                                      textual JSON
--- jsonb                                     binary JSON data, decomposed
+-- serial                                    autoincrementing 32 bit integer
+-- bigint (int8)                             64 bit integer
+-- bigserial (serial8)                       autoincrementing 64 bit integer
+--
+-- boolean
+--
+-- double precision                          64 bit floating point
 -- money                                     currency amount
 -- numeric(p, s) (decimal(p, s))             exact numeric of selectable precision
 -- real (float4)                             32 bit floating point
--- smallint                                  16 bit integer
+--
+-- character(n)                              fixed length character string
+-- character varying [n] (varchar(n))        variable length character string with limit
 -- text                                      variable length character string
+--
+-- json                                      textual JSON
+-- jsonb                                     binary JSON data, decomposed
+--
+-- date                                      calendar date (year, month, day)
 -- timestamp (p) [without time zone]         date and time
 -- timestamp (p) with time zone              date and time including time zone
 -- time (p] [without time zone]              time of day (no date) 00:00:00 - 24:00:00
 -- time (p) with time zone                   time of day (no date) with time zone 00:00:00:1559 24:00:00-1559
+
 -- uuid                                      universally unique identifier
+--
 --
 -- `numeric` can store numbers with up to 1000 digits and perform calculations exactly. It is recommended when
 -- storing monetary amounts or other quantities where exactness is required. numeric is slow when compared to
@@ -1007,7 +1027,8 @@ CREATE TABLE IF NOT EXISTS ch8 (
     description text NOT NULL,
     -- numeric(precision, scale)
     -- Where precision is the total count of significant digits of the entire number (both sides of decimal)
-    -- Scale is the coune of digits in the fractional part. 23.4141 has a precision of 6 and scale of 4.
+    -- Scale is the count of digits in the fractional part.
+    -- 23.4141 has a precision of 6 and scale of 4.
     quantity numeric(4,1) NOT NULL
 );
 
@@ -1016,16 +1037,16 @@ SELECT * FROM information_schema.columns WHERE table_name = 'ch8';
 INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 100.2);
 -- quantity will be rounded to the nearest .1
 INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 100.24);
-INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 100.25);
+INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 100.25); -- rounds up
 INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 100.26);
 INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 101.24);
-INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 101.25);
+INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 101.25); -- rounds up
 INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 101.26);
 -- Zeros will be included to fill out the scale.
 INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 100);
 
 -- Will fail, overflows precision (4,1)
---INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 1000.9);
+-- INSERT INTO ch8 (name, description, quantity) VALUES ('damon', 'test', 1000.9);
 
 SELECT * from ch8;
 
@@ -1156,7 +1177,9 @@ SELECT CAST('2020-10-10T10:00:00' AS timestamp with time zone),
 SELECT CAST('2020-10-10T10:00:00' AS timestamp);
 
 -- To convert a local timestamp into UTC and format it in ISO-8601
-SELECT to_char(CAST('2020-01-01 03:04:05' AS TIMESTAMP WITH TIME ZONE) AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS""Z"');
+-- MS == millisecond
+-- US == microsecond
+SELECT to_char(CAST('2020-01-01 03:04:05.666' AS TIMESTAMP WITH TIME ZONE) AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.US""Z"');
 
 
 -- Intervals
@@ -1177,8 +1200,10 @@ SELECT updated_at, updated_at - interval '2 hours' from ch8_types;
 -- With jsonb, whitespace, ordering, and duplicate keys are *not* preserved (last key wins). When a jsonb value is parsed,
 -- it is converted to native postgres data types:
 --
+------------------------------------------------------------------------------------------------------------------------
 -- | JSON Type | PostgreSQL Type | Notes
--- | string    | text            | Any unicode character that is *not* available in the databse encoding is not allowed
+------------------------------------------------------------------------------------------------------------------------
+-- | string    | text            | Any unicode character that is *not* available in the database encoding is not allowed
 -- | number    | numeric         | NaN and infinity are not allowed
 -- | boolean   | boolean         | Only lowercase `true` and `false` spellings are allowed
 -- | null      | (none)          | SQL NULL is a different concept
@@ -1202,7 +1227,6 @@ INSERT INTO ch8_json (val) VALUES (CAST('{"fname": "kari", "lname": "allison", "
 INSERT INTO ch8_json (val) VALUES (CAST('{"fname": "damon", "lname": "allison", "scores": [100, 50, 75], "children": [{"fname": "cole"}]}' AS JSONB));
 INSERT INTO ch8_json (val) VALUES (CAST('{"fname": "kari", "lname": "allison", "scores": [200, 80, 80], "children": [{"fname": "grace"}, {"fname": "lily"}, {"fname": "cole"}]}' AS JSONB));
 
-
 --
 -- JSON Functions and Operators
 --
@@ -1220,7 +1244,7 @@ SELECT
     val->>'fname',
     pg_typeof(val->>'fname'),
     val->'scores'->0,
-    pg_typeof((val->'scores'->0)::int),
+    pg_typeof(CAST(val->'scores'->0 AS bigint)),
     val->'children'->0->>'fname',
     pg_typeof(val->'children'->0->>'fname')
 FROM
@@ -1262,6 +1286,13 @@ AND val @> CAST('{"children": [{"fname": "grace"}]}' AS JSONB);
 -- @> determines if the value on the RHS is contained in the LHS JSON document
 --
 SELECT * FROM ch8_json WHERE val @> CAST('{"fname": "damon"}' AS JSONB);
+
+-- Finds all documents that have scores
+SELECT * FROM ch8_json WHERE val->'scores' IS NOT NULL;
+
+-- Finds all documents that have at least a score of 50 and 75.
+SELECT * FROM ch8_json WHERE val @> CAST('{"scores": [75, 50]}' as jsonb);
+
 --
 -- Finds all documents for anyone who has a child named "cole".
 --
@@ -1362,7 +1393,7 @@ SELECT
     pg_typeof(scores.v)
 FROM
     ch8_json AS A CROSS JOIN LATERAL (
-        SELECT CAST(v AS numeric) FROM jsonb_array_elements_text(val -> 'scores') AS v
+        SELECT CAST(v AS numeric) FROM jsonb_array_elements_text(a.val -> 'scores') AS v
     ) AS scores
 ORDER BY a.id ASC;
 

@@ -34,3 +34,21 @@ update people set count = 2;
 commit transaction;
 abort transaction;
 
+
+create database damon;
+
+create table if not exists tt (
+    id bigserial primary key,
+    sd timestamp,
+    ed timestamp
+);
+
+
+delete from tt;
+insert into tt (sd, ed) values ('2021-01-01 00:00:00', '2021-01-01 00:00:00');
+insert into tt (sd, ed) values ('2021-01-01 03:00:00', '2021-01-01 00:00:00');
+insert into tt (sd, ed) values ('2021-01-01 04:00:00', '2021-01-01 00:00:00');
+
+select * from tt;
+
+select * from tt where sd between '2021-01-01 00:00:00' and '2021-01-01 03:00:00';
